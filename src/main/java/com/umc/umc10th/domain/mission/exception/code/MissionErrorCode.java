@@ -1,4 +1,0 @@
-package com.umc.umc10th.domain.mission.exception.code;
-
-public class MissionErrorCode {
-}
