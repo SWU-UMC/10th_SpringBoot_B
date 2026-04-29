@@ -3,6 +3,7 @@ package com.umc.umc10th.kaka.global.apiPayLoad;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.umc.umc10th.kaka.global.apiPayLoad.code.BaseErrorCode;
+import com.umc.umc10th.kaka.global.apiPayLoad.code.BaseSuccessCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -25,5 +26,9 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> onFailure(BaseErrorCode code, T result){
         return new ApiResponse<>(false, code.getCode(), code.getMessage(), result);
+    }
+
+    public static <T> ApiResponse<T> onSuccess(BaseSuccessCode code, T result) {
+        return new ApiResponse<>(true, code.getCode(), code.getMessage(), result);
     }
 }
