@@ -17,4 +17,9 @@ public class MissionResDTO {
         public Integer point;
         public String status;
     }
+
+    public static class CompleteDTO {
+        public Long missionId;
+        public String message;
+    }
 }

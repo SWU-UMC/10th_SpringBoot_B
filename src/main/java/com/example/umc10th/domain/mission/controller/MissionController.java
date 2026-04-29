@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.mission.controller;
 
+import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,18 @@ public class MissionController {
         response.page = page;
         response.size = size;
         response.hasNext = false;
+
+        return ApiResponse.onSuccess(response);
+    }
+
+    @PostMapping("/completed")
+    public ApiResponse<MissionResDTO.CompleteDTO> completeMission(
+            @RequestBody MissionReqDTO.CompleteDTO request
+    ) {
+
+        MissionResDTO.CompleteDTO response = new MissionResDTO.CompleteDTO();
+        response.missionId = request.missionId;
+        response.message = "미션이 정상적으로 완료되었습니다.";
 
         return ApiResponse.onSuccess(response);
     }
