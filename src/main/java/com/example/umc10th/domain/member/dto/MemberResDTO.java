@@ -7,4 +7,12 @@ public class MemberResDTO {
         public String message;
     }
 
+    public static class MyPageDTO {
+        public String nickname;
+        public String email;
+        public String phoneNumber;
+        public Integer phoneNumberStatus;
+        public Integer userPoint;
+    }
+
 }
