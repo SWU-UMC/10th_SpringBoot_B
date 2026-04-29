@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/review" )
+@RequestMapping("/review")
 public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/v1/review/create" )
+    @PostMapping("/v1/create")
     public ApiResponse<ReviewResDTO.CreateReviewResClass> getCreateReview(
             @RequestBody ReviewReqDTO.CreateReviewReqClass dto
     ) {

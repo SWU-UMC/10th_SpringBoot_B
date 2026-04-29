@@ -11,22 +11,22 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "review" )
+@Table(name = "review")
 public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "market_id" )
+    @Column(name = "market_id")
     private Integer marketId;
 
-    @Column(name = "region_id" )
+    @Column(name = "region_id")
     private Integer regionId;
 
-    @Column(name = "stars" )
+    @Column(name = "stars")
     private Float stars;
 
-    @Column(name = "content" )
+    @Column(name = "content")
     private String content;
 }

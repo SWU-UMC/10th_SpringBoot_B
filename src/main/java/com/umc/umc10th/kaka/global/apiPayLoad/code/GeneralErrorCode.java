@@ -6,25 +6,24 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum GeneralErrorCode implements BaseErrorCode{
+public enum GeneralErrorCode implements BaseErrorCode {
 
     BAD_REQUEST(HttpStatus.BAD_REQUEST,
             "COMMON400_1",
             "잘못된 요청입니다."
-            ),
+    ),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED,
             "COMMMON401_1",
-            "인증되지 않은 사용자입니다." ),
+            "인증되지 않은 사용자입니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN,
             "COMMMON403_1",
-            "권한이 없습니다." ),
+            "권한이 없습니다."),
     NOT_FOUND(HttpStatus.NOT_FOUND,
             "COMMMON404_1",
-            "요청한 페이지를 찾을 수 없습니다." ),
+            "요청한 페이지를 찾을 수 없습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,
             "COMMON500_1",
-            "서버 에러가 발생했습니다.")
- ;
+            "서버 에러가 발생했습니다.");
     private final HttpStatus status;
     private final String code;
     private final String message;

@@ -15,45 +15,48 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "member" )
+@Table(name = "member")
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "name" )
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "gender" )
+    @Column(name = "gender")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "birth" )
+    @Column(name = "birth")
     private LocalDate birth;
 
-    @Column(name = "address" )
+    @Column(name = "address")
     @Enumerated(EnumType.STRING)
     private Address address;
 
-    @Column(name = "email" )
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "profile_url" )
+    @Column(name = "profile_url")
     private String profileUrl;
 
-    @Column(name = "point" )
+    @Column(name = "point")
     private Integer point;
 
-    @Column(name = "phone_number" )
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "password" )
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "agree_id" )
+    @Column(name = "agree_id")
     private Integer agreedId;
 
-    @Column(name = "token" )
+    @Column(name = "token")
     private String token;
+
+    @Column(name = "phone_number_status")
+    private Integer phoneNumberStatus;
 }

@@ -1,5 +1,6 @@
 package com.umc.umc10th.kaka.domain.member.exception;
 
+import com.umc.umc10th.kaka.domain.member.exception.code.MemberErrorCode;
 import lombok.Getter;
 
 @Getter

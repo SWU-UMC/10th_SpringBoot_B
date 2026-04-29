@@ -1,4 +1,4 @@
-package com.umc.umc10th.kaka.domain.review.exception.code;
+package com.umc.umc10th.kaka.domain.home.exception.code;
 
 import com.umc.umc10th.kaka.global.apiPayLoad.code.BaseSuccessCode;
 import lombok.Getter;
@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @RequiredArgsConstructor
-public enum ReviewSuccessCode implements BaseSuccessCode {
-    OK(HttpStatus.OK, "REVIEW200_1", "성공");
+public enum HomeSuccessCode implements BaseSuccessCode {
+    OK(HttpStatus.OK, "HOME200_1", "성공");
 
     private final HttpStatus status;
     private final String code;

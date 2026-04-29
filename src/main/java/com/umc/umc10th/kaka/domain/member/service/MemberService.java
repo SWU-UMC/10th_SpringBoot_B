@@ -7,8 +7,8 @@ import com.umc.umc10th.kaka.domain.member.dto.SignUpReqDTO;
 import com.umc.umc10th.kaka.domain.member.dto.SignUpResDTO;
 import com.umc.umc10th.kaka.domain.member.entity.Member;
 import com.umc.umc10th.kaka.domain.member.enums.Gender;
-import com.umc.umc10th.kaka.domain.member.exception.MemberErrorCode;
 import com.umc.umc10th.kaka.domain.member.exception.MemberException;
+import com.umc.umc10th.kaka.domain.member.exception.code.MemberErrorCode;
 import com.umc.umc10th.kaka.domain.member.repository.MemberRepository;
 import com.umc.umc10th.kaka.domain.mission.enums.Address;
 import jakarta.transaction.Transactional;
@@ -68,7 +68,7 @@ public class MemberService {
 
     ) {
         Member member = Member.builder()
-                .name("test" )
+                .name("test")
                 .build();
         memberRepository.save(member);
         return "OK";
@@ -78,7 +78,7 @@ public class MemberService {
     public String deleteUser(
 
     ) {
-        memberRepository.deleteByName("test" );
+        memberRepository.deleteByName("test");
         return "OK";
     }
 }
