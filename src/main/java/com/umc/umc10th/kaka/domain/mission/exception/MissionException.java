@@ -1,7 +1,10 @@
 package com.umc.umc10th.kaka.domain.mission.exception;
 
-public class MissionException extends RuntimeException {
-    public MissionException(String message) {
-        super(message);
+import com.umc.umc10th.kaka.global.apiPayLoad.code.BaseErrorCode;
+import com.umc.umc10th.kaka.global.apiPayLoad.exception.ProjectException;
+
+public class MissionException extends ProjectException {
+    public MissionException(BaseErrorCode errorCode) { // BaseErrorCode 받음!
+        super(errorCode);
     }
 }
