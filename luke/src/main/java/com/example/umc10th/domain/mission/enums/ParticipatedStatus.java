@@ -1,4 +1,4 @@
 package com.example.umc10th.domain.mission.enums;
 
-public class ParticipatedStatus {
+public enum ParticipatedStatus {
 }

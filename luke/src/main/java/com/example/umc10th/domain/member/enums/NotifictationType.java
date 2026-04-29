@@ -1,4 +1,4 @@
 package com.example.umc10th.domain.member.enums;
 
-public class NotifictationType {
+public enum NotifictationType {
 }
