@@ -24,6 +24,9 @@ public class ApiResponse<T> {
     private final T result;
 
     // 성공한 경우 (result 포함)
+    public static <T> ApiResponse<T> onSuccess(T result) {
+        return new ApiResponse<>(true, "COMMON200", "성공입니다.", result);
+    }
 
     // 실패한 경우 (result 포함)
     public static <T> ApiResponse<T> onFailure(BaseErrorCode code, T result ) {
