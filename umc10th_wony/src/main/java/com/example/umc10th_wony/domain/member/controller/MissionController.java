@@ -1,4 +1,4 @@
-package com.example.umc10th_wony.domain.mission.controller;
+package com.example.umc10th_wony.domain.member.controller;
 
 import com.example.umc10th_wony.domain.mission.dto.MissionCompleteRequest;
 import com.example.umc10th_wony.domain.mission.dto.ReviewCreateRequest;
@@ -30,11 +30,11 @@ public class MissionController {
     @Operation(summary = "지역별 미션 목록 조회", description = "특정 지역의 미션 목록을 조회합니다.")
     @GetMapping("/missions")
     public ResponseEntity<ApiResponse<List<MissionResponse>>> getMissionsByRegion(
-            @Parameter(description = "지역명 (예: 서울, 부산)", required = true) @RequestParam String region
+            @Parameter(description = "지역명 (예: 공릉동)", required = true) @RequestParam String region
     ) {
         // TODO: missionService.getMissionsByRegion(region)
         List<MissionResponse> result = List.of(MissionResponse.builder()
-                .missionId(1L).title("서울 미션 예시").description("미션 설명")
+                .missionId(1L).title("공릉동 미션 예시").description("미션 설명")
                 .region(region).reward(1000).status("OPEN").build());
         return ResponseEntity.ok(ApiResponse.onSuccess(MissionSuccessCode.MISSION_LIST_FOUND, result));
     }
