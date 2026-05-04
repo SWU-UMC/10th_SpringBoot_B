@@ -4,18 +4,16 @@ import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/review")
 @RequiredArgsConstructor
 public class ReviewController {
 
-    @PostMapping
+    @PostMapping("/markets/{marketId}")
     public ApiResponse<ReviewResDTO.CreateReviewDTO> createReview(
+            @PathVariable Long marketId,
             @RequestBody ReviewReqDTO.CreateReviewDTO request
     ) {
         return ApiResponse.onSuccess(null);
