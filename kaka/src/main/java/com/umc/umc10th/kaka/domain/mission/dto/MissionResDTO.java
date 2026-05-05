@@ -1,5 +1,7 @@
 package com.umc.umc10th.kaka.domain.mission.dto;
 
+import com.umc.umc10th.kaka.domain.mission.enums.MissionStatus;
+
 import java.util.List;
 
 public class MissionResDTO {
@@ -8,7 +10,7 @@ public class MissionResDTO {
             Long missionId,
             String marketName,
             Integer point,
-            String status
+            MissionStatus status
     ) {}
 
     public record MissionPage(

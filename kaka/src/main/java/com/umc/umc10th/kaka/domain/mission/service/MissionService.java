@@ -4,8 +4,10 @@ import com.umc.umc10th.kaka.domain.mission.converter.MissionConverter;
 import com.umc.umc10th.kaka.domain.mission.dto.MissionReqDTO;
 import com.umc.umc10th.kaka.domain.mission.dto.MissionResDTO;
 import com.umc.umc10th.kaka.domain.mission.entity.Mission;
+import com.umc.umc10th.kaka.domain.mission.entity.mapping.MemberMission;
 import com.umc.umc10th.kaka.domain.mission.exception.MissionException;
 import com.umc.umc10th.kaka.domain.mission.exception.code.MissionErrorCode;
+import com.umc.umc10th.kaka.domain.mission.repository.MemberMissionRepository;
 import com.umc.umc10th.kaka.domain.mission.repository.MissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,14 @@ import java.util.List;
 public class MissionService {
 
     private final MissionRepository missionRepository;
+    private final MemberMissionRepository memberMissionRepository;
 
     // 미션 목록 조회
     public MissionResDTO.MissionPage getMissions(
             String token, int page, int size
     ) {
         Long memberId = Long.parseLong(token); // 임시(나중에 JWT)
-        List<Mission> missions = missionRepository.findByMemberId(memberId);
+        List<MemberMission> missions = memberMissionRepository.findByMemberId(memberId);
         boolean hasNext = missions.size() > (page + 1) * size;
         return MissionConverter.toMissionPage(missions, page, size, hasNext);
     }

@@ -1,5 +1,6 @@
 package com.umc.umc10th.kaka.domain.review.entity;
 
+import com.umc.umc10th.kaka.domain.mission.entity.Store;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +24,9 @@ public class Review {
     @JoinColumn(name = "reply_id")
     private Reply reply;
 
-
-    @Column(name = "market_id")
-    private Long marketId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
     @Column(name = "stars")
     private Float stars;
