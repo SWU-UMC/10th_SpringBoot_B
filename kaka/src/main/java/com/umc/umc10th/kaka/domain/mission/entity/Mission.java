@@ -1,5 +1,6 @@
 package com.umc.umc10th.kaka.domain.mission.entity;
 
+import com.umc.umc10th.kaka.global.apiPayLoad.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,37 +15,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "mission")
-public class Mission {
+public class Mission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "deadline")
+    @Column(name = "deadline", nullable = false)
     private LocalDateTime deadline;
 
-    @Column(name = "conditional")
+    @Column(name = "conditional", nullable = false)
     private String conditional;
 
-    @Column(name = "point")
+    @Column(name = "point", nullable = false)
     private Integer point;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
-    @Column(name = "status")
-    private String status;
-
-    @Column(name = "member_id")
-    private Long memberId;
-
-    @ManyToOne
-    @JoinColumn(name = "store_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
     private Store store;
+
 }
