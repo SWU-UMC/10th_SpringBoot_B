@@ -6,10 +6,9 @@ import com.umc.umc10th.kaka.domain.review.entity.Review;
 
 public class ReviewConverter {
 
-    public static Review toReview(ReviewReqDTO.CreateReviewReq dto) {
+    public static Review toReview(Long marketId, ReviewReqDTO.CreateReviewReq dto) {
         return Review.builder()
-                .marketId(dto.marketId())
-                .regionId(dto.regionId())
+                .marketId(marketId)
                 .stars(dto.stars())
                 .content(dto.content())
                 .build();

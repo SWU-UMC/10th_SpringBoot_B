@@ -19,10 +19,10 @@ public class Review {
     private Long id;
 
     @Column(name = "market_id")
-    private Integer marketId;
+    private Long marketId;
 
     @Column(name = "region_id")
-    private Integer regionId;
+    private Long regionId;
 
     @Column(name = "stars")
     private Float stars;

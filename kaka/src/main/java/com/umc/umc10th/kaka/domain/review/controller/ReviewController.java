@@ -7,10 +7,7 @@ import com.umc.umc10th.kaka.domain.review.service.ReviewService;
 import com.umc.umc10th.kaka.global.apiPayLoad.ApiResponse;
 import com.umc.umc10th.kaka.global.apiPayLoad.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -20,11 +17,12 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/v1/create")
+    @PostMapping("/v1/create/{marketId}")
     public ApiResponse<ReviewResDTO.CreateReviewRes> getCreateReview(
+            @PathVariable Long marketId,
             @RequestBody ReviewReqDTO.CreateReviewReq dto
     ) {
         BaseSuccessCode code = ReviewSuccessCode.OK;
-        return ApiResponse.onSuccess(code, reviewService.createReview(dto));
+        return ApiResponse.onSuccess(code, reviewService.createReview(marketId, dto));
     }
 }

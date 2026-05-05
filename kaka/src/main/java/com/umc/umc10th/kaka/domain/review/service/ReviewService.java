@@ -17,9 +17,10 @@ public class ReviewService {
 
     @Transactional
     public ReviewResDTO.CreateReviewRes createReview(
+            Long marketId,
             ReviewReqDTO.CreateReviewReq dto
     ) {
-        Review review = ReviewConverter.toReview(dto);
+        Review review = ReviewConverter.toReview(marketId,dto);
         reviewRepository.save(review);
         return ReviewConverter.toCreateReview(review);
     }
