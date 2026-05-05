@@ -54,15 +54,15 @@ public class MemberController {
     //마이페이지
     @PostMapping("/v1/users/me")
     public ApiResponse<MemberResDTO.GetInfo> getIngo(
-            @RequestBody MemberReqDTO.GetInfoClass dto
+            @RequestBody MemberReqDTO.GetInfo dto
     ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getInfo(dto));
     }
 
     @PostMapping("/v1/signup")
-    public ApiResponse<SignUpResDTO.SignUpResBodyClass> getSignUp(
-            @RequestBody SignUpReqDTO.SignUpReqBodyClass dto
+    public ApiResponse<SignUpResDTO.SignUpResBody> getSignUp(
+            @RequestBody SignUpReqDTO.SignUpReqBody dto
     ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getSignUp(dto));

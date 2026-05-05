@@ -6,17 +6,16 @@ import com.umc.umc10th.kaka.domain.review.entity.Review;
 
 public class ReviewConverter {
 
-    public static Review toReview(ReviewReqDTO.CreateReviewReqClass dto) {
+    public static Review toReview(ReviewReqDTO.CreateReviewReq dto) {
         return Review.builder()
-                .marketId(dto.getMarketId())
-                .regionId(dto.getRegionId())
-                .stars(dto.getStars())
-                .content(dto.getContent())
+                .marketId(dto.marketId())
+                .regionId(dto.regionId())
+                .stars(dto.stars())
+                .content(dto.content())
                 .build();
     }
 
-    public static ReviewResDTO.CreateReviewResClass toCreateReview(Review review) {
-        return ReviewResDTO.CreateReviewResClass.builder()
-                .build();
+    public static ReviewResDTO.CreateReviewRes toCreateReview(Review review) {
+        return new ReviewResDTO.CreateReviewRes();
     }
 }

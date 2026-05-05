@@ -17,7 +17,7 @@ public class MissionController {
     private final MissionService missionService;
 
     @GetMapping("/v1/missions")
-    public ApiResponse<MissionResDTO.MissionPageClass> getMissions(
+    public ApiResponse<MissionResDTO.MissionPage> getMissions(
             @RequestHeader("Authorization") String token,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
@@ -27,8 +27,8 @@ public class MissionController {
     }
 
     @PostMapping("/completed")
-    public ApiResponse<MissionResDTO.CompleteMissionResClass> completeMission(
-            @RequestBody MissionReqDTO.CompleteMissionReqClass dto
+    public ApiResponse<MissionResDTO.CompleteMissionRes> completeMission(
+            @RequestBody MissionReqDTO.CompleteMissionReq dto
     ) {
         BaseSuccessCode code = MissionSuccessCode.OK;
         return ApiResponse.onSuccess(code, missionService.completeMission(dto));

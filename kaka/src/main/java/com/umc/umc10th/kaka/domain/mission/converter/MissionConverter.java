@@ -8,32 +8,32 @@ import java.util.stream.Collectors;
 
 public class MissionConverter {
 
-    public static MissionResDTO.MissionListClass toMissionList(Mission mission) {
-        return MissionResDTO.MissionListClass.builder()
-                .missionId(mission.getId())
-                .marketName(mission.getStore().getName())
-                .point(mission.getPoint())
-                .status(mission.getStatus())
-                .build();
+    public static MissionResDTO.MissionList toMissionList(Mission mission) {
+        return new MissionResDTO.MissionList(
+                mission.getId(),
+                mission.getStore().getName(),
+                mission.getPoint(),
+                mission.getStatus()
+        );
     }
 
-    public static MissionResDTO.MissionPageClass toMissionPage(
+    public static MissionResDTO.MissionPage toMissionPage(
             List<Mission> missions, int page, int size, boolean hasNext
     ) {
-        return MissionResDTO.MissionPageClass.builder()
-                .content(missions.stream()
+        return new MissionResDTO.MissionPage(
+                missions.stream()
                         .map(MissionConverter::toMissionList)
-                        .collect(Collectors.toList()))
-                .page(page)
-                .size(size)
-                .hasNext(hasNext)
-                .build();
+                        .collect(Collectors.toList()),
+                page,
+                size,
+                hasNext
+        );
     }
 
-    public static MissionResDTO.CompleteMissionResClass toCompleteMission(Mission mission) {
-        return MissionResDTO.CompleteMissionResClass.builder()
-                .missionId(mission.getId())
-                .message("미션이 정상적으로 완료되었습니다.")
-                .build();
+    public static MissionResDTO.CompleteMissionRes toCompleteMission(Mission mission) {
+        return new MissionResDTO.CompleteMissionRes(
+                mission.getId(),
+                "미션이 정상적으로 완료되었습니다."
+        );
     }
 }

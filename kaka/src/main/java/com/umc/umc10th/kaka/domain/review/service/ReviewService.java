@@ -16,8 +16,8 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public ReviewResDTO.CreateReviewResClass createReview(
-            ReviewReqDTO.CreateReviewReqClass dto
+    public ReviewResDTO.CreateReviewRes createReview(
+            ReviewReqDTO.CreateReviewReq dto
     ) {
         Review review = ReviewConverter.toReview(dto);
         reviewRepository.save(review);

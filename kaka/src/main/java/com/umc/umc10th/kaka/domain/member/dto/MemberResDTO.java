@@ -1,17 +1,14 @@
 package com.umc.umc10th.kaka.domain.member.dto;
 
-import lombok.Builder;
 
 public class MemberResDTO {
 
-    @Builder
     public record RequestBody(
             String stringTest,
             Long longTest
     ) {
     }
 
-    @Builder
     public record GetInfo(
             String name,
             String profileUrl,

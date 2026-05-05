@@ -10,35 +10,35 @@ import java.util.stream.Collectors;
 
 public class HomeConverter {
 
-    public static HomeRegionMissionResDTO.MissionListClass toRegionMissionList(Mission mission) {
-        return HomeRegionMissionResDTO.MissionListClass.builder()
-                .missionId(mission.getId())
-                .marketName(mission.getStore().getName())
-                .point(mission.getPoint())
-                .content(mission.getConditional())
-                .build();
+    public static HomeRegionMissionResDTO.MissionList toRegionMissionList(Mission mission) {
+        return new HomeRegionMissionResDTO.MissionList(
+                mission.getId(),
+                mission.getStore().getName(),
+                mission.getPoint(),
+                mission.getConditional()
+        );
     }
 
-    public static HomeRegionMissionResDTO.MissionPageClass toRegionMissionPage(
+    public static HomeRegionMissionResDTO.MissionPage toRegionMissionPage(
             List<Mission> missions, int page, int size, boolean hasNext
     ) {
-        return HomeRegionMissionResDTO.MissionPageClass.builder()
-                .content(missions.stream()
+        return new HomeRegionMissionResDTO.MissionPage(
+                missions.stream()
                         .map(HomeConverter::toRegionMissionList)
-                        .collect(Collectors.toList()))
-                .page(page)
-                .size(size)
-                .hasNext(hasNext)
-                .build();
+                        .collect(Collectors.toList()),
+                page,
+                size,
+                hasNext
+        );
     }
 
-    public static HomeMyDataResDTO.MyDataResClass toMyData(Member member) {
-        return HomeMyDataResDTO.MyDataResClass.builder()
-                .nickname(member.getName())
-                .email(member.getEmail())
-                .phoneNumber(member.getPhoneNumber())
-                .phoneNumberStatus(member.getPhoneNumberStatus())
-                .userPoint(member.getPoint())
-                .build();
+    public static HomeMyDataResDTO.MyDataRes toMyData(Member member) {
+        return new HomeMyDataResDTO.MyDataRes(
+                member.getName(),
+                member.getEmail(),
+                member.getPhoneNumber(),
+                member.getPhoneNumberStatus(),
+                member.getPoint()
+        );
     }
 }

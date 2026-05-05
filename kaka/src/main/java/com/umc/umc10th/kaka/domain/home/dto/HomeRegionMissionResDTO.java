@@ -1,27 +1,20 @@
 package com.umc.umc10th.kaka.domain.home.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-
 import java.util.List;
 
 public class HomeRegionMissionResDTO {
 
-    @Getter
-    @Builder
-    public static class MissionListClass {
-        private Long missionId;
-        private String marketName;
-        private Integer point;
-        private String content;
-    }
+    public record MissionList(
+            Long missionId,
+            String marketName,
+            Integer point,
+            String content
+    ) {}
 
-    @Getter
-    @Builder
-    public static class MissionPageClass {
-        private List<MissionListClass> content;
-        private int page;
-        private int size;
-        private boolean hasNext;
-    }
+    public record MissionPage(
+            List<MissionList> content,
+            int page,
+            int size,
+            boolean hasNext
+    ) {}
 }

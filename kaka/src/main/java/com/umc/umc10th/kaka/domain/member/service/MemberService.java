@@ -24,27 +24,27 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     public MemberResDTO.GetInfo getInfo(
-            MemberReqDTO.GetInfoClass dto
+            MemberReqDTO.GetInfo dto
     ) {
-        Long memberId = dto.getId();
+        Long memberId = dto.id();
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         return MemberConverter.toGetInfo(member);
     }
 
     @Transactional // 나중에 DB 연결
-    public SignUpResDTO.SignUpResBodyClass getSignUp(
-            SignUpReqDTO.SignUpReqBodyClass dto
+    public SignUpResDTO.SignUpResBody getSignUp(
+            SignUpReqDTO.SignUpReqBody dto
     ) {
         Member member = Member.builder()
-                .name(dto.getName())
-                .email(dto.getEmail())
-                .password(dto.getPassword())
-                .phoneNumber(dto.getPhoneNumber())
-                .agreedId(dto.getAgreedId())
-                .gender(Gender.valueOf(dto.getGender()))
-                .birth(LocalDate.parse(dto.getBirth()))
-                .address(Address.valueOf(dto.getAddress()))
+                .name(dto.name())
+                .email(dto.email())
+                .password(dto.password())
+                .phoneNumber(dto.phoneNumber())
+                .agreedId(dto.agreedId())
+                .gender(Gender.valueOf(dto.gender()))
+                .birth(LocalDate.parse(dto.birth()))
+                .address(Address.valueOf(dto.address()))
                 .build();
         memberRepository.save(member);
         return MemberConverter.toSignUp(member);

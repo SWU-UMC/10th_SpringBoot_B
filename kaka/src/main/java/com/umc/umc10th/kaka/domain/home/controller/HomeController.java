@@ -17,7 +17,7 @@ public class HomeController {
     private final HomeService homeService;
 
     @GetMapping("/v1/missions")
-    public ApiResponse<HomeRegionMissionResDTO.MissionPageClass> getRegionMissions(
+    public ApiResponse<HomeRegionMissionResDTO.MissionPage> getRegionMissions(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -26,7 +26,7 @@ public class HomeController {
     }
 
     @GetMapping("/v1/mydata")
-    public ApiResponse<HomeMyDataResDTO.MyDataResClass> getMyData(
+    public ApiResponse<HomeMyDataResDTO.MyDataRes> getMyData(
             @RequestHeader("Authorization") String token
     ) {
         BaseSuccessCode code = HomeSuccessCode.OK;

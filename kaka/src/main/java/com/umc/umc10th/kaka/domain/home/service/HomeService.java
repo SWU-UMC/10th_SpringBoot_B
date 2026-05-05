@@ -20,7 +20,7 @@ public class HomeService {
     private final MemberRepository memberRepository;
 
     // 해당 지역 미션 목록 조회
-    public HomeRegionMissionResDTO.MissionPageClass getRegionMissions(
+    public HomeRegionMissionResDTO.MissionPage getRegionMissions(
             int page, int size
     ) {
         List<Mission> missions = missionRepository.findAll(); // 임시 (나중에 지역 필터)
@@ -29,7 +29,7 @@ public class HomeService {
     }
 
     // 마이데이터 조회
-    public HomeMyDataResDTO.MyDataResClass getMyData(String token) {
+    public HomeMyDataResDTO.MyDataRes getMyData(String token) {
         Long memberId = Long.parseLong(token); // 임시 (나중에 JWT)
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("멤버 없음")); // TODO: MemberException으로 교체

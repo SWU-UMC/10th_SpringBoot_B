@@ -20,7 +20,7 @@ public class MissionService {
     private final MissionRepository missionRepository;
 
     // 미션 목록 조회
-    public MissionResDTO.MissionPageClass getMissions(
+    public MissionResDTO.MissionPage getMissions(
             String token, int page, int size
     ) {
         Long memberId = Long.parseLong(token); // 임시(나중에 JWT)
@@ -31,10 +31,10 @@ public class MissionService {
 
     // 미션 완료
     @Transactional //나중에 DB 연결
-    public MissionResDTO.CompleteMissionResClass completeMission(
-            MissionReqDTO.CompleteMissionReqClass dto
+    public MissionResDTO.CompleteMissionRes completeMission(
+            MissionReqDTO.CompleteMissionReq dto
     ) {
-        Mission mission = missionRepository.findById(dto.getMissionId())
+        Mission mission = missionRepository.findById(dto.missionId())
                 .orElseThrow(() -> new MissionException(MissionErrorCode.MISSION_NOT_FOUND));
         return MissionConverter.toCompleteMission(mission);
     }

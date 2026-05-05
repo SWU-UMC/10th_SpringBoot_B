@@ -4,11 +4,10 @@ import lombok.Getter;
 
 public class ReviewReqDTO {
 
-    @Getter
-    public static class CreateReviewReqClass {
-        private Integer marketId;
-        private Integer regionId;
-        private Float stars;
-        private String content;
-    }
+    public record CreateReviewReq(
+            Integer marketId,
+            Integer regionId,
+            Float stars,
+            String content
+    ) {}
 }

@@ -10,29 +10,26 @@ public class MemberConverter {
             String stringTest,
             Long longTest
     ) {
-        return MemberResDTO.RequestBody.builder()
-                .stringTest(stringTest)
-                .longTest(longTest)
-                .build();
+        return new MemberResDTO.RequestBody(stringTest, longTest);
     }
 
     public static MemberResDTO.GetInfo toGetInfo(
             Member member
     ) {
-        return MemberResDTO.GetInfo.builder()
-                .email(member.getEmail())
-                .name(member.getName())
-                .profileUrl(member.getProfileUrl())
-                .point(member.getPoint())
-                .phoneNumber(member.getPhoneNumber())
-                .build();
+        return new MemberResDTO.GetInfo(
+                member.getName(),
+                member.getProfileUrl(),
+                member.getEmail(),
+                member.getPhoneNumber(),
+                member.getPoint()
+        );
     }
 
     // 회원가입
-    public static SignUpResDTO.SignUpResBodyClass toSignUp(Member member) {
-        return SignUpResDTO.SignUpResBodyClass.builder()
-                .id(member.getId())
-                .refreshToken(member.getToken())
-                .build();
+    public static SignUpResDTO.SignUpResBody toSignUp(Member member) {
+        return new SignUpResDTO.SignUpResBody(
+                member.getId(),
+                member.getToken()
+        );
     }
 }

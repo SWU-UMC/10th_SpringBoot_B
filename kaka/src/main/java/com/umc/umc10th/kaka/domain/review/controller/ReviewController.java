@@ -21,8 +21,8 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/v1/create")
-    public ApiResponse<ReviewResDTO.CreateReviewResClass> getCreateReview(
-            @RequestBody ReviewReqDTO.CreateReviewReqClass dto
+    public ApiResponse<ReviewResDTO.CreateReviewRes> getCreateReview(
+            @RequestBody ReviewReqDTO.CreateReviewReq dto
     ) {
         BaseSuccessCode code = ReviewSuccessCode.OK;
         return ApiResponse.onSuccess(code, reviewService.createReview(dto));
