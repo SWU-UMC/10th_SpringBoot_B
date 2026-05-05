@@ -18,11 +18,12 @@ public class HomeController {
 
     @GetMapping("/v1/missions")
     public ApiResponse<HomeRegionMissionResDTO.MissionPage> getRegionMissions(
+            @RequestParam Long locationId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
         BaseSuccessCode code = HomeSuccessCode.OK;
-        return ApiResponse.onSuccess(code, homeService.getRegionMissions(page, size));
+        return ApiResponse.onSuccess(code, homeService.getRegionMissions(locationId,page, size));
     }
 
     @GetMapping("/v1/mydata")

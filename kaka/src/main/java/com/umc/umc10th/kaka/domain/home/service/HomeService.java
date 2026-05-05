@@ -8,9 +8,11 @@ import com.umc.umc10th.kaka.domain.member.repository.MemberRepository;
 import com.umc.umc10th.kaka.domain.mission.entity.Mission;
 import com.umc.umc10th.kaka.domain.mission.repository.MissionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +23,11 @@ public class HomeService {
 
     // 해당 지역 미션 목록 조회
     public HomeRegionMissionResDTO.MissionPage getRegionMissions(
-            int page, int size
+            Long locationId, int page, int size
     ) {
-        List<Mission> missions = missionRepository.findAll(); // 임시 (나중에 지역 필터)
-        boolean hasNext = missions.size() > (long) (page + 1) * size;
+        Pageable pageable = PageRequest.of(page, size);
+        List<Mission> missions = missionRepository.findByLocationId(locationId, pageable);
+        boolean hasNext = missions.size() == size;
         return HomeConverter.toRegionMissionPage(missions, page, size, hasNext);
     }
 
