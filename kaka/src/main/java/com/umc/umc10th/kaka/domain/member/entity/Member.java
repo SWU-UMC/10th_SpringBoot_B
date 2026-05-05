@@ -3,6 +3,7 @@ package com.umc.umc10th.kaka.domain.member.entity;
 import com.umc.umc10th.kaka.domain.member.entity.mapping.MemberFood;
 import com.umc.umc10th.kaka.domain.member.entity.mapping.MemberTerm;
 import com.umc.umc10th.kaka.domain.member.enums.Gender;
+import com.umc.umc10th.kaka.domain.member.enums.SocialType;
 import com.umc.umc10th.kaka.domain.mission.enums.Address;
 import com.umc.umc10th.kaka.global.apiPayLoad.common.BaseEntity;
 import jakarta.persistence.*;
@@ -49,7 +50,7 @@ public class Member extends BaseEntity {
 
     @Column(name = "social_type")
     @Enumerated(EnumType.STRING)
-    private String socialType;
+    private SocialType socialType;
 
     @Column(name = "email")
     private String email;

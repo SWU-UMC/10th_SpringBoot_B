@@ -23,10 +23,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public MemberResDTO.GetInfo getInfo(
-            MemberReqDTO.GetInfo dto
-    ) {
-        Long memberId = dto.id();
+    public MemberResDTO.GetInfo getInfo(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         return MemberConverter.toGetInfo(member);

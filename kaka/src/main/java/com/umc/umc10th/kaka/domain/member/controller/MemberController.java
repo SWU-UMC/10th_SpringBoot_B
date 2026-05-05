@@ -52,12 +52,12 @@ public class MemberController {
     }
 
     //마이페이지
-    @PostMapping("/v1/users/me")
+    @GetMapping("/v1/users/me")
     public ApiResponse<MemberResDTO.GetInfo> getIngo(
-            @RequestBody MemberReqDTO.GetInfo dto
+            @RequestParam Long id
     ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.getInfo(dto));
+        return ApiResponse.onSuccess(code, memberService.getInfo(id));
     }
 
     @PostMapping("/v1/signup")

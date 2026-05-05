@@ -1,5 +1,6 @@
 package com.umc.umc10th.kaka.domain.member.entity;
 
+import com.umc.umc10th.kaka.domain.member.enums.TermName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +19,5 @@ public class Term {
 
     @Column(name = "name")
     @Enumerated(EnumType.STRING)
-    private Term name;
+    private TermName name;
 }

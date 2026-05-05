@@ -1,6 +1,6 @@
 package com.umc.umc10th.kaka.domain.member.enums;
 
-public enum Term {
+public enum TermName {
     AGE,
     SERVICE,
     PRIVACY,
