@@ -21,9 +21,6 @@ public class Review {
     @Column(name = "market_id")
     private Long marketId;
 
-    @Column(name = "region_id")
-    private Long regionId;
-
     @Column(name = "stars")
     private Float stars;
 

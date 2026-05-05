@@ -15,6 +15,10 @@ public class ReviewConverter {
     }
 
     public static ReviewResDTO.CreateReviewRes toCreateReview(Review review) {
-        return new ReviewResDTO.CreateReviewRes();
+        return new ReviewResDTO.CreateReviewRes(
+                review.getId(),
+                review.getStars(),
+                review.getContent()
+        );
     }
 }
