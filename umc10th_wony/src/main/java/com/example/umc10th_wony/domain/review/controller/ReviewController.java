@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReviewController {
     private final ReviewService reviewService;
 
+    // 리뷰 작성
     @PostMapping
     public ApiResponse<ReviewResDTO> createReview(@RequestBody ReviewReqDTO request) {
         return ApiResponse.onSuccess(
