@@ -17,9 +17,9 @@ public class ReviewController {
     @PostMapping("/markets/{marketId}")
     public ApiResponse<ReviewResDTO.CreateReviewDTO> createReview(
             @PathVariable Long marketId,
+            @RequestParam Long memberId,
             @RequestBody ReviewReqDTO.CreateReviewDTO request
     ) {
-        Long memberId = 1L; // memberId 임시값
 
         ReviewResDTO.CreateReviewDTO response =
                 reviewService.createReview(memberId, marketId, request);

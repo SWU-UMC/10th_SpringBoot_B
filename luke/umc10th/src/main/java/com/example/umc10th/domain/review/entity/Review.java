@@ -6,8 +6,6 @@ import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter @Builder
 @Table(name = "review")
