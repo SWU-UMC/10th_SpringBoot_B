@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class MissionResponse {
 
     private Long missionId;
-    private String title;
+    private String missionTitle;
     private String description;
     private String region;       // 지역명
     private int reward;          // 보상 포인트
