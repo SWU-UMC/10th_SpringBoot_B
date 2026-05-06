@@ -18,7 +18,7 @@ public class MissionResDto {
     public static class MissionDto {
         private Long missionId;
         private String title;
-        private Integer point;
+        private String point;
         private MissionStatus status;
     }
 

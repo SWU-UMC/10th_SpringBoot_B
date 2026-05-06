@@ -12,5 +12,5 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
 
     // 홈 화면 페이징 : 지역 별 미션 리스트
     @Query("SELECT m FROM Mission m WHERE m.region = :region")
-    Slice<Mission> findMissionByRegion(@Param("region") Region region, Pageable pageable);
+    Slice<Mission> findMissionsByRegion(@Param("region") Region region, Pageable pageable);
 }
