@@ -2,31 +2,35 @@ package com.example.umc10th.domain.mission.controller;
 
 import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.enums.ParticipatedStatus;
+import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/mission")
 @RequiredArgsConstructor
 public class MissionController {
 
+    private final MissionService missionService;
+
     @GetMapping
     public ApiResponse<MissionResDTO.MissionListDTO> getMissionList(
-            @RequestParam(name = "regionName", required = false) String regionName,
-            @RequestParam(name = "status") String status,
+            @RequestParam(name = "memberId", required = false) Long memberId,
+            @RequestParam(name = "status") ParticipatedStatus status,
             @RequestParam(name = "page") Integer page,
             @RequestParam(name = "size") Integer size
     ) {
 
-        MissionResDTO.MissionListDTO response = new MissionResDTO.MissionListDTO();
-        response.content = List.of();
-        response.page = page;
-        response.size = size;
-        response.hasNext = false;
-
-        return ApiResponse.onSuccess(response);
+        return ApiResponse.onSuccess(
+                missionService.getMissionList(
+                        memberId,
+                        status,
+                        page,
+                        size
+                )
+        );
     }
 
     @PostMapping("/completed")

@@ -3,10 +3,13 @@ package com.example.umc10th.domain.mission.entity;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.*;
 
+@Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Market extends BaseEntity {
 
     @Id

@@ -5,12 +5,14 @@ import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-
+@Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Mission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
