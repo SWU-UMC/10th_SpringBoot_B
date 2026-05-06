@@ -34,7 +34,7 @@ public class MissionController {
     ) {
         // TODO: missionService.getMissionsByRegion(region)
         List<MissionResponse> result = List.of(MissionResponse.builder()
-                .missionId(1L).title("공릉동 미션 예시").description("미션 설명")
+                .missionId(1L).missionTitle("공릉동 미션 예시").description("미션 설명")
                 .region(region).reward(1000).status("OPEN").build());
         return ResponseEntity.ok(ApiResponse.onSuccess(MissionSuccessCode.MISSION_LIST_FOUND, result));
     }
@@ -47,7 +47,7 @@ public class MissionController {
     ) {
         // TODO: missionService.getMyMissions(memberId)
         List<MissionResponse> result = List.of(MissionResponse.builder()
-                .missionId(2L).title("내 미션 예시").description("미션 설명")
+                .missionId(2L).missionTitle("내 미션 예시").description("미션 설명")
                 .region("공릉동").reward(500).status("IN_PROGRESS").build());
         return ResponseEntity.ok(ApiResponse.onSuccess(MissionSuccessCode.MISSION_LIST_FOUND, result));
     }
