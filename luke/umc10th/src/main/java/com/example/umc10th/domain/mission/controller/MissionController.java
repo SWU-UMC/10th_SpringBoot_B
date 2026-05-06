@@ -44,4 +44,20 @@ public class MissionController {
 
         return ApiResponse.onSuccess(response);
     }
+
+    @GetMapping("/home")
+    public ApiResponse<MissionResDTO.MissionListDTO> getHomeMissionList(
+            @RequestParam String regionName,
+            @RequestParam Integer page,
+            @RequestParam Integer size
+    ) {
+
+        return ApiResponse.onSuccess(
+                missionService.getHomeMissionList(
+                        regionName,
+                        page,
+                        size
+                )
+        );
+    }
 }

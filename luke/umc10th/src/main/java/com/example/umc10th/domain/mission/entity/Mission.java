@@ -25,6 +25,7 @@ public class Mission extends BaseEntity {
     @Column(name = "end_date")
     private LocalDateTime endDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "mission_status")
     private MissionStatus missionStatus;
 
