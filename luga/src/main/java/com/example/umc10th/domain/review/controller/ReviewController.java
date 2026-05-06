@@ -2,6 +2,7 @@ package com.example.umc10th.domain.review.controller;
 
 import com.example.umc10th.domain.review.dto.ReviewReqDto;
 import com.example.umc10th.domain.review.dto.ReviewResDto;
+import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.status.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,8 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ReviewController {
 
+    private final ReviewService reviewService;
+
     @Operation(
             summary = "리뷰 작성",
             description = "식당 ID를 경로 변수로 받아 해당 식당에 리뷰 작성",
@@ -27,10 +30,6 @@ public class ReviewController {
     public ApiResponse<ReviewResDto.CreateReviewResDto> createReview(
             @PathVariable Long restaurantId,
             @RequestBody ReviewReqDto.CreateReviewReqDto request) {
-        ReviewResDto.CreateReviewResDto result = ReviewResDto.CreateReviewResDto.builder()
-                .reviewId(1L)
-                .createdAt(LocalDateTime.now())
-                .build();
-        return ApiResponse.onSuccess(SuccessStatus.CREATED, result);
+        return ApiResponse.onSuccess(SuccessStatus.CREATED, reviewService.createReview(restaurantId, request));
     }
 }

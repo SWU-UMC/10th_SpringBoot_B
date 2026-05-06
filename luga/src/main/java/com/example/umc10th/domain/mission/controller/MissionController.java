@@ -1,7 +1,7 @@
 package com.example.umc10th.domain.mission.controller;
 
-import com.example.umc10th.domain.mission.dto.MissionReqDto;
 import com.example.umc10th.domain.mission.dto.MissionResDto;
+import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,19 +18,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MissionController {
 
+    private final MissionService missionService;
+
     @Operation(
             summary = "미션 목록 조회",
             description = "상태별 미션 목록 조회",
-            parameters = @Parameter(name = "status", description = "미션 상태", example = "IN_PROGRESS")
+            parameters = {
+                    @Parameter(name = "status", description = "미션 상태", example = "IN_PROGRESS"),
+                    @Parameter(name = "page", description = "페이지 번호 (0부터)", example = "0"),
+                    @Parameter(name = "size", description = "페이지 크기", example = "10")
+            }
     )
     @GetMapping
     public ApiResponse<MissionResDto.MissionListResDto> getMissions(
-            @RequestParam(defaultValue = "IN_PROGRESS") String status) {
-        MissionResDto.MissionListResDto result = MissionResDto.MissionListResDto.builder()
-                .missions(List.of())
-                .hasNext(false)
-                .build();
-        return ApiResponse.onSuccess(result);
+            @RequestParam(defaultValue = "IN_PROGRESS") String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ApiResponse.onSuccess(missionService.getMissions(status, page, size));
     }
 
     @Operation(
@@ -41,10 +45,6 @@ public class MissionController {
     @PostMapping("/{missionId}/success")
     public ApiResponse<MissionResDto.MissionSuccessResDto> completeMission(
             @PathVariable Long missionId) {
-        MissionResDto.MissionSuccessResDto result = MissionResDto.MissionSuccessResDto.builder()
-                .missionId(missionId)
-                .completedAt(LocalDateTime.now())
-                .build();
-        return ApiResponse.onSuccess(result);
+        return ApiResponse.onSuccess(missionService.completeMission(missionId));
     }
 }
