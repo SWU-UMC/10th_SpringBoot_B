@@ -42,10 +42,9 @@ public class User {
     @Builder.Default
     private Integer newAlarm = 0;
 
-    // 약관동의 도메인 생성 후 작업
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "agree_id")
-//    private Agreement agreement;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "agree_id")
+    private Agreement agreement;
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
