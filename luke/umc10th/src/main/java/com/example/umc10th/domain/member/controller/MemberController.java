@@ -2,6 +2,7 @@ package com.example.umc10th.domain.member.controller;
 
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberController {
+
+    private final MemberService memberService;
 
     @PostMapping("/signup")
     public ApiResponse<MemberResDTO.SignupDTO> signup(
@@ -25,9 +28,13 @@ public class MemberController {
     }
 
     @GetMapping("/home/my")
-    public ApiResponse<MemberResDTO.MyPageDTO> getMyPage() {
+    public ApiResponse<MemberResDTO.MyPageDTO> getMyPage(
+            @RequestParam Long memberId
+    ) {
 
-        MemberResDTO.MyPageDTO response = new MemberResDTO.MyPageDTO();
+        MemberResDTO.MyPageDTO response =
+                memberService.getMyPage(memberId);
+
         return ApiResponse.onSuccess(response);
     }
 }

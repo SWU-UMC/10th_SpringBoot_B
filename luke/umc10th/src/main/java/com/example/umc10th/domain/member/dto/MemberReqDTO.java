@@ -4,6 +4,10 @@ import com.example.umc10th.domain.member.enums.Gender;
 import com.example.umc10th.domain.member.enums.UserType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -44,4 +48,14 @@ public class MemberReqDTO {
 
     }
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class MyPageDTO {
+
+        private String name;
+        private String email;
+        private Integer point;
+    }
 }
