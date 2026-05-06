@@ -1,9 +1,15 @@
 package com.example.umc10th.domain.review.dto;
 
+import lombok.*;
+
 public class ReviewResDTO {
 
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class CreateReviewDTO {
-        public Long reviewId;
-        public String message;
+        private Long reviewId;
+        private String message;
     }
 }

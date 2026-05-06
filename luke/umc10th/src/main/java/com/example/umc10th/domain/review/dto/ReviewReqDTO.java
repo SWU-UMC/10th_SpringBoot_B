@@ -1,9 +1,12 @@
 package com.example.umc10th.domain.review.dto;
 
+import lombok.*;
+
 public class ReviewReqDTO {
 
+    @Getter @Setter
     public static class CreateReviewDTO {
-        public Integer stars;
-        public String content;
+        private Integer stars;
+        private String content;
     }
 }

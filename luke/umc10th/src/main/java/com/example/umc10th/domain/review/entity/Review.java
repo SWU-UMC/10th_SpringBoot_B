@@ -4,10 +4,15 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.mission.entity.Market;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
+@Getter @Builder
 @Table(name = "review")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review extends BaseEntity {
 
     @Id
