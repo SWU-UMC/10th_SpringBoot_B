@@ -1,5 +1,5 @@
 HELP.md
-umc10th/.gradle
+.gradle
 umc10th/build/
 !luke/gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
@@ -25,6 +25,7 @@ bin/
 umc10th/.idea
 *.iws
 *.iml
+.idea/
 *.ipr
 umc10th/out/
 !**/src/main/**/out/
@@ -39,3 +40,10 @@ umc10th/out/
 
 ### VS Code ###
 .vscode/
+
+### macOS ###
+.DS_Store
+
+### Gradle ###
+build/
+.gradle/
