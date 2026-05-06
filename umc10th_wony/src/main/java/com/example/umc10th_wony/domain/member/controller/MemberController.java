@@ -4,6 +4,8 @@ import com.example.umc10th_wony.domain.member.dto.MemberSignupRequest;
 import com.example.umc10th_wony.domain.member.dto.MemberInfoResponse;
 import com.example.umc10th_wony.domain.member.dto.MemberSignupResponse;
 
+import com.example.umc10th_wony.domain.member.dto.MyPageResponse;
+import com.example.umc10th_wony.domain.member.service.MemberService;
 import com.example.umc10th_wony.global.apiPayload.ApiResponse;
 import com.example.umc10th_wony.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10th_wony.global.security.LoginMember;
@@ -38,19 +40,31 @@ public class MemberController {
     }
 
     // 2. 내 정보 조회
-    @Operation(summary = "내 정보 조회", description = "JWT 토큰으로 인증된 현재 회원의 정보를 반환합니다.")
-    @GetMapping("/me")
-    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
+//    @Operation(summary = "내 정보 조회", description = "JWT 토큰으로 인증된 현재 회원의 정보를 반환합니다.")
+//    @GetMapping("/me")
+//    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(
+//            @Parameter(hidden = true) @LoginMember Long memberId
+//    ) {
+//        // TODO: memberService.getMyInfo(memberId)
+//        MemberInfoResponse result = MemberInfoResponse.builder()
+//                .memberId(memberId)
+//                .email("example@email.com")
+//                .nickname("닉네임")
+//                .completedMissionCount(5)
+//                .writtenReviewCount(3)
+//                .build();
+//        return ResponseEntity.ok(ApiResponse.onSuccess(MemberSuccessCode.MEMBER_FOUND, result));
+//    }
+
+    private final MemberService memberService;
+
+    @GetMapping("/mypage")
+    public ApiResponse<MyPageResponse> getMyPage(
             @Parameter(hidden = true) @LoginMember Long memberId
     ) {
-        // TODO: memberService.getMyInfo(memberId)
-        MemberInfoResponse result = MemberInfoResponse.builder()
-                .memberId(memberId)
-                .email("example@email.com")
-                .nickname("닉네임")
-                .completedMissionCount(5)
-                .writtenReviewCount(3)
-                .build();
-        return ResponseEntity.ok(ApiResponse.onSuccess(MemberSuccessCode.MEMBER_FOUND, result));
+        return ApiResponse.onSuccess(
+                MemberSuccessCode.MEMBER_FOUND,
+                memberService.getMyPage(memberId)
+        );
     }
 }

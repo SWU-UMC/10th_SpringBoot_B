@@ -29,6 +29,15 @@ public class Member {
     @Column(nullable = false, length = 50)
     private String nickname;
 
+    @Column(nullable = true, length = 20)
+    private String phoneNumber;
+
+    @Column(nullable = false)
+    private Boolean isPhoneVerified;
+
+    @Column(nullable = false)
+    private Integer point;
+
     @Column(nullable = true, length = 100)
     private String password;
 
@@ -59,7 +68,9 @@ public class Member {
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = java.time.LocalDateTime.now();
+        if (this.isPhoneVerified == null) this.isPhoneVerified = false;
+        if (this.point == null) this.point = 0;
     }
 
     @PreUpdate
