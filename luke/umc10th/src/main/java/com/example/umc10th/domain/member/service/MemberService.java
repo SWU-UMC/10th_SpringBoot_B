@@ -3,6 +3,8 @@ package com.example.umc10th.domain.member.service;
 import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.exception.MemberException;
+import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +20,8 @@ public class MemberService {
     public MemberResDTO.MyPageDTO getMyPage(Long memberId) {
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("멤버가 존재하지 않습니다."));
+                .orElseThrow(() ->
+                        new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         return MemberConverter.toMyPageDTO(member);
 
