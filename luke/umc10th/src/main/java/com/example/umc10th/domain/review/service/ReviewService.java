@@ -8,6 +8,8 @@ import com.example.umc10th.domain.review.converter.ReviewConverter;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.domain.review.exception.ReviewException;
+import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,10 +31,12 @@ public class ReviewService {
     ) {
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("멤버가 존재하지 않습니다."));
+                .orElseThrow(() ->
+                        new ReviewException(ReviewErrorCode.MEMBER_NOT_FOUND));
 
         Market market = marketRepository.findById(marketId)
-                .orElseThrow(() -> new RuntimeException("가게가 존재하지 않습니다."));
+                .orElseThrow(() ->
+                        new ReviewException(ReviewErrorCode.MARKET_NOT_FOUND));
 
         Review review = ReviewConverter.toReview(
                 member,
