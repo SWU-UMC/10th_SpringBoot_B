@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.mission.service;
 
+import com.example.umc10th.domain.mission.converter.MissionConverter;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.Participate;
@@ -42,20 +43,15 @@ public class MissionService {
 
         List<MissionResDTO.MissionDTO> missionList =
                 participatePage.stream()
-                        .map(participate -> MissionResDTO.MissionDTO.builder()
-                                .missionId(participate.getMission().getId())
-                                .marketName(participate.getMission().getMarket().getName())
-                                .point(participate.getMission().getPoint())
-                                .status(participate.getStatus().name())
-                                .build())
+                        .map(MissionConverter::toMissionDTO)
                         .toList();
 
-        return MissionResDTO.MissionListDTO.builder()
-                .content(missionList)
-                .page(page)
-                .size(size)
-                .hasNext(participatePage.hasNext())
-                .build();
+        return MissionConverter.toMissionListDTO(
+                missionList,
+                page,
+                size,
+                participatePage.hasNext()
+        );
     }
 
     public MissionResDTO.MissionListDTO getHomeMissionList(
@@ -75,23 +71,15 @@ public class MissionService {
 
         List<MissionResDTO.MissionDTO> missionList =
                 missionPage.stream()
-                        .map(mission ->
-                                MissionResDTO.MissionDTO.builder()
-                                        .missionId(mission.getId())
-                                        .marketName(mission.getMarket().getName())
-                                        .content(mission.getContent())
-                                        .point(mission.getPoint())
-                                        .status(mission.getMissionStatus().name())
-                                        .build()
-                        )
+                        .map(MissionConverter::toHomeMissionDTO)
                         .toList();
 
-        return MissionResDTO.MissionListDTO.builder()
-                .content(missionList)
-                .page(page)
-                .size(size)
-                .hasNext(missionPage.hasNext())
-                .build();
+        return MissionConverter.toMissionListDTO(
+                missionList,
+                page,
+                size,
+                missionPage.hasNext()
+        );
     }
 
 }
