@@ -4,6 +4,7 @@ import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.mission.entity.Market;
 import com.example.umc10th.domain.mission.repository.MarketRepository;
+import com.example.umc10th.domain.review.converter.ReviewConverter;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
@@ -33,19 +34,15 @@ public class ReviewService {
         Market market = marketRepository.findById(marketId)
                 .orElseThrow(() -> new RuntimeException("가게가 존재하지 않습니다."));
 
-        Review review = Review.builder()
-                .member(member)
-                .market(market)
-                .stars(request.getStars())
-                .content(request.getContent())
-                .build();
+        Review review = ReviewConverter.toReview(
+                member,
+                market,
+                request
+        );
 
         Review savedReview = reviewRepository.save(review);
 
-        return ReviewResDTO.CreateReviewDTO.builder()
-                .reviewId(savedReview.getId())
-                .message("리뷰 작성 완료!")
-                .build();
+        return ReviewConverter.toCreateReviewDTO(savedReview);
 
     }
 
