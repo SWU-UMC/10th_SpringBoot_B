@@ -36,18 +36,4 @@ public class MissionConverter {
                 .build();
     }
 
-    public static MissionResDTO.MissionListDTO toMissionListDTO(
-            List<MissionResDTO.MissionDTO> content,
-            Integer page,
-            Integer size,
-            Boolean hasNext
-    ) {
-
-        return MissionResDTO.MissionListDTO.builder()
-                .content(content)
-                .page(page)
-                .size(size)
-                .hasNext(hasNext)
-                .build();
-    }
 }

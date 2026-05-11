@@ -5,6 +5,7 @@ import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.enums.ParticipatedStatus;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.apiPayload.dto.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,7 @@ public class MissionController {
     private final MissionService missionService;
 
     @GetMapping
-    public ApiResponse<MissionResDTO.MissionListDTO> getMissionList(
+    public ApiResponse<PageResponseDTO<MissionResDTO.MissionDTO>> getMissionList(
             @RequestParam(name = "memberId", required = false) Long memberId,
             @RequestParam(name = "status") ParticipatedStatus status,
             @RequestParam(name = "page") Integer page,
@@ -46,7 +47,7 @@ public class MissionController {
     }
 
     @GetMapping("/home")
-    public ApiResponse<MissionResDTO.MissionListDTO> getHomeMissionList(
+    public ApiResponse<PageResponseDTO<MissionResDTO.MissionDTO>> getHomeMissionList(
             @RequestParam String regionName,
             @RequestParam Integer page,
             @RequestParam Integer size

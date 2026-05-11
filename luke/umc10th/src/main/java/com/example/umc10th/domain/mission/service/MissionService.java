@@ -8,6 +8,7 @@ import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.domain.mission.enums.ParticipatedStatus;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
 import com.example.umc10th.domain.mission.repository.ParticipateRepository;
+import com.example.umc10th.global.apiPayload.dto.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +26,7 @@ public class MissionService {
     private final ParticipateRepository participateRepository;
     private final MissionRepository missionRepository;
 
-    public MissionResDTO.MissionListDTO getMissionList(
+    public PageResponseDTO<MissionResDTO.MissionDTO> getMissionList(
             Long memberId,
             ParticipatedStatus status,
             Integer page,
@@ -46,15 +47,15 @@ public class MissionService {
                         .map(MissionConverter::toMissionDTO)
                         .toList();
 
-        return MissionConverter.toMissionListDTO(
-                missionList,
-                page,
-                size,
-                participatePage.hasNext()
-        );
+        return PageResponseDTO.<MissionResDTO.MissionDTO>builder()
+                .content(missionList)
+                .page(page)
+                .size(size)
+                .hasNext(participatePage.hasNext())
+                .build();
     }
 
-    public MissionResDTO.MissionListDTO getHomeMissionList(
+    public PageResponseDTO<MissionResDTO.MissionDTO> getHomeMissionList(
             String regionName,
             Integer page,
             Integer size
@@ -74,12 +75,12 @@ public class MissionService {
                         .map(MissionConverter::toHomeMissionDTO)
                         .toList();
 
-        return MissionConverter.toMissionListDTO(
-                missionList,
-                page,
-                size,
-                missionPage.hasNext()
-        );
+        return PageResponseDTO.<MissionResDTO.MissionDTO>builder()
+                .content(missionList)
+                .page(page)
+                .size(size)
+                .hasNext(missionPage.hasNext())
+                .build();
     }
 
 }
