@@ -4,6 +4,7 @@ import com.example.umc10th.domain.mission.entity.mapping.Participate;
 import com.example.umc10th.domain.mission.enums.ParticipatedStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +20,7 @@ public interface ParticipateRepository extends JpaRepository<Participate, Long> 
         WHERE p.member.id = :memberId
         AND p.status = :status
     """)
-    Page<Participate> findMissionListByMemberAndStatus(
+    Slice<Participate> findMissionListByMemberAndStatus(
             @Param("memberId") Long memberId,
             @Param("status") ParticipatedStatus status,
             Pageable pageable
