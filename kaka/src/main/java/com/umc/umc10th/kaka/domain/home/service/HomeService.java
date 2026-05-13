@@ -9,9 +9,8 @@ import com.umc.umc10th.kaka.domain.mission.entity.Mission;
 import com.umc.umc10th.kaka.domain.mission.repository.MissionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import org.springframework.data.domain.Pageable;
 
 @Service
@@ -26,9 +25,14 @@ public class HomeService {
             Long locationId, int page, int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        List<Mission> missions = missionRepository.findByLocationId(locationId, pageable);
-        boolean hasNext = missions.size() == size;
-        return HomeConverter.toRegionMissionPage(missions, page, size, hasNext);
+        Slice<Mission> missionSlice = missionRepository.findByLocationId(locationId, pageable);
+
+        return HomeConverter.toRegionMissionPage(
+                missionSlice.getContent(),
+                page,
+                size,
+                missionSlice.hasNext()
+        );
     }
 
     // 마이데이터 조회
