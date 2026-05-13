@@ -9,6 +9,7 @@ import com.example.umc10th.domain.user.entity.User;
 import com.example.umc10th.domain.user.repository.UserRepository;
 import com.example.umc10th.global.apiPayload.code.status.ErrorStatus;
 import com.example.umc10th.global.apiPayload.exception.GeneralException;
+import com.example.umc10th.global.dto.CursorPageResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -24,7 +25,7 @@ public class MissionService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public MissionResDto.MissionListResDto getMissions(String status, int page, int size) {
+    public CursorPageResDto<MissionResDto.MissionDto> getMissions(String status, int page, int size) {
         // 임시로 userId=1L 사용
         User user = userRepository.findById(1L)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));

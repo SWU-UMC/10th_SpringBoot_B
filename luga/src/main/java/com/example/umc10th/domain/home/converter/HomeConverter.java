@@ -4,6 +4,7 @@ import com.example.umc10th.domain.home.dto.HomeResDto;
 import com.example.umc10th.domain.mission.dto.MissionResDto;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.user.entity.User;
+import com.example.umc10th.global.dto.CursorPageResDto;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class HomeConverter {
                 .map(HomeConverter::toMissionDto)
                 .toList();
 
-        return new HomeResDto.RegionMissionResDto(regionName, missions, slice.hasNext());
+        return new HomeResDto.RegionMissionResDto(regionName, CursorPageResDto.of(missions, slice.hasNext()));
     }
 
     private static MissionResDto.MissionDto toMissionDto(Mission mission) {

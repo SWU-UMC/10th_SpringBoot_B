@@ -2,6 +2,7 @@ package com.example.umc10th.domain.mission.converter;
 
 import com.example.umc10th.domain.mission.dto.MissionResDto;
 import com.example.umc10th.domain.mission.entity.mapping.UserMission;
+import com.example.umc10th.global.dto.CursorPageResDto;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
@@ -17,12 +18,13 @@ public class MissionConverter {
         );
     }
 
-    public static MissionResDto.MissionListResDto toMissionListResDto(Slice<UserMission> slice) {
+    // 공통 페이징 Dto 적용
+    public static CursorPageResDto<MissionResDto.MissionDto> toMissionListResDto(Slice<UserMission> slice) {
         List<MissionResDto.MissionDto> missions = slice.getContent().stream()
                 .map(MissionConverter::toMissionDto)
                 .toList();
 
-        return new MissionResDto.MissionListResDto(missions, slice.hasNext());
+        return CursorPageResDto.of(missions, slice.hasNext());
     }
 
     public static MissionResDto.MissionSuccessResDto toMissionSuccessResDto(UserMission userMission) {

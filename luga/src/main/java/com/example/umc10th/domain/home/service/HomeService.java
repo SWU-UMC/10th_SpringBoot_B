@@ -9,6 +9,8 @@ import com.example.umc10th.domain.restaurant.entity.Region;
 import com.example.umc10th.domain.restaurant.repository.RegionRepository;
 import com.example.umc10th.domain.user.entity.User;
 import com.example.umc10th.domain.user.repository.UserRepository;
+import com.example.umc10th.global.apiPayload.code.status.ErrorStatus;
+import com.example.umc10th.global.apiPayload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -28,14 +30,14 @@ public class HomeService {
     public HomeResDto.UserInfoResDto getUserInfo() {
         // 임시로 userId=1L 사용
         User user = userRepository.findById(1L)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
         return HomeConverter.toUserInfoResDet(user);
     }
 
     @Transactional(readOnly = true)
     public HomeResDto.RegionMissionResDto getRegionMissions(String regionName, int page, int size) {
         Region region = regionRepository.findByName(regionName)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지역입니다."));
+                .orElseThrow(() -> new GeneralException(ErrorStatus.REGION_NOT_FOUND));
 
         Slice<Mission> slice = missionRepository.findMissionsByRegion(
                 region, PageRequest.of(page, size));

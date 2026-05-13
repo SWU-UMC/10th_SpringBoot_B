@@ -3,6 +3,7 @@ package com.example.umc10th.domain.mission.controller;
 import com.example.umc10th.domain.mission.dto.MissionResDto;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.dto.CursorPageResDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +31,7 @@ public class MissionController {
             }
     )
     @GetMapping
-    public ApiResponse<MissionResDto.MissionListResDto> getMissions(
+    public ApiResponse<CursorPageResDto<MissionResDto.MissionDto>> getMissions(
             @RequestParam(defaultValue = "IN_PROGRESS") String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {

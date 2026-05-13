@@ -2,6 +2,7 @@ package com.example.umc10th.domain.review.converter;
 
 import com.example.umc10th.domain.review.dto.ReviewResDto;
 import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.global.dto.CursorPageResDto;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
@@ -27,11 +28,11 @@ public class ReviewConverter {
         );
     }
 
-    public static ReviewResDto.ReviewListResDto toReviewListResDto(Slice<Review> slice) {
+    public static CursorPageResDto<ReviewResDto.ReviewDto> toReviewListResDto(Slice<Review> slice) {
         List<ReviewResDto.ReviewDto> reviews = slice.getContent().stream()
                 .map(ReviewConverter::toReviewDto)
                 .toList();
 
-        return new ReviewResDto.ReviewListResDto(reviews, slice.hasNext());
+        return CursorPageResDto.of(reviews, slice.hasNext());
     }
 }
