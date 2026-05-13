@@ -12,7 +12,6 @@ import com.example.umc10th.domain.review.repository.ReviewRepository;
 import com.example.umc10th.domain.user.entity.User;
 import com.example.umc10th.domain.user.exception.code.UserErrorCode;
 import com.example.umc10th.domain.user.repository.UserRepository;
-import com.example.umc10th.global.apiPayload.code.status.ErrorStatus;
 import com.example.umc10th.global.apiPayload.exception.GeneralException;
 import com.example.umc10th.global.dto.CursorPageResDto;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,7 @@ public class ReviewService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new GeneralException(RestaurantErrorCode.RESTAURANT_NOT_FOUND));
 
-        // 임시로 userId=1L 사용 (추후 인증 연동 시 변경)
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
@@ -49,7 +48,7 @@ public class ReviewService {
 
         Review saved = reviewRepository.save(review);
 
-        return ReviewConverter.toCreateReviewResDto(reviewRepository.save(review));
+        return ReviewConverter.toCreateReviewResDto(saved);
     }
 
     @Transactional(readOnly = true)
