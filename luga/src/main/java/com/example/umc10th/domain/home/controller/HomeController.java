@@ -24,9 +24,8 @@ public class HomeController {
 
     @Operation(summary = "유저 정보 조회", description = "홈 화면에서 유저의 이름 & 포인트 조회")
     @GetMapping("/user-info")
-    public ApiResponse<HomeResDto.UserInfoResDto> getUserInfo(
-            @RequestParam Long userId) {
-        return ApiResponse.onSuccess(homeService.getUserInfo(userId));
+    public ApiResponse<HomeResDto.UserInfoResDto> getUserInfo() {
+        return ApiResponse.onSuccess(homeService.getUserInfo());
     }
 
     @Operation(

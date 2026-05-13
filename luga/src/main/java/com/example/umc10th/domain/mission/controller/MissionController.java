@@ -32,11 +32,12 @@ public class MissionController {
     )
     @GetMapping
     public ApiResponse<CursorPageResDto<MissionResDto.MissionDto>> getMissions(
-            @RequestParam Long userId,
             @RequestParam(defaultValue = "IN_PROGRESS") String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
+        // 임시 userId
+        Long userId = 1L;
         return ApiResponse.onSuccess(missionService.getMissions(userId, status, page, size));
     }
 
@@ -47,8 +48,10 @@ public class MissionController {
     )
     @PostMapping("/{missionId}/success")
     public ApiResponse<MissionResDto.MissionSuccessResDto> completeMission(
-            @RequestParam Long userId,
             @PathVariable Long missionId) {
+        // 임시 userId
+        Long userId = 1L;
+
         return ApiResponse.onSuccess(missionService.completeMission(userId, missionId));
     }
 }

@@ -28,7 +28,7 @@ public class MissionService {
     @Transactional(readOnly = true)
     public CursorPageResDto<MissionResDto.MissionDto> getMissions(Long userId, String status, int page, int size) {
         // 임시로 userId=1L 사용
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(1L)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
         MissionStatus missionStatus;
@@ -48,7 +48,7 @@ public class MissionService {
     @Transactional
     public MissionResDto.MissionSuccessResDto completeMission(Long userId, Long userMissionId) {
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(1L)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
         UserMission userMission = userMissionRepository.findById(userMissionId)
