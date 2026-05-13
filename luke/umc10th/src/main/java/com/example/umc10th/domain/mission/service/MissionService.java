@@ -1,8 +1,10 @@
 package com.example.umc10th.domain.mission.service;
 
 import com.example.umc10th.domain.mission.converter.MissionConverter;
+import com.example.umc10th.domain.mission.converter.ParticipateConverter;
 import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.dto.ParticipateResDTO;
 import com.example.umc10th.domain.mission.entity.Market;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.Participate;
@@ -102,6 +104,29 @@ public class MissionService {
                 .size(size)
                 .hasNext(missionPage.hasNext())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ParticipateResDTO.MyMissionPreviewDTO>
+    getMyMissions(
+            Long memberId,
+            Integer page
+    ){
+
+        PageRequest pageRequest =
+                PageRequest.of(page, 3);
+
+        Page<Participate> participatePage =
+                participateRepository
+                        .findAllByMemberIdAndStatus(
+                                memberId,
+                                ParticipatedStatus.CHALLERGING,
+                                pageRequest
+                        );
+
+        return participatePage.map(
+                ParticipateConverter::toMyMissionPreviewDTO
+        );
     }
 
 }

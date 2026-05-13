@@ -25,4 +25,11 @@ public interface ParticipateRepository extends JpaRepository<Participate, Long> 
             @Param("status") ParticipatedStatus status,
             Pageable pageable
     );
+
+    Page<Participate> findAllByMemberIdAndStatus(
+            Long memberId,
+            ParticipatedStatus status,
+            Pageable pageable
+    );
+
 }

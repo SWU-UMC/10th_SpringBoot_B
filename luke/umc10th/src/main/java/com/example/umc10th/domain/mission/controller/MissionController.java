@@ -2,6 +2,8 @@ package com.example.umc10th.domain.mission.controller;
 
 import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.dto.ParticipateReqDTO;
+import com.example.umc10th.domain.mission.dto.ParticipateResDTO;
 import com.example.umc10th.domain.mission.enums.ParticipatedStatus;
 import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
@@ -10,6 +12,7 @@ import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.dto.PageResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -75,4 +78,23 @@ public class MissionController {
                 )
         );
     }
+
+    @PostMapping("/my")
+    public ApiResponse<Page<ParticipateResDTO.MyMissionPreviewDTO>>
+    getMyMissions(
+
+            @RequestBody ParticipateReqDTO.MyMissionRequest request,
+
+            @RequestParam(defaultValue = "0")
+            Integer page
+    ){
+
+        return ApiResponse.onSuccess(
+                missionService.getMyMissions(
+                        request.memberId(),
+                        page
+                )
+        );
+    }
+
 }
