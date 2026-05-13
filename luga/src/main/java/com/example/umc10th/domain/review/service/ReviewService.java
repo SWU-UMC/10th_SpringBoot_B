@@ -2,6 +2,7 @@ package com.example.umc10th.domain.review.service;
 
 import com.example.umc10th.domain.restaurant.entity.Restaurant;
 import com.example.umc10th.domain.restaurant.repository.RestaurantRepository;
+import com.example.umc10th.domain.review.converter.ReviewConverter;
 import com.example.umc10th.domain.review.dto.ReviewReqDto;
 import com.example.umc10th.domain.review.dto.ReviewResDto;
 import com.example.umc10th.domain.review.entity.Review;
@@ -38,9 +39,7 @@ public class ReviewService {
                 .build();
 
         Review saved = reviewRepository.save(review);
-        return ReviewResDto.CreateReviewResDto.builder()
-                .reviewId(saved.getId())
-                .createdAt(saved.getDate().atStartOfDay())
-                .build();
+
+        return ReviewConverter.toCreateReivewResDto(saved);
     }
 }

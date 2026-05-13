@@ -1,10 +1,5 @@
 package com.example.umc10th.domain.review.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,7 +8,7 @@ public class ReviewResDto {
 
     public record CreateReviewResDto (
             Long reviewId,
-            LocalDateTime createdAt
+            LocalDate date
     ) {}
 
     public record ReviewDto(
@@ -24,5 +19,10 @@ public class ReviewResDto {
             String body,
             Integer grade,
             LocalDate date
+    ) {}
+
+    public record ReviewListResDto(
+            List<ReviewDto> reviews,
+            boolean hasNext
     ) {}
 }
