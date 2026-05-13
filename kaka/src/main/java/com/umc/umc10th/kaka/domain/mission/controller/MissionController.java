@@ -9,21 +9,35 @@ import com.umc.umc10th.kaka.global.apiPayLoad.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/mission")
+@RequestMapping("/api/v1")
 public class MissionController {
 
     private final MissionService missionService;
 
-    @GetMapping("/v1/missions")
-    public ApiResponse<MissionResDTO.MissionPage> getMissions(
-            @RequestHeader("Authorization") String token,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+    // 가계 미션 생성
+    @PostMapping("/stores/{storeId}/missions")
+    public ApiResponse<Void> createMission(
+            @PathVariable Long storeId,
+            @RequestBody MissionReqDTO.CreateMission dto
+    ){
+        BaseSuccessCode code = MissionSuccessCode.CREATED;
+        return ApiResponse.onSuccess(code, missionService.createMission(storeId, dto));
+    }
+
+    // 가게 내 미션들 조회
+    @GetMapping("/stores/{storeId}/missions")
+    public ApiResponse<List<MissionResDTO.GetMissionRes>> getMissions(
+            @PathVariable Long storeId,
+            @RequestParam Integer pageSize,
+            @RequestParam String cursor,
+            @RequestParam String query
     ) {
         BaseSuccessCode code = MissionSuccessCode.OK;
-        return ApiResponse.onSuccess(code, missionService.getMissions(token, page, size));
+        return ApiResponse.onSuccess(code, missionService.getMissions(storeId, pageSize, cursor, query));
     }
 
     @PostMapping("/completed")

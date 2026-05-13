@@ -1,6 +1,7 @@
 package com.umc.umc10th.kaka.domain.mission.dto;
 
 import com.umc.umc10th.kaka.domain.mission.enums.MissionStatus;
+import lombok.Builder;
 
 import java.util.List;
 
@@ -23,5 +24,28 @@ public class MissionResDTO {
     public record CompleteMissionRes(
             Long missionId,
             String message
+    ) {}
+
+    @Builder
+    public record GetMissionRes(
+            Long missionId,
+            Integer point,
+            String conditional
+
+    ) {}
+
+    @Builder
+    public record Pagination<T>(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ){}
+
+    // 가게 미션 조회용 추가
+    public record StoreMissionList(
+            Long missionId,
+            Integer point,
+            String conditional
     ) {}
 }
