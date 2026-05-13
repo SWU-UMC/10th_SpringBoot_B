@@ -5,16 +5,24 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ReviewResDto {
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class CreateReviewResDto {
-        private Long reviewId;
-        private LocalDateTime createdAt;
-    }
+    public record CreateReviewResDto (
+            Long reviewId,
+            LocalDateTime createdAt
+    ) {}
+
+    public record ReviewDto(
+            Long reviewId,
+            Long userId,
+            Long restaurantId,
+            Long regionID,
+            String body,
+            Integer grade,
+            LocalDate date
+    ) {}
 }

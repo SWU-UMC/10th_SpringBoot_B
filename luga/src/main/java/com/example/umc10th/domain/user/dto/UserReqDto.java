@@ -1,15 +1,25 @@
 package com.example.umc10th.domain.user.dto;
 
-import lombok.Getter;
+import com.example.umc10th.domain.user.enums.Gender;
+import com.example.umc10th.domain.user.enums.SocialLogin;
+
+import java.time.LocalDate;
 
 public class UserReqDto {
 
-    @Getter
-    public static class SignupReqDto {
-        private String name;
-        private String email;
-        private String password;
-        private String phone;
-        private String address;
-    }
+    public record SignupReqDto (
+        String name,
+        String email,
+        String phone,
+        String address,
+        String addressDetail,
+        Gender gender,
+        LocalDate birth,
+        SocialLogin socialLogin
+    ) {}
+
+    // 선호 음식 등록
+    public record AddFoodPreferenceReqDto(
+            java.util.List<Long> foodTypes
+    ) {}
 }

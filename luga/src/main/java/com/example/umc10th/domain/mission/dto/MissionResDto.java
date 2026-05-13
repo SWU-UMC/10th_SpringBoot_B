@@ -11,32 +11,30 @@ import java.util.List;
 
 public class MissionResDto {
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class MissionDto {
-        private Long missionId;
-        private String title;
-        private String point;
-        private MissionStatus status;
-    }
+    public record MissionDto (
+        Long missionId,
+        String title,
+        String point,
+        MissionStatus status
+    ) {}
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class MissionListResDto {
-        private List<MissionDto> missions;
-        private Boolean hasNext;
-    }
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class MissionSuccessResDto {
-        private Long missionId;
-        private LocalDateTime completedAt;
-    }
+    // 성공 처리 결과
+    public record MissionSuccessResDto (
+            Long missionId,
+            LocalDateTime completedAt
+    ) {}
+
+    // 미션 생성 결과
+    public record CreateMissionResDto(
+            Long missionId,
+            LocalDateTime createdAt
+    ) {}
+
+    // 미션 참여 결과
+    public record JoinMissionResDto(
+            Long userMissionId,
+            Long missionId,
+            MissionStatus status
+    ) {}
 }

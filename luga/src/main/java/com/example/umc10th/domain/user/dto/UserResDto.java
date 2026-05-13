@@ -1,20 +1,28 @@
 package com.example.umc10th.domain.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UserResDto {
 
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class SignupResDto {
-        private Long userId;
-        private LocalDateTime createdAt;
-    }
+    public record SignupResDto (
+            Long userId,
+            LocalDateTime createdAt
+    ) {}
+
+    // 마이페이지 프로필
+    public record MyPageResDto(
+            Long userId,
+            String name,
+            String email,
+            String phone,
+            String address,
+            Integer point
+    ) {}
+
+    // 선호 음식 등록 결과
+    public record AddFoodPreferenceResDto(
+            Long userId,
+            List<Long> foodTypes
+    ) {}
 }
