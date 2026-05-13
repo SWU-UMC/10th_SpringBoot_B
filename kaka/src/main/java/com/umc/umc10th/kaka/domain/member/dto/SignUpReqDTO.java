@@ -30,7 +30,7 @@ public class SignUpReqDTO {
             String birth,
 
             @NotBlank
-            @Pattern(regexp = "SEOUL")
+            @Pattern(regexp = "SEOUL|INCHEON|BUSAN|DAEGU|DAEJEON|GWANGJU|ULSAN|GANGNAM|SEOCHO|MAPO|HONGDAE|JONGNO|YONGSAN|SEONGDONG|SONGPA|YEONGDEUNGPO")
             String address,
 
             @NotNull

@@ -17,9 +17,10 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "location_id")
     private Long id;
 
-    @Column(name = "address")
+    @Column(name = "name", nullable = false)
     @Enumerated(EnumType.STRING)
     private Address address;
 }

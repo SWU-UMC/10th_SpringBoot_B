@@ -16,12 +16,19 @@ public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "store_id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "manager_number", nullable = false)
+    private Long managerNumber;
+
+    @Column(name = "detail_address", nullable = false)
+    private String detailAddress;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 }
