@@ -4,8 +4,6 @@ import com.umc.umc10th.kaka.domain.mission.converter.MissionConverter;
 import com.umc.umc10th.kaka.domain.mission.dto.MissionReqDTO;
 import com.umc.umc10th.kaka.domain.mission.dto.MissionResDTO;
 import com.umc.umc10th.kaka.domain.mission.entity.Mission;
-import com.umc.umc10th.kaka.domain.mission.entity.mapping.MemberMission;
-import com.umc.umc10th.kaka.domain.mission.enums.MissionStatus;
 import com.umc.umc10th.kaka.domain.mission.exception.MissionException;
 import com.umc.umc10th.kaka.domain.mission.exception.code.MissionErrorCode;
 import com.umc.umc10th.kaka.domain.mission.exception.code.MissionSuccessCode;
@@ -16,11 +14,10 @@ import com.umc.umc10th.kaka.domain.store.exception.StoreException;
 import com.umc.umc10th.kaka.domain.store.exception.code.StoreErrorCode;
 import com.umc.umc10th.kaka.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +33,7 @@ public class MissionService {
     public Void createMission(
             Long storeId,
             MissionReqDTO.CreateMission dto
-    ){
+    ) {
         // 가게 찾기
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));

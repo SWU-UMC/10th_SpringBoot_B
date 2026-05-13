@@ -5,5 +5,6 @@ public class SignUpResDTO {
     public record SignUpResBody(
             Long id,
             String refreshToken
-    ) {}
+    ) {
+    }
 }

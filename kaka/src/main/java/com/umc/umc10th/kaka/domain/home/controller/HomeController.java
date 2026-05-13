@@ -23,7 +23,7 @@ public class HomeController {
             @RequestParam(defaultValue = "10") int size
     ) {
         BaseSuccessCode code = HomeSuccessCode.OK;
-        return ApiResponse.onSuccess(code, homeService.getRegionMissions(locationId,page, size));
+        return ApiResponse.onSuccess(code, homeService.getRegionMissions(locationId, page, size));
     }
 
     @GetMapping("/v1/mydata")

@@ -2,11 +2,12 @@ package com.umc.umc10th.kaka.domain.mission.repository;
 
 import com.umc.umc10th.kaka.domain.mission.entity.mapping.MemberMission;
 import com.umc.umc10th.kaka.domain.mission.enums.MissionStatus;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+
 import java.util.List;
 
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {

@@ -4,7 +4,10 @@ import com.umc.umc10th.kaka.domain.member.entity.Member;
 import com.umc.umc10th.kaka.domain.mission.entity.Mission;
 import com.umc.umc10th.kaka.domain.mission.enums.MissionStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter

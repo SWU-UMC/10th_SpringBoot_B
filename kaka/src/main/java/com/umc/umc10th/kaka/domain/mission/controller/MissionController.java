@@ -9,8 +9,6 @@ import com.umc.umc10th.kaka.global.apiPayLoad.code.BaseSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -23,14 +21,14 @@ public class MissionController {
     public ApiResponse<Void> createMission(
             @PathVariable Long storeId,
             @RequestBody MissionReqDTO.CreateMission dto
-    ){
+    ) {
         BaseSuccessCode code = MissionSuccessCode.CREATED;
         return ApiResponse.onSuccess(code, missionService.createMission(storeId, dto));
     }
 
     // 가게 내 미션들 조회
     @GetMapping("/stores/{storeId}/missions")
-    public ApiResponse<List<MissionResDTO.GetMissionRes>> getMissions(
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.GetMissionRes>> getMissions(
             @PathVariable Long storeId,
             @RequestParam Integer pageSize,
             @RequestParam String cursor,

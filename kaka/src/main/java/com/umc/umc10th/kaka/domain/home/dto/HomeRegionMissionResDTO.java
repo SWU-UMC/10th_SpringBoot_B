@@ -9,12 +9,14 @@ public class HomeRegionMissionResDTO {
             String marketName,
             Integer point,
             String content
-    ) {}
+    ) {
+    }
 
     public record MissionPage(
             List<MissionList> content,
             int page,
             int size,
             boolean hasNext
-    ) {}
+    ) {
+    }
 }

@@ -12,19 +12,22 @@ public class MissionResDTO {
             String marketName,
             Integer point,
             MissionStatus status
-    ) {}
+    ) {
+    }
 
     public record MissionPage(
             List<MissionList> content,
             int page,
             int size,
             boolean hasNext
-    ) {}
+    ) {
+    }
 
     public record CompleteMissionRes(
             Long missionId,
             String message
-    ) {}
+    ) {
+    }
 
     @Builder
     public record GetMissionRes(
@@ -32,7 +35,8 @@ public class MissionResDTO {
             Integer point,
             String conditional
 
-    ) {}
+    ) {
+    }
 
     @Builder
     public record Pagination<T>(
@@ -40,12 +44,14 @@ public class MissionResDTO {
             Boolean hasNext,
             String nextCursor,
             Integer pageSize
-    ){}
+    ) {
+    }
 
     // 가게 미션 조회용 추가
     public record StoreMissionList(
             Long missionId,
             Integer point,
             String conditional
-    ) {}
+    ) {
+    }
 }

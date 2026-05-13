@@ -61,7 +61,7 @@ public class MissionConverter {
     public static Mission toMission(
             Store store,
             MissionReqDTO.CreateMission dto
-    ){
+    ) {
         return Mission.builder()
                 .store(store)
                 .conditional(dto.conditional())
@@ -73,7 +73,7 @@ public class MissionConverter {
     // 가게 내 미션들 조회
     public static MissionResDTO.GetMissionRes toGetMission(
             Mission mission
-    ){
+    ) {
         return MissionResDTO.GetMissionRes.builder()
                 .conditional(mission.getConditional())
                 .point(mission.getPoint())
@@ -88,7 +88,7 @@ public class MissionConverter {
             String nextCursor,
             Integer pageSize
 
-    ){
+    ) {
         return MissionResDTO.Pagination.<T>builder()
                 .data(data)
                 .hasNext(hasNext)

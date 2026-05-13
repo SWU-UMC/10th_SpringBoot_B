@@ -1,9 +1,9 @@
 package com.umc.umc10th.kaka.domain.review.converter;
 
-import com.umc.umc10th.kaka.domain.store.entity.Store;
 import com.umc.umc10th.kaka.domain.review.dto.ReviewReqDTO;
 import com.umc.umc10th.kaka.domain.review.dto.ReviewResDTO;
 import com.umc.umc10th.kaka.domain.review.entity.Review;
+import com.umc.umc10th.kaka.domain.store.entity.Store;
 
 public class ReviewConverter {
 

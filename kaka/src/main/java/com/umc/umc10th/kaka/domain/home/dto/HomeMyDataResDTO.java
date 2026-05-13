@@ -9,5 +9,6 @@ public class HomeMyDataResDTO {
             String phoneNumber,
             Integer phoneNumberStatus,
             Integer userPoint
-    ) {}
+    ) {
+    }
 }

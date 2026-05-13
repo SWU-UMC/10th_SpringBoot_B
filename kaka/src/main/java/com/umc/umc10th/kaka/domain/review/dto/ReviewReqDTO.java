@@ -8,11 +8,12 @@ public class ReviewReqDTO {
 
     public record CreateReviewReq(
 
-            @ValidStars
+            @ValidStars(message = "별점은 0.5 단위로 0.5~5.0 사이여야 합니다.")
             Float stars,
 
-            @NotBlank
-            @Size(min = 30, max = 300)
+            @NotBlank(message = "리뷰 내용은 필수입니다.")
+            @Size(min = 30, max = 300, message = "리뷰 내용은 30자 이상 300자 이하여야 합니다.")
             String content
-    ) {}
+    ) {
+    }
 }

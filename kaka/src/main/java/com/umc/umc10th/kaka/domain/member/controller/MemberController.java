@@ -1,6 +1,5 @@
 package com.umc.umc10th.kaka.domain.member.controller;
 
-import com.umc.umc10th.kaka.domain.member.dto.MemberReqDTO;
 import com.umc.umc10th.kaka.domain.member.dto.MemberResDTO;
 import com.umc.umc10th.kaka.domain.member.dto.SignUpReqDTO;
 import com.umc.umc10th.kaka.domain.member.dto.SignUpResDTO;

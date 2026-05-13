@@ -7,5 +7,6 @@ public class ReviewResDTO {
             Long reviewId,
             Float stars,
             String content
-    ) {}
+    ) {
+    }
 }
