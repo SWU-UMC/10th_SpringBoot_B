@@ -12,4 +12,16 @@ public class ReviewResDTO {
         private Long reviewId;
         private String message;
     }
+
+    @Builder
+    public record MyReviewPreviewDTO(
+
+            Long reviewId,
+            Integer stars,
+            String content,
+            String marketName
+
+    ) {
+    }
+
 }

@@ -31,4 +31,18 @@ public class ReviewConverter {
                 .message("리뷰 작성 완료!")
                 .build();
     }
+
+    public static ReviewResDTO.MyReviewPreviewDTO
+    toMyReviewPreviewDTO(
+            Review review
+    ){
+
+        return ReviewResDTO.MyReviewPreviewDTO.builder()
+                .reviewId(review.getId())
+                .stars(review.getStars())
+                .content(review.getContent())
+                .marketName(review.getMarket().getName())
+                .build();
+    }
+
 }

@@ -12,6 +12,9 @@ import com.example.umc10th.domain.review.exception.ReviewException;
 import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +52,43 @@ public class ReviewService {
 
         return ReviewConverter.toCreateReviewDTO(savedReview);
 
+    }
+
+    @Transactional(readOnly = true)
+    public Slice<ReviewResDTO.MyReviewPreviewDTO>
+    getMyReviews(
+            Long memberId,
+            Long cursor,
+            Integer size
+    ){
+
+        Pageable pageable = PageRequest.of(0, size);
+
+        Slice<Review> reviewSlice;
+
+        if(cursor == null){
+
+            reviewSlice =
+                    reviewRepository
+                            .findByMemberIdOrderByIdDesc(
+                                    memberId,
+                                    pageable
+                            );
+
+        } else {
+
+            reviewSlice =
+                    reviewRepository
+                            .findByMemberIdAndIdLessThanOrderByIdDesc(
+                                    memberId,
+                                    cursor,
+                                    pageable
+                            );
+        }
+
+        return reviewSlice.map(
+                ReviewConverter::toMyReviewPreviewDTO
+        );
     }
 
 }

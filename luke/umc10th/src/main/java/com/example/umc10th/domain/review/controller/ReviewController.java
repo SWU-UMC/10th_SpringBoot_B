@@ -5,6 +5,7 @@ import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,4 +27,24 @@ public class ReviewController {
 
         return ApiResponse.onSuccess(response);
     }
+
+    @GetMapping("/my")
+    public ApiResponse<Slice<ReviewResDTO.MyReviewPreviewDTO>>
+    getMyReviews(
+
+            @RequestParam Long memberId,
+            @RequestParam(required = false) Long cursor,
+            @RequestParam(defaultValue = "5") Integer size
+
+    ){
+
+        return ApiResponse.onSuccess(
+                reviewService.getMyReviews(
+                        memberId,
+                        cursor,
+                        size
+                )
+        );
+    }
+
 }
