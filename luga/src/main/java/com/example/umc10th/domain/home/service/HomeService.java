@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.home.service;
 
+import com.example.umc10th.domain.home.converter.HomeConverter;
 import com.example.umc10th.domain.home.dto.HomeResDto;
 import com.example.umc10th.domain.mission.dto.MissionResDto;
 import com.example.umc10th.domain.mission.entity.Mission;
@@ -14,7 +15,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +29,7 @@ public class HomeService {
         // 임시로 userId=1L 사용
         User user = userRepository.findById(1L)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
-        return HomeResDto.UserInfoResDto.builder()
-                .name(user.getName())
-                .point(Integer.parseInt(user.getUserPoint() == null ? "0" : user.getUserPoint()))
-                .build();
+        return HomeConverter.toUserInfoResDet(user);
     }
 
     @Transactional(readOnly = true)
@@ -43,18 +40,6 @@ public class HomeService {
         Slice<Mission> slice = missionRepository.findMissionsByRegion(
                 region, PageRequest.of(page, size));
 
-        List<MissionResDto.MissionDto> missions = slice.getContent().stream()
-                .map(m -> MissionResDto.MissionDto.builder()
-                        .missionId(m.getId())
-                        .title(m.getBody())
-                        .point(m.getAward())
-                        .status(null)
-                        .build())
-                .toList();
-
-        return HomeResDto.RegionMissionResDto.builder()
-                .region(regionName)
-                .missions(missions)
-                .build();
+        return HomeConverter.toRegionMissionResDto(regionName, slice);
     }
 }

@@ -13,6 +13,7 @@ public class HomeResDto {
 
     public record RegionMissionResDto(
             String region,
-            List<MissionResDto.MissionDto> missions
+            List<MissionResDto.MissionDto> missions,
+            boolean hasNext
     ) {}
 }
