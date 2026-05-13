@@ -11,7 +11,6 @@ import com.example.umc10th.domain.review.repository.ReviewRepository;
 import com.example.umc10th.domain.user.entity.User;
 import com.example.umc10th.domain.user.exception.code.UserErrorCode;
 import com.example.umc10th.domain.user.repository.UserRepository;
-import com.example.umc10th.global.apiPayload.code.status.ErrorStatus;
 import com.example.umc10th.global.apiPayload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ public class ReviewService {
                 .orElseThrow(() -> new GeneralException(RestaurantErrorCode.RESTAURANT_NOT_FOUND));
 
         // 임시로 userId=1L 사용 (추후 인증 연동 시 변경)
-        User user = userRepository.findById(1L)
+        User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
         Review review = Review.builder()

@@ -30,9 +30,9 @@ public class HomeService {
     private final MissionRepository missionRepository;
 
     @Transactional(readOnly = true)
-    public HomeResDto.UserInfoResDto getUserInfo() {
+    public HomeResDto.UserInfoResDto getUserInfo(Long userId) {
         // 임시로 userId=1L 사용
-        User user = userRepository.findById(1L)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
         return HomeConverter.toUserInfoResDet(user);
     }
