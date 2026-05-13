@@ -3,7 +3,6 @@ package com.umc.umc10th.kaka.domain.mission.converter;
 import com.umc.umc10th.kaka.domain.mission.dto.MissionResDTO;
 import com.umc.umc10th.kaka.domain.mission.entity.Mission;
 import com.umc.umc10th.kaka.domain.mission.entity.mapping.MemberMission;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,10 +31,11 @@ public class MissionConverter {
         );
     }
 
-    public static MissionResDTO.CompleteMissionRes toCompleteMission(Mission mission) {
+    public static MissionResDTO.CompleteMissionRes toCompleteMission(Mission mission, String message) {
         return new MissionResDTO.CompleteMissionRes(
                 mission.getId(),
-                "미션이 정상적으로 완료되었습니다."
+                message
         );
     }
+
 }

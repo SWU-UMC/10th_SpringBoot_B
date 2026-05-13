@@ -1,8 +1,13 @@
 package com.umc.umc10th.kaka.domain.member.converter;
 
 import com.umc.umc10th.kaka.domain.member.dto.MemberResDTO;
+import com.umc.umc10th.kaka.domain.member.dto.SignUpReqDTO;
 import com.umc.umc10th.kaka.domain.member.dto.SignUpResDTO;
 import com.umc.umc10th.kaka.domain.member.entity.Member;
+import com.umc.umc10th.kaka.domain.member.enums.Gender;
+import com.umc.umc10th.kaka.domain.mission.enums.Address;
+
+import java.time.LocalDate;
 
 public class MemberConverter {
 
@@ -31,5 +36,18 @@ public class MemberConverter {
                 member.getId(),
                 member.getToken()
         );
+    }
+
+    public static Member toMember(SignUpReqDTO.SignUpReqBody dto) {
+        return Member.builder()
+                .name(dto.name())
+                .email(dto.email())
+                .password(dto.password())
+                .phoneNumber(dto.phoneNumber())
+                .agreedId(dto.agreedId())
+                .gender(Gender.valueOf(dto.gender()))
+                .birth(LocalDate.parse(dto.birth()))
+                .address(Address.valueOf(dto.address()))
+                .build();
     }
 }

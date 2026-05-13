@@ -49,6 +49,6 @@ public class MissionService {
     ) {
         Mission mission = missionRepository.findById(dto.missionId())
                 .orElseThrow(() -> new MissionException(MissionErrorCode.MISSION_NOT_FOUND));
-        return MissionConverter.toCompleteMission(mission);
+        return MissionConverter.toCompleteMission(mission, "미션이 정상적으로 완료되었습니다.");
     }
 }

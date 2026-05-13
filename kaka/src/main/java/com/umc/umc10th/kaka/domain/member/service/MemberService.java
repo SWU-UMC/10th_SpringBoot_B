@@ -33,16 +33,7 @@ public class MemberService {
     public SignUpResDTO.SignUpResBody getSignUp(
             SignUpReqDTO.SignUpReqBody dto
     ) {
-        Member member = Member.builder()
-                .name(dto.name())
-                .email(dto.email())
-                .password(dto.password())
-                .phoneNumber(dto.phoneNumber())
-                .agreedId(dto.agreedId())
-                .gender(Gender.valueOf(dto.gender()))
-                .birth(LocalDate.parse(dto.birth()))
-                .address(Address.valueOf(dto.address()))
-                .build();
+        Member member = MemberConverter.toMember(dto);
         memberRepository.save(member);
         return MemberConverter.toSignUp(member);
     }
