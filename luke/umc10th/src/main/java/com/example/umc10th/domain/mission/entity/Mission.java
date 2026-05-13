@@ -36,4 +36,18 @@ public class Mission extends BaseEntity {
     @OneToMany(mappedBy = "mission")
     private List<Participate> participateList = new ArrayList<>();
 
+    @Builder
+    public Mission(
+            String content,
+            Integer point,
+            LocalDateTime endDate,
+            MissionStatus missionStatus,
+            Market market
+    ) {
+        this.content = content;
+        this.point = point;
+        this.endDate = endDate;
+        this.missionStatus = missionStatus;
+        this.market = market;
+    }
 }

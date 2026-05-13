@@ -16,6 +16,12 @@ public class MissionResDTO {
         public String status;
     }
 
+    public static class GetMissionDTO {
+        public Long missionId;
+        public Integer point;
+        public String status;
+    }
+
     public static class CompleteDTO {
         public Long missionId;
         public String message;

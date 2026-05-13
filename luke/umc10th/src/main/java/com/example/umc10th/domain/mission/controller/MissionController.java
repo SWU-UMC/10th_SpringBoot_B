@@ -3,8 +3,10 @@ package com.example.umc10th.domain.mission.controller;
 import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
 import com.example.umc10th.domain.mission.enums.ParticipatedStatus;
+import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.dto.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,17 @@ import org.springframework.web.bind.annotation.*;
 public class MissionController {
 
     private final MissionService missionService;
+
+    @PostMapping("/store/{marketId}/missions")
+    public ApiResponse<Void> createMission(
+            @PathVariable Long marketId,
+            @RequestBody MissionReqDTO.CreateMission dto
+    ){
+        missionService.createMission(marketId, dto);
+
+        return ApiResponse.onSuccess(null);
+    }
+
 
     @GetMapping
     public ApiResponse<PageResponseDTO<MissionResDTO.MissionDTO>> getMissionList(

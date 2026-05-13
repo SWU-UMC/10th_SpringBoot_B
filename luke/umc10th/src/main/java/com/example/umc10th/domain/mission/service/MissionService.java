@@ -1,11 +1,16 @@
 package com.example.umc10th.domain.mission.service;
 
 import com.example.umc10th.domain.mission.converter.MissionConverter;
+import com.example.umc10th.domain.mission.dto.MissionReqDTO;
 import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.entity.Market;
 import com.example.umc10th.domain.mission.entity.Mission;
 import com.example.umc10th.domain.mission.entity.mapping.Participate;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.domain.mission.enums.ParticipatedStatus;
+import com.example.umc10th.domain.mission.exception.MarketException;
+import com.example.umc10th.domain.mission.exception.code.MarketErrorCode;
+import com.example.umc10th.domain.mission.repository.MarketRepository;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
 import com.example.umc10th.domain.mission.repository.ParticipateRepository;
 import com.example.umc10th.global.apiPayload.dto.PageResponseDTO;
@@ -26,6 +31,21 @@ public class MissionService {
 
     private final ParticipateRepository participateRepository;
     private final MissionRepository missionRepository;
+    private final MarketRepository marketRepository;
+
+    @Transactional
+    public void createMission(
+            Long marketId,
+            MissionReqDTO.CreateMission dto
+    ){
+        Market market = marketRepository.findById(marketId)
+                .orElseThrow(() -> new MarketException(MarketErrorCode.NOT_FOUND));
+
+        Mission mission = MissionConverter.toMission(market, dto);
+
+        missionRepository.save(mission);
+
+    }
 
     public PageResponseDTO<MissionResDTO.MissionDTO> getMissionList(
             Long memberId,
