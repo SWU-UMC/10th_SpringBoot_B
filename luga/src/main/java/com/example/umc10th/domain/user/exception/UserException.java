@@ -1,7 +1,17 @@
 package com.example.umc10th.domain.user.exception;
 
+
+import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
+import lombok.Getter;
+
+@Getter
 public class UserException extends RuntimeException {
-    public UserException(String message) {
-        super(message);
+
+    private final BaseErrorCode errorCode;
+
+    public UserException(BaseErrorCode errorCode)
+    {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
     }
 }
