@@ -2,8 +2,11 @@ package com.example.umc10th_wony.domain.mission.controller;
 
 import com.example.umc10th_wony.domain.mission.dto.*;
 
+import com.example.umc10th_wony.domain.mission.enums.MissionStatus;
 import com.example.umc10th_wony.global.apiPayload.ApiResponse;
 import com.example.umc10th_wony.domain.mission.exception.code.MissionSuccessCode;
+import com.example.umc10th_wony.global.pagination.CursorPageResponse;
+import com.example.umc10th_wony.domain.mission.service.MissionService;
 import com.example.umc10th_wony.global.security.LoginMember;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +14,9 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MissionController {
+    private final MissionService missionService;
 
     // 1. 지역별 미션 목록 조회
     @Operation(summary = "지역별 미션 목록 조회", description = "특정 지역의 미션 목록을 조회합니다.")
@@ -94,22 +101,43 @@ public class MissionController {
     // 6. 가게 내 미션 조회
     @Operation(summary = "가게 내 미션 조회", description = "특정 가게의 미션 목록을 조회합니다.")
     @GetMapping("/v1/stores/{storeId}/missions")
-    public ResponseEntity<ApiResponse<List<MissionResponse>>> getStoreMissions(
-            @Parameter(description = "가게 ID") @PathVariable Long storeId
-    ) {
-        // TODO: missionService.getStoreMissions(storeId)
+    public ResponseEntity<ApiResponse<CursorPageResponse<MissionResponse.GetMission>>> getMissions(
+            @PathVariable Long storeId,
 
-        List<MissionResponse> result = List.of(MissionResponse.builder()
-                .missionId(1L)
-                .missionTitle("가게 미션 예시")
-                .description("미션 설명")
-                .region("공릉동")
-                .reward(1000)
-                .status("OPEN")
-                .build());
+            @RequestParam(required = false)
+            String cursor,
+
+            @RequestParam(defaultValue = "10")
+            Integer size
+    ) {
 
         return ResponseEntity.ok(
-                ApiResponse.onSuccess(MissionSuccessCode.STORE_MISSION_LIST_FOUND, result)
+                ApiResponse.onSuccess(
+                        MissionSuccessCode.STORE_MISSION_LIST_FOUND,
+                        missionService.getMissions(
+                                storeId,
+                                cursor,
+                                size
+                        )
+                )
+        );
+    }
+
+    // 7. 내가 진행 중인 미션 조회
+    @Operation(summary = "내가 진행 중인 미션 조회", description = "내가 진행 중인 미션 목록을 조회합니다.")
+    @GetMapping("/missions/me/in-progress")
+    public ResponseEntity<ApiResponse<Page<MissionResponse>>> getMyInProgressMissions(
+            @Parameter(hidden = true) @LoginMember Long memberId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ResponseEntity.ok(
+                ApiResponse.onSuccess(
+                        MissionSuccessCode.MISSION_LIST_FOUND,
+                        missionService.getMyMissions(memberId, MissionStatus.IN_PROGRESS, pageable)
+                )
         );
     }
 }

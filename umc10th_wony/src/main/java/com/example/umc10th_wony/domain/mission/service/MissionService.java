@@ -13,8 +13,10 @@ import com.example.umc10th_wony.domain.mission.exception.code.StoreErrorCode;
 import com.example.umc10th_wony.domain.mission.repository.MemberMissionRepository;
 import com.example.umc10th_wony.domain.mission.repository.MissionRepository;
 import com.example.umc10th_wony.domain.mission.repository.StoreRepository;
+import com.example.umc10th_wony.global.pagination.CursorPageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,14 +60,67 @@ public class MissionService {
         return missions.map(MissionConverter::toHomeResponse);
     }
 
-    // 가게 내 미션 조회
+    // 가게 내 미션 조회(페이지네이션 없음, 주석 처리)
+//    @Transactional(readOnly = true)
+//    public List<MissionResponse.GetMission> getMissions(Long storeId) {
+//
+//        List<Mission> missionList = missionRepository.findAllByStore_Id(storeId);
+//
+//        return missionList.stream()
+//                .map(MissionConverter::toGetMission)
+//                .toList();
+//    }
+
     @Transactional(readOnly = true)
-    public List<MissionResponse.GetMission> getMissions(Long storeId) {
+    public CursorPageResponse<MissionResponse.GetMission> getMissions(
+            Long storeId,
+            String cursor,
+            Integer size
+    ) {
 
-        List<Mission> missionList = missionRepository.findAllByStore_Id(storeId);
+        Pageable pageable = PageRequest.of(0, size);
 
-        return missionList.stream()
-                .map(MissionConverter::toGetMission)
-                .toList();
+        List<Mission> missions;
+
+        // 첫 조회
+        if (cursor == null || cursor.isBlank()) {
+
+            missions = missionRepository
+                    .findByStore_IdOrderByIdDesc(storeId, pageable);
+
+        } else {
+
+            Long cursorId = Long.parseLong(cursor);
+
+            missions = missionRepository
+                    .findByStore_IdAndIdLessThanOrderByIdDesc(
+                            storeId,
+                            cursorId,
+                            pageable
+                    );
+        }
+
+        List<MissionResponse.GetMission> content =
+                missions.stream()
+                        .map(MissionConverter::toGetMission)
+                        .toList();
+
+        boolean hasNext = missions.size() == size;
+
+        String nextCursor = null;
+
+        if (!missions.isEmpty()) {
+            nextCursor =
+                    String.valueOf(
+                            missions.get(missions.size() - 1).getId()
+                    );
+        }
+
+        return CursorPageResponse.<MissionResponse.GetMission>builder()
+                .content(content)
+                .hasNext(hasNext)
+                .nextCursor(nextCursor)
+                .size(content.size())
+                .build();
     }
 }

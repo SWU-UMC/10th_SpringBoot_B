@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 public class GeneralExceptionAdvice {
 
@@ -24,12 +27,36 @@ public class GeneralExceptionAdvice {
     }
 
     // @Valid 검증 실패
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ApiResponse<String>> handleValidException(MethodArgumentNotValidException e) {
+//        String errorMessage = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+//        BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
+//        return ResponseEntity.status(code.getStatus())
+//                .body(ApiResponse.onFailure(code, errorMessage));
+//    }
+
+    // @Valid 검증 실패 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<String>> handleValidException(MethodArgumentNotValidException e) {
-        String errorMessage = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException e
+    ) {
+
+        Map<String, String> errors = new HashMap<>();
+
+        e.getBindingResult()
+                .getFieldErrors()
+                .forEach(error -> {
+                    errors.put(
+                            error.getField(),
+                            error.getDefaultMessage()
+                    );
+                });
+
         BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
-        return ResponseEntity.status(code.getStatus())
-                .body(ApiResponse.onFailure(code, errorMessage));
+
+        return ResponseEntity
+                .status(code.getStatus())
+                .body(ApiResponse.onFailure(code, errors));
     }
 
     // 필수 Query Parameter 누락

@@ -22,5 +22,16 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             Pageable pageable
     );
 
-    List<Mission> findAllByStore_Id(Long storeId);
+    // 첫 조회
+    List<Mission> findByStore_IdOrderByIdDesc(
+            Long storeId,
+            Pageable pageable
+    );
+
+    // cursor 이후 조회
+    List<Mission> findByStore_IdAndIdLessThanOrderByIdDesc(
+            Long storeId,
+            Long cursorId,
+            Pageable pageable
+    );
 }

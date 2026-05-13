@@ -2,6 +2,7 @@ package com.example.umc10th_wony.domain.review.entity;
 
 import com.example.umc10th_wony.domain.member.entity.Member;
 import com.example.umc10th_wony.domain.mission.entity.Mission;
+import com.example.umc10th_wony.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Review {
+public class Review extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
