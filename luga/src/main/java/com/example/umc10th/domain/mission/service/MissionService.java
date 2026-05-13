@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.mission.service;
 
+import com.example.umc10th.domain.mission.converter.MissionConverter;
 import com.example.umc10th.domain.mission.dto.MissionResDto;
 import com.example.umc10th.domain.mission.entity.mapping.UserMission;
 import com.example.umc10th.domain.mission.enums.MissionStatus;
@@ -12,7 +13,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,19 +31,7 @@ public class MissionService {
         Slice<UserMission> slice = userMissionRepository.findByUserAndStatus(
                 user, missionStatus, PageRequest.of(page, size));
 
-        List<MissionResDto.MissionDto> missions = slice.getContent().stream()
-                .map(um -> MissionResDto.MissionDto.builder()
-                        .missionId(um.getMission().getId())
-                        .title(um.getMission().getBody())
-                        .point(um.getMission().getAward())
-                        .status(um.getStatus())
-                        .build())
-                .toList();
-
-        return MissionResDto.MissionListResDto.builder()
-                .missions(missions)
-                .hasNext(slice.hasNext())
-                .build();
+        return MissionConverter.toMissionListResDto(slice);
     }
 
     @Transactional
@@ -51,9 +39,7 @@ public class MissionService {
         UserMission userMission = userMissionRepository.findById(userMissionId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 미션입니다."));
         userMission.complete();
-        return MissionResDto.MissionSuccessResDto.builder()
-                .missionId(userMission.getMission().getId())
-                .completedAt(userMission.getCompletedAt())
-                .build();
+
+        return MissionConverter.toMissionSuccessResDto(userMission);
     }
 }
