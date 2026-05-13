@@ -4,6 +4,8 @@ import com.umc.umc10th.kaka.domain.home.converter.HomeConverter;
 import com.umc.umc10th.kaka.domain.home.dto.HomeMyDataResDTO;
 import com.umc.umc10th.kaka.domain.home.dto.HomeRegionMissionResDTO;
 import com.umc.umc10th.kaka.domain.member.entity.Member;
+import com.umc.umc10th.kaka.domain.member.exception.MemberException;
+import com.umc.umc10th.kaka.domain.member.exception.code.MemberErrorCode;
 import com.umc.umc10th.kaka.domain.member.repository.MemberRepository;
 import com.umc.umc10th.kaka.domain.mission.entity.Mission;
 import com.umc.umc10th.kaka.domain.mission.repository.MissionRepository;
@@ -39,7 +41,7 @@ public class HomeService {
     public HomeMyDataResDTO.MyDataRes getMyData(String token) {
         Long memberId = Long.parseLong(token); // 임시 (나중에 JWT)
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("멤버 없음")); // TODO: MemberException으로 교체
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         return HomeConverter.toMyData(member);
     }
 }
