@@ -24,6 +24,7 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final MarketRepository marketRepository;
 
+    @Transactional
     public ReviewResDTO.CreateReviewDTO createReview(
             Long memberId,
             Long marketId,
