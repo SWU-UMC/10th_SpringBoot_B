@@ -7,6 +7,8 @@ import com.example.umc10th.domain.mission.enums.MissionStatus;
 import com.example.umc10th.domain.mission.repository.UserMissionRepository;
 import com.example.umc10th.domain.user.entity.User;
 import com.example.umc10th.domain.user.repository.UserRepository;
+import com.example.umc10th.global.apiPayload.code.status.ErrorStatus;
+import com.example.umc10th.global.apiPayload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -25,7 +27,7 @@ public class MissionService {
     public MissionResDto.MissionListResDto getMissions(String status, int page, int size) {
         // 임시로 userId=1L 사용
         User user = userRepository.findById(1L)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
 
         MissionStatus missionStatus = MissionStatus.valueOf(status);
         Slice<UserMission> slice = userMissionRepository.findByUserAndStatus(
@@ -37,7 +39,7 @@ public class MissionService {
     @Transactional
     public MissionResDto.MissionSuccessResDto completeMission(Long userMissionId) {
         UserMission userMission = userMissionRepository.findById(userMissionId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 미션입니다."));
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MISSION_NOT_FOUND));
         userMission.complete();
 
         return MissionConverter.toMissionSuccessResDto(userMission);
