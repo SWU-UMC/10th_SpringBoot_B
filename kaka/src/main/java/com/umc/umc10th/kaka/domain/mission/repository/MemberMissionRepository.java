@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import java.util.List;
 
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
@@ -16,7 +17,7 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             "WHERE mm.member.id = :memberId " +
             "AND mm.status IN :statuses " +
             "ORDER BY mm.id DESC")
-    List<MemberMission> findByMemberIdAndStatusIn(
+    Slice<MemberMission> findByMemberIdAndStatusIn(
             @Param("memberId") Long memberId,
             @Param("statuses") List<MissionStatus> statuses,
             Pageable pageable

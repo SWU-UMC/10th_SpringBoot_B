@@ -8,9 +8,11 @@ import com.umc.umc10th.kaka.domain.mission.entity.mapping.MemberMission;
 import com.umc.umc10th.kaka.domain.mission.enums.MissionStatus;
 import com.umc.umc10th.kaka.domain.mission.exception.MissionException;
 import com.umc.umc10th.kaka.domain.mission.exception.code.MissionErrorCode;
+import com.umc.umc10th.kaka.domain.mission.exception.code.MissionSuccessCode;
 import com.umc.umc10th.kaka.domain.mission.repository.MemberMissionRepository;
 import com.umc.umc10th.kaka.domain.mission.repository.MissionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
@@ -35,20 +37,30 @@ public class MissionService {
         );
 
         Pageable pageable = PageRequest.of(page, size);
-        List<MemberMission> missions = memberMissionRepository
+        Slice<MemberMission> missions = memberMissionRepository
                 .findByMemberIdAndStatusIn(memberId, statuses, pageable);
 
-        boolean hasNext = missions.size() == size;
-        return MissionConverter.toMissionPage(missions, page, size, hasNext);
+        return MissionConverter.toMissionPage(
+                missions.getContent(),
+                page,
+                size,
+                missions.hasNext()
+        );
     }
 
     // 미션 완료
-    @Transactional //나중에 DB 연결
+    @Transactional
     public MissionResDTO.CompleteMissionRes completeMission(
             MissionReqDTO.CompleteMissionReq dto
     ) {
         Mission mission = missionRepository.findById(dto.missionId())
                 .orElseThrow(() -> new MissionException(MissionErrorCode.MISSION_NOT_FOUND));
-        return MissionConverter.toCompleteMission(mission, "미션이 정상적으로 완료되었습니다.");
+
+        memberMissionRepository.save(MissionConverter.toMemberMission(mission)); // ✅ 저장 추가
+
+        return MissionConverter.toCompleteMission(
+                mission,
+                MissionSuccessCode.OK.getMessage()
+        );
     }
 }

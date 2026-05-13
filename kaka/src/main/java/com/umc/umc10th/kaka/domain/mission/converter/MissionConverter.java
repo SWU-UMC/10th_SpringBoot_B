@@ -3,6 +3,8 @@ package com.umc.umc10th.kaka.domain.mission.converter;
 import com.umc.umc10th.kaka.domain.mission.dto.MissionResDTO;
 import com.umc.umc10th.kaka.domain.mission.entity.Mission;
 import com.umc.umc10th.kaka.domain.mission.entity.mapping.MemberMission;
+import com.umc.umc10th.kaka.domain.mission.enums.MissionStatus;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +38,13 @@ public class MissionConverter {
                 mission.getId(),
                 message
         );
+    }
+
+    public static MemberMission toMemberMission(Mission mission) {
+        return MemberMission.builder()
+                .mission(mission)
+                .status(MissionStatus.COMPLETE)
+                .build();
     }
 
 }
