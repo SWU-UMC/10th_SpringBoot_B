@@ -8,6 +8,7 @@ import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.dto.PageResponseDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class MissionController {
     @PostMapping("/store/{marketId}/missions")
     public ApiResponse<Void> createMission(
             @PathVariable Long marketId,
-            @RequestBody MissionReqDTO.CreateMission dto
+            @RequestBody @Valid MissionReqDTO.CreateMission dto
     ){
         missionService.createMission(marketId, dto);
 

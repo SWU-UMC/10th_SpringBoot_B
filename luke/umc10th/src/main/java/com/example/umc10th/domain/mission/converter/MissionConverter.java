@@ -18,7 +18,7 @@ public class MissionConverter {
                 .content(dto.content())
                 .point(dto.point())
                 .endDate(dto.deadline().atStartOfDay())
-                .missionStatus(dto.status())
+                .missionStatus(MissionStatus.IN_PROGRESS)
                 .build();
     }
 
