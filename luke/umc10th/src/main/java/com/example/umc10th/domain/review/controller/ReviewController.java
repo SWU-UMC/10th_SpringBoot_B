@@ -34,7 +34,8 @@ public class ReviewController {
 
             @RequestParam Long memberId,
             @RequestParam(required = false) Long cursor,
-            @RequestParam(defaultValue = "5") Integer size
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "id") String sort
 
     ){
 
@@ -42,7 +43,8 @@ public class ReviewController {
                 reviewService.getMyReviews(
                         memberId,
                         cursor,
-                        size
+                        size,
+                        sort
                 )
         );
     }

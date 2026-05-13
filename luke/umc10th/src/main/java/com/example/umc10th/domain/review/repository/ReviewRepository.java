@@ -18,4 +18,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             Pageable pageable
     );
 
+    Slice<Review> findByMemberIdAndStarsLessThanOrderByStarsDescIdDesc(
+            Long memberId,
+            Integer stars,
+            Pageable pageable
+    );
+
 }

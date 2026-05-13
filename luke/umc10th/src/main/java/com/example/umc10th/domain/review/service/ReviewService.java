@@ -59,32 +59,47 @@ public class ReviewService {
     getMyReviews(
             Long memberId,
             Long cursor,
-            Integer size
+            Integer size,
+            String sort
     ){
 
         Pageable pageable = PageRequest.of(0, size);
 
         Slice<Review> reviewSlice;
 
-        if(cursor == null){
+        if(sort.equals("stars")){
+
+            Integer starCursor =
+                    cursor == null
+                            ? Integer.MAX_VALUE
+                            : cursor.intValue();
 
             reviewSlice =
                     reviewRepository
-                            .findByMemberIdOrderByIdDesc(
+                            .findByMemberIdAndStarsLessThanOrderByStarsDescIdDesc(
                                     memberId,
+                                    starCursor,
                                     pageable
                             );
 
-        } else {
+        }
+
+        else {
+
+            Long idCursor =
+                    cursor == null
+                            ? Long.MAX_VALUE
+                            : cursor;
 
             reviewSlice =
                     reviewRepository
                             .findByMemberIdAndIdLessThanOrderByIdDesc(
                                     memberId,
-                                    cursor,
+                                    idCursor,
                                     pageable
                             );
         }
+
 
         return reviewSlice.map(
                 ReviewConverter::toMyReviewPreviewDTO
