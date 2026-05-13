@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -19,6 +20,15 @@ public class MissionResponse {
     private String region;       // 지역명
     private int reward;          // 보상 포인트
     private String status;       // OPEN / IN_PROGRESS / COMPLETED
-    private LocalDateTime deadline;
-    private LocalDateTime createdAt;
+    private LocalDate deadline;
+    private LocalDate createdAt;
+
+    // 가게 내 미션 조회
+    @Builder
+    public record GetMission(
+            Long missionId,
+            Integer reward,
+            String conditional,
+            LocalDate deadline
+    ) {}
 }

@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface MissionRepository extends JpaRepository<Mission, Long> {
 
     @Query("""
@@ -19,4 +21,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             @Param("locationId") Long locationId,
             Pageable pageable
     );
+
+    List<Mission> findAllByStore_Id(Long storeId);
 }

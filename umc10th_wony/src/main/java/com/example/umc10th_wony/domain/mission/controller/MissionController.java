@@ -1,10 +1,6 @@
 package com.example.umc10th_wony.domain.mission.controller;
 
-import com.example.umc10th_wony.domain.mission.dto.MissionCompleteRequest;
-import com.example.umc10th_wony.domain.mission.dto.ReviewCreateRequest;
-import com.example.umc10th_wony.domain.mission.dto.MissionResponse;
-import com.example.umc10th_wony.domain.mission.dto.MissionCompleteResponse;
-import com.example.umc10th_wony.domain.mission.dto.ReviewResponse;
+import com.example.umc10th_wony.domain.mission.dto.*;
 
 import com.example.umc10th_wony.global.apiPayload.ApiResponse;
 import com.example.umc10th_wony.domain.mission.exception.code.MissionSuccessCode;
@@ -79,5 +75,41 @@ public class MissionController {
                 .rating(request.getRating()).content(request.getContent()).build();
         return ResponseEntity.status(201)
                 .body(ApiResponse.onSuccess(MissionSuccessCode.REVIEW_CREATED, result));
+    }
+
+    // 5. 가게 미션 생성
+    @Operation(summary = "가게 미션 생성", description = "특정 가게에 미션을 생성합니다.")
+    @PostMapping("/v1/stores/{storeId}/missions")
+    public ResponseEntity<ApiResponse<Void>> createMission(
+            @Parameter(description = "가게 ID") @PathVariable Long storeId,
+            @Valid @RequestBody MissionCreateRequest request
+    ) {
+        // TODO: missionService.createMission(storeId, request)
+
+        return ResponseEntity.ok(
+                ApiResponse.onSuccess(MissionSuccessCode.MISSION_CREATED, null)
+        );
+    }
+
+    // 6. 가게 내 미션 조회
+    @Operation(summary = "가게 내 미션 조회", description = "특정 가게의 미션 목록을 조회합니다.")
+    @GetMapping("/v1/stores/{storeId}/missions")
+    public ResponseEntity<ApiResponse<List<MissionResponse>>> getStoreMissions(
+            @Parameter(description = "가게 ID") @PathVariable Long storeId
+    ) {
+        // TODO: missionService.getStoreMissions(storeId)
+
+        List<MissionResponse> result = List.of(MissionResponse.builder()
+                .missionId(1L)
+                .missionTitle("가게 미션 예시")
+                .description("미션 설명")
+                .region("공릉동")
+                .reward(1000)
+                .status("OPEN")
+                .build());
+
+        return ResponseEntity.ok(
+                ApiResponse.onSuccess(MissionSuccessCode.STORE_MISSION_LIST_FOUND, result)
+        );
     }
 }

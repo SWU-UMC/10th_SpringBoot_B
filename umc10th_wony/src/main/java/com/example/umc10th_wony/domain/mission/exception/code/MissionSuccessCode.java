@@ -11,7 +11,10 @@ public enum MissionSuccessCode implements BaseSuccessCode {
 
     MISSION_LIST_FOUND(HttpStatus.OK,    "MISSION200_1", "미션 목록 조회에 성공했습니다."),
     MISSION_COMPLETED(HttpStatus.OK,     "MISSION200_2", "미션이 완료 처리되었습니다."),
-    REVIEW_CREATED(HttpStatus.CREATED,   "MISSION201_1", "리뷰가 성공적으로 작성되었습니다.");
+    MISSION_CREATED(HttpStatus.OK, "MISSION200_3", "미션 생성에 성공했습니다."),
+
+    STORE_MISSION_LIST_FOUND(HttpStatus.OK, "MISSION200_4", "가게 미션 조회에 성공했습니다."),
+    REVIEW_CREATED(HttpStatus.CREATED,   "MISSION201_1", "리뷰 작성에 성공했습니다.");
 
     private final HttpStatus status;
     private final String code;

@@ -3,6 +3,8 @@ package com.example.umc10th_wony.domain.mission.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,6 +21,15 @@ public class Mission {
 
     @Column(nullable = false)
     private Integer reward;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private String conditional;
+
+    @Column(nullable = false)
+    private LocalDate deadline;
 
     // 어떤 가게 미션인지
     @ManyToOne(fetch = FetchType.LAZY)
