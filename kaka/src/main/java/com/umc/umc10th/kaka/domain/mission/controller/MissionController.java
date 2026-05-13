@@ -6,6 +6,7 @@ import com.umc.umc10th.kaka.domain.mission.exception.code.MissionSuccessCode;
 import com.umc.umc10th.kaka.domain.mission.service.MissionService;
 import com.umc.umc10th.kaka.global.apiPayLoad.ApiResponse;
 import com.umc.umc10th.kaka.global.apiPayLoad.code.BaseSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +45,14 @@ public class MissionController {
     ) {
         BaseSuccessCode code = MissionSuccessCode.OK;
         return ApiResponse.onSuccess(code, missionService.completeMission(dto));
+    }
+
+    // 내가 진행중인 미션 조회
+    @PostMapping("/missions/my")
+    public ApiResponse<MissionResDTO.MyMissionPage> getMyMissions(
+            @RequestBody @Valid MissionReqDTO.GetMyMissionsReq req
+    ) {
+        BaseSuccessCode code = MissionSuccessCode.OK;
+        return ApiResponse.onSuccess(code, missionService.getMyMissions(req));
     }
 }

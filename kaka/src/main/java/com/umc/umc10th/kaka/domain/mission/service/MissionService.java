@@ -4,6 +4,8 @@ import com.umc.umc10th.kaka.domain.mission.converter.MissionConverter;
 import com.umc.umc10th.kaka.domain.mission.dto.MissionReqDTO;
 import com.umc.umc10th.kaka.domain.mission.dto.MissionResDTO;
 import com.umc.umc10th.kaka.domain.mission.entity.Mission;
+import com.umc.umc10th.kaka.domain.mission.entity.mapping.MemberMission;
+import com.umc.umc10th.kaka.domain.mission.enums.MissionStatus;
 import com.umc.umc10th.kaka.domain.mission.exception.MissionException;
 import com.umc.umc10th.kaka.domain.mission.exception.code.MissionErrorCode;
 import com.umc.umc10th.kaka.domain.mission.exception.code.MissionSuccessCode;
@@ -15,9 +17,12 @@ import com.umc.umc10th.kaka.domain.store.exception.code.StoreErrorCode;
 import com.umc.umc10th.kaka.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -103,5 +108,19 @@ public class MissionService {
                 mission,
                 MissionSuccessCode.OK.getMessage()
         );
+    }
+
+    // 내가 진행중인 미션 조회
+    public MissionResDTO.MyMissionPage getMyMissions(MissionReqDTO.GetMyMissionsReq req) {
+        List<MissionStatus> statuses = List.of(
+                MissionStatus.CHALLENGING,
+                MissionStatus.COMPLETE
+        );
+
+        Pageable pageable = PageRequest.of(req.page(), req.size());
+        Slice<MemberMission> result = memberMissionRepository
+                .findByMemberIdAndStatusIn(req.memberId(), statuses, pageable);
+
+        return MissionConverter.toMyMissionPage(result, req.page(), req.size());
     }
 }

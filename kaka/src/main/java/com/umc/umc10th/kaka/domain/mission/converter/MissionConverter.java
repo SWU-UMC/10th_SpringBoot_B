@@ -6,15 +6,15 @@ import com.umc.umc10th.kaka.domain.mission.entity.Mission;
 import com.umc.umc10th.kaka.domain.mission.entity.mapping.MemberMission;
 import com.umc.umc10th.kaka.domain.mission.enums.MissionStatus;
 import com.umc.umc10th.kaka.domain.store.entity.Store;
-
+import org.springframework.data.domain.Slice;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class MissionConverter {
 
-    public static MissionResDTO.MissionList toMissionList(MemberMission memberMission) {
+    public static MissionResDTO.MyMissionList toMyMissionList(MemberMission memberMission) {
         Mission mission = memberMission.getMission();
-        return new MissionResDTO.MissionList(
+        return new MissionResDTO.MyMissionList(
                 mission.getId(),
                 mission.getStore().getName(),
                 mission.getPoint(),
@@ -22,16 +22,16 @@ public class MissionConverter {
         );
     }
 
-    public static MissionResDTO.MissionPage toMissionPage(
-            List<MemberMission> memberMissions, int page, int size, boolean hasNext
+    public static MissionResDTO.MyMissionPage toMyMissionPage(
+            Slice<MemberMission> slice, int page, int size
     ) {
-        return new MissionResDTO.MissionPage(
-                memberMissions.stream()
-                        .map(MissionConverter::toMissionList)
-                        .collect(Collectors.toList()),
+        return new MissionResDTO.MyMissionPage(
+                slice.getContent().stream()
+                        .map(MissionConverter::toMyMissionList)
+                        .toList(),
                 page,
                 size,
-                hasNext
+                slice.hasNext()
         );
     }
 

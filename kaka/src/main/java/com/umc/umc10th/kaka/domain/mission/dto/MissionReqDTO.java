@@ -26,6 +26,17 @@ public class MissionReqDTO {
             @NotBlank(message = "미션 조건은 필수입니다.")
             @Size(max = 255, message = "미션 조건은 255자 이하여야 합니다.")
             String conditional
-    ) {
-    }
+    ) { }
+
+    // 사용자 ID 받는 dto
+    public record GetMyMissionsReq(
+            @NotNull(message = "사용자 ID는 필수입니다.")
+            Long memberId,
+
+            @NotNull(message = "페이지 번호는 필수입니다.")
+            Integer page,
+
+            @NotNull(message = "페이지 사이즈는 필수입니다.")
+            Integer size
+    ) {}
 }

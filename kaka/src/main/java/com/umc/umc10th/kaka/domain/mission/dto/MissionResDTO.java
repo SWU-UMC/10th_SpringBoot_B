@@ -54,4 +54,19 @@ public class MissionResDTO {
             String conditional
     ) {
     }
+
+    // 진행중 미션 응답 DTO 추가
+    public record MyMissionList(
+            Long missionId,
+            String storeName,
+            Integer point,
+            MissionStatus status
+    ) {}
+
+    public record MyMissionPage(
+            List<MyMissionList> content,
+            int page,
+            int size,
+            boolean hasNext
+    ) {}
 }
