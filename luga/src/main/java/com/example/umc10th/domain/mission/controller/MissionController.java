@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.mission.controller;
 
+import com.example.umc10th.domain.mission.dto.MissionReqDto;
 import com.example.umc10th.domain.mission.dto.MissionResDto;
 import com.example.umc10th.domain.mission.service.MissionService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -51,5 +53,18 @@ public class MissionController {
             @PathVariable Long missionId) {
 
         return ApiResponse.onSuccess(missionService.completeMission(userId, missionId));
+    }
+
+    @Operation(
+            summary = "진행 중인 미션 조회",
+            description = "진행 중인 미션 목록 조회 (오프셋 페이지네이션)",
+            parameters = @Parameter(name = "page", description = "페이지 번호 (0부터)", example = "0")
+    )
+    @PostMapping("/my")
+    public ApiResponse<Page<MissionResDto.MissionProgressDto>> getMyMissions(
+            @RequestBody MissionReqDto.MyMissionReqDto request,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ApiResponse.onSuccess(missionService.getMyMissions(request.userId(), page, size));
     }
 }

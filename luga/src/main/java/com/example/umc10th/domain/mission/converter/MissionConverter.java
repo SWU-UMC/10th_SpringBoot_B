@@ -14,7 +14,17 @@ public class MissionConverter {
                 userMission.getMission().getId(),
                 userMission.getMission().getBody(),
                 userMission.getMission().getAward(),
-                userMission.getStatus()
+                userMission.getMission().getDDay()
+        );
+    }
+
+    // 진행 중인 미션 조회용
+    public static MissionResDto.MissionProgressDto toMissionProgressDto(UserMission userMission) {
+        return new MissionResDto.MissionProgressDto(
+                userMission.getMission().getId(),
+                userMission.getMission().getBody(),
+                Integer.parseInt(userMission.getMission().getAward()),  // String → Integer
+                userMission.getMission().getDDay()
         );
     }
 

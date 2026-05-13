@@ -12,6 +12,7 @@ import com.example.umc10th.domain.user.repository.UserRepository;
 import com.example.umc10th.global.apiPayload.exception.GeneralException;
 import com.example.umc10th.global.dto.CursorPageResDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ public class MissionService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
+
         MissionStatus missionStatus;
 
         try{
@@ -50,6 +52,19 @@ public class MissionService {
                 slice.getNumber(),
                 slice.hasNext()
         );
+    }
+
+    // 진행 중인 미션 조회 - Page
+    @Transactional(readOnly = true)
+    public Page<MissionResDto.MissionProgressDto> getMyMissions(Long userId, int page, int size) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
+
+        Page<UserMission> userMissions = userMissionRepository.findPageByUserAndStatus(
+                user, MissionStatus.IN_PROGRESS, PageRequest.of(page, size));
+
+        return userMissions.map(MissionConverter::toMissionProgressDto);
     }
 
     @Transactional

@@ -13,11 +13,18 @@ public class MissionResDto {
 
     public record MissionDto (
         Long missionId,
-        String title,
+        String content,
         String point,
-        MissionStatus status
+        LocalDateTime endDate
     ) {}
 
+    // 진행 중인 미션 조회용
+    public record MissionProgressDto(
+            Long missionId,
+            String content,
+            Integer point,
+            LocalDateTime endDate
+    ) {}
 
     // 성공 처리 결과
     public record MissionSuccessResDto (
@@ -26,7 +33,7 @@ public class MissionResDto {
     ) {}
 
     // 미션 생성 결과
-    public record CreateMissionResDto(
+    public record CreateMissionResDto (
             Long missionId,
             LocalDateTime createdAt
     ) {}

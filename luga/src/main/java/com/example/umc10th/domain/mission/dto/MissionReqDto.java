@@ -20,8 +20,7 @@ public class MissionReqDto {
             Long missionId
     ) {}
 
-    // 진행 중인 미션 조회
-    public record InProgressMissionReqDto(
+    public record MyMissionReqDto(
             @NotNull(message = "사용자 Id는 필수!")
             Long userId
     ) {}
