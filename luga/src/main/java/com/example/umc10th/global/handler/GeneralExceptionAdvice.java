@@ -4,12 +4,16 @@ import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseErrorCode;
 import com.example.umc10th.global.apiPayload.code.status.ErrorStatus;
 import com.example.umc10th.global.apiPayload.exception.GeneralException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GeneralExceptionAdvice {
@@ -59,5 +63,21 @@ public class GeneralExceptionAdvice {
         return ResponseEntity
                 .status(code.getStatus())
                 .body(ApiResponse.onFailure(code, e.getMessage()));
+    }
+
+    // Valid 검증 실패 시 처리
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<String>> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
+
+        // 첫 번째 에러 메시지 추출
+        String errorMessage = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                .collect(Collectors.joining(", "));
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.onFailure(ErrorStatus.BAD_REQUEST, errorMessage));
     }
 }

@@ -9,6 +9,7 @@ import com.example.umc10th.global.dto.CursorPageResDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class ReviewController {
     public ApiResponse<ReviewResDto.CreateReviewResDto> createReview(
             @PathVariable Long restaurantId,
             @PathVariable Long userId,
-            @RequestBody ReviewReqDto.CreateReviewReqDto request) {
+            @RequestBody @Valid ReviewReqDto.CreateReviewReqDto request) {
         return ApiResponse.onSuccess(SuccessStatus.CREATED, reviewService.createReview(restaurantId, userId, request));
     }
 

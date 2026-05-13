@@ -7,6 +7,7 @@ import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.status.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class UserController {
     @Operation(summary = "회원가입", description = "이름, 이메일, 전화번호, 주소로 회원가입")
     @PostMapping("/signup")
     public ApiResponse<UserResDto.SignupResDto> signup(
-            @RequestBody UserReqDto.SignupReqDto request) {
+            @RequestBody @Valid UserReqDto.SignupReqDto request) {
         return ApiResponse.onSuccess(SuccessStatus.CREATED, userService.signup(request));
     }
 

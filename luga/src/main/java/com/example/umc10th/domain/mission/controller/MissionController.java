@@ -8,6 +8,7 @@ import com.example.umc10th.global.dto.CursorPageResDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -62,7 +63,7 @@ public class MissionController {
     )
     @PostMapping("/my")
     public ApiResponse<Page<MissionResDto.MissionProgressDto>> getMyMissions(
-            @RequestBody MissionReqDto.MyMissionReqDto request,
+            @RequestBody @Valid MissionReqDto.MyMissionReqDto request,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ApiResponse.onSuccess(missionService.getMyMissions(request.userId(), page, size));
