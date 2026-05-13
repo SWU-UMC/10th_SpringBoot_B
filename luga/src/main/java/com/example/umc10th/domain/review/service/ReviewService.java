@@ -7,13 +7,17 @@ import com.example.umc10th.domain.review.converter.ReviewConverter;
 import com.example.umc10th.domain.review.dto.ReviewReqDto;
 import com.example.umc10th.domain.review.dto.ReviewResDto;
 import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
 import com.example.umc10th.domain.user.entity.User;
 import com.example.umc10th.domain.user.exception.code.UserErrorCode;
 import com.example.umc10th.domain.user.repository.UserRepository;
 import com.example.umc10th.global.apiPayload.code.status.ErrorStatus;
 import com.example.umc10th.global.apiPayload.exception.GeneralException;
+import com.example.umc10th.global.dto.CursorPageResDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,5 +50,31 @@ public class ReviewService {
         Review saved = reviewRepository.save(review);
 
         return ReviewConverter.toCreateReviewResDto(reviewRepository.save(review));
+    }
+
+    @Transactional(readOnly = true)
+    public CursorPageResDto<ReviewResDto.ReviewDto> getMyReviews(
+            Long userId, String sort, Long cursorId, Integer cursorGrade, int size) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
+
+        Slice<Review> slice;
+
+        switch (sort.toLowerCase()) {
+            case "id" -> slice = reviewRepository.findByUserOrderById(
+                    user,
+                    cursorId,
+                    PageRequest.of(0, size)
+            );
+            case "stars" -> slice = reviewRepository.findByUserOrderByGrade(
+                    user,
+                    cursorGrade,
+                    PageRequest.of(0, size)
+            );
+            default -> throw new GeneralException(ReviewErrorCode.INVALID_SORT_TYPE);
+        }
+
+        return ReviewConverter.toReviewListResDto(slice);
     }
 }

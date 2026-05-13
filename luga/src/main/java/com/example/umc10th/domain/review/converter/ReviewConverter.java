@@ -19,12 +19,9 @@ public class ReviewConverter {
     public static ReviewResDto.ReviewDto toReviewDto(Review review) {
         return new ReviewResDto.ReviewDto(
                 review.getId(),
-                review.getUser().getId(),
-                review.getRestaurant().getId(),
-                review.getRegion().getId(),
-                review.getBody(),
                 review.getGrade(),
-                review.getDate()
+                review.getBody(),
+                review.getRestaurant().getName()
         );
     }
 

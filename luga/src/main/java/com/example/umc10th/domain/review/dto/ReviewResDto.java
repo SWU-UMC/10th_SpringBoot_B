@@ -12,11 +12,8 @@ public class ReviewResDto {
 
     public record ReviewDto(
             Long reviewId,
-            Long userId,
-            Long restaurantId,
-            Long regionId,
-            String body,
-            Integer grade,
-            LocalDate date
+            Integer stars,
+            String content,
+            String restaurantName
     ) {}
 }
