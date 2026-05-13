@@ -1,5 +1,6 @@
 package com.umc.umc10th.kaka.domain.mission.entity;
 
+import com.umc.umc10th.kaka.domain.store.entity.Store;
 import com.umc.umc10th.kaka.global.apiPayLoad.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

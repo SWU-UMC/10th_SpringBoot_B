@@ -1,4 +1,4 @@
-package com.umc.umc10th.kaka.domain.mission.entity;
+package com.umc.umc10th.kaka.domain.store.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

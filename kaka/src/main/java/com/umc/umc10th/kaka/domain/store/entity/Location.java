@@ -1,4 +1,4 @@
-package com.umc.umc10th.kaka.domain.mission.entity;
+package com.umc.umc10th.kaka.domain.store.entity;
 
 import com.umc.umc10th.kaka.domain.mission.enums.Address;
 import jakarta.persistence.*;

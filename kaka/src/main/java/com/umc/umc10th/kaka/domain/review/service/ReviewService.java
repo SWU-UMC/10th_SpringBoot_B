@@ -1,7 +1,9 @@
 package com.umc.umc10th.kaka.domain.review.service;
 
-import com.umc.umc10th.kaka.domain.mission.entity.Store;
-import com.umc.umc10th.kaka.domain.mission.repository.StoreRepository;
+import com.umc.umc10th.kaka.domain.store.entity.Store;
+import com.umc.umc10th.kaka.domain.store.exception.StoreException;
+import com.umc.umc10th.kaka.domain.store.exception.code.StoreErrorCode;
+import com.umc.umc10th.kaka.domain.store.repository.StoreRepository;
 import com.umc.umc10th.kaka.domain.review.converter.ReviewConverter;
 import com.umc.umc10th.kaka.domain.review.dto.ReviewReqDTO;
 import com.umc.umc10th.kaka.domain.review.dto.ReviewResDTO;
@@ -23,7 +25,8 @@ public class ReviewService {
             Long storeId,
             ReviewReqDTO.CreateReviewReq dto
     ) {
-        Store store = storeRepository.findById(storeId).get(); //추후 에러 핸들러 연결 현재는 단순 값 꺼내기
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
         Review review = ReviewConverter.toReview(store,dto);
         reviewRepository.save(review);
         return ReviewConverter.toCreateReview(review);
