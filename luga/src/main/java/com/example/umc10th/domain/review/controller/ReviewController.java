@@ -27,7 +27,7 @@ public class ReviewController {
             description = "식당 ID를 경로 변수로 받아 해당 식당에 리뷰 작성",
             parameters = @Parameter(name = "restaurantId", description = "리뷰를 작성할 식당의 Id", example = "1")
     )
-    @PostMapping("/{restaurantId}/reviews")
+    @PostMapping("/{restaurantId}/reviews/{userId}")
     public ApiResponse<ReviewResDto.CreateReviewResDto> createReview(
             @PathVariable Long restaurantId,
             @PathVariable Long userId,
