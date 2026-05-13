@@ -18,10 +18,6 @@ public class MissionResDto {
         MissionStatus status
     ) {}
 
-    public record MissionListResDto(
-            List<MissionDto> missions,
-            boolean hasNext
-    ) {}
 
     // 성공 처리 결과
     public record MissionSuccessResDto (

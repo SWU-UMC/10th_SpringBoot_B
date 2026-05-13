@@ -26,9 +26,10 @@ public class MissionService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public CursorPageResDto<MissionResDto.MissionDto> getMissions(Long userId, String status, int page, int size) {
-        // 임시로 userId=1L 사용
-        User user = userRepository.findById(1L)
+    public CursorPageResDto<MissionResDto.MissionDto> getMissions(
+            Long userId, String status, int page, int size) {
+
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
         MissionStatus missionStatus;
@@ -42,13 +43,19 @@ public class MissionService {
         Slice<UserMission> slice = userMissionRepository.findByUserAndStatus(
                 user, missionStatus, PageRequest.of(page, size));
 
-        return MissionConverter.toMissionListResDto(slice);
+        return CursorPageResDto.of(
+                slice.getContent().stream()
+                        .map(MissionConverter::toMissionDto)
+                        .toList(),
+                slice.getNumber(),
+                slice.hasNext()
+        );
     }
 
     @Transactional
     public MissionResDto.MissionSuccessResDto completeMission(Long userId, Long userMissionId) {
 
-        User user = userRepository.findById(1L)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
         UserMission userMission = userMissionRepository.findById(userMissionId)

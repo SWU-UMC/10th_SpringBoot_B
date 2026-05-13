@@ -30,4 +30,16 @@ public class UserService {
 
         return UserConverter.toSignupResDto(saved);
     }
+
+    @Transactional
+    public UserResDto.AddFoodPreferenceResDto addFoodPreference(
+            Long userId, UserReqDto.AddFoodPreferenceReqDto request) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
+
+        // 선호 음식 저장 로직 (FoodPreference 엔티티/레포지토리 연동 필요)
+
+        return UserConverter.toAddFoodPreferenceResDto(userId, request.foodTypes());
+    }
 }

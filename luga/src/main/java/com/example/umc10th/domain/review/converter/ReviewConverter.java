@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ReviewConverter {
 
-    public static ReviewResDto.CreateReviewResDto toCreateReivewResDto(Review review) {
+    public static ReviewResDto.CreateReviewResDto toCreateReviewResDto(Review review) {
         return new ReviewResDto.CreateReviewResDto(
                 review.getId(),
                 review.getDate()
@@ -33,6 +33,6 @@ public class ReviewConverter {
                 .map(ReviewConverter::toReviewDto)
                 .toList();
 
-        return CursorPageResDto.of(reviews, slice.hasNext());
+        return CursorPageResDto.of(reviews, slice.getNumber(), slice.hasNext());
     }
 }

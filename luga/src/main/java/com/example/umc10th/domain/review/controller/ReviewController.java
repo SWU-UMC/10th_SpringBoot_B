@@ -29,7 +29,8 @@ public class ReviewController {
     @PostMapping("/{restaurantId}/reviews")
     public ApiResponse<ReviewResDto.CreateReviewResDto> createReview(
             @PathVariable Long restaurantId,
+            @PathVariable Long userId,
             @RequestBody ReviewReqDto.CreateReviewReqDto request) {
-        return ApiResponse.onSuccess(SuccessStatus.CREATED, reviewService.createReview(restaurantId, request));
+        return ApiResponse.onSuccess(SuccessStatus.CREATED, reviewService.createReview(restaurantId, userId, request));
     }
 }

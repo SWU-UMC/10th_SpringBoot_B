@@ -27,23 +27,24 @@ public class ReviewService {
 
     @Transactional
     public ReviewResDto.CreateReviewResDto createReview(Long restaurantId,
+                                                        Long userId,
                                                         ReviewReqDto.CreateReviewReqDto request) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new GeneralException(RestaurantErrorCode.RESTAURANT_NOT_FOUND));
 
         // 임시로 userId=1L 사용 (추후 인증 연동 시 변경)
-        User user = userRepository.findById(1L)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
         Review review = Review.builder()
-                .body(request.content())
-                .grade(request.rating())
+                .body(request.body())
+                .grade(request.grade())
                 .restaurant(restaurant)
                 .user(user)
                 .build();
 
         Review saved = reviewRepository.save(review);
 
-        return ReviewConverter.toCreateReivewResDto(saved);
+        return ReviewConverter.toCreateReviewResDto(reviewRepository.save(review));
     }
 }

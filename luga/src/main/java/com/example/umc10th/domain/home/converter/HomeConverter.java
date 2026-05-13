@@ -25,7 +25,7 @@ public class HomeConverter {
                 .map(HomeConverter::toMissionDto)
                 .toList();
 
-        return new HomeResDto.RegionMissionResDto(regionName, CursorPageResDto.of(missions, slice.hasNext()));
+        return new HomeResDto.RegionMissionResDto(regionName, CursorPageResDto.of(missions, slice.getNumber(), slice.hasNext()));
     }
 
     private static MissionResDto.MissionDto toMissionDto(Mission mission) {

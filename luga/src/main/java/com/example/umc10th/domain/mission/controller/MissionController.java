@@ -30,14 +30,13 @@ public class MissionController {
                     @Parameter(name = "size", description = "페이지 크기", example = "10")
             }
     )
-    @GetMapping
+    @GetMapping("/{userId}")
     public ApiResponse<CursorPageResDto<MissionResDto.MissionDto>> getMissions(
+            @PathVariable Long userId,
             @RequestParam(defaultValue = "IN_PROGRESS") String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        // 임시 userId
-        Long userId = 1L;
         return ApiResponse.onSuccess(missionService.getMissions(userId, status, page, size));
     }
 
@@ -46,11 +45,10 @@ public class MissionController {
             description = "미션 ID를 경로 변수로 받아 해당 미션 성공 처리 진행",
             parameters = @Parameter(name = "missionId", description = "성공 처리할 미션 ID", example = "1")
     )
-    @PostMapping("/{missionId}/success")
+    @PostMapping("/{userId}/{missionId}/success")
     public ApiResponse<MissionResDto.MissionSuccessResDto> completeMission(
+            @PathVariable Long userId,
             @PathVariable Long missionId) {
-        // 임시 userId
-        Long userId = 1L;
 
         return ApiResponse.onSuccess(missionService.completeMission(userId, missionId));
     }

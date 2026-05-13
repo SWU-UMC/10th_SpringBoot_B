@@ -18,15 +18,6 @@ public class MissionConverter {
         );
     }
 
-    // 공통 페이징 Dto 적용
-    public static CursorPageResDto<MissionResDto.MissionDto> toMissionListResDto(Slice<UserMission> slice) {
-        List<MissionResDto.MissionDto> missions = slice.getContent().stream()
-                .map(MissionConverter::toMissionDto)
-                .toList();
-
-        return CursorPageResDto.of(missions, slice.hasNext());
-    }
-
     public static MissionResDto.MissionSuccessResDto toMissionSuccessResDto(UserMission userMission) {
         return new MissionResDto.MissionSuccessResDto(
                 userMission.getMission().getId(),

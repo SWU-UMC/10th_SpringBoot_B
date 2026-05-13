@@ -8,10 +8,7 @@ import com.example.umc10th.global.apiPayload.code.status.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -28,5 +25,14 @@ public class UserController {
     public ApiResponse<UserResDto.SignupResDto> signup(
             @RequestBody UserReqDto.SignupReqDto request) {
         return ApiResponse.onSuccess(SuccessStatus.CREATED, userService.signup(request));
+    }
+
+    @Operation(summary = "선호 음식 등록", description = "유저 ID와 선호 음식 타입 목록으로 선호 음식 등록")
+    @PostMapping("/{userId}/food-preferences")
+    public ApiResponse<UserResDto.AddFoodPreferenceResDto> addFoodPreference(
+            @PathVariable Long userId,
+            @RequestBody UserReqDto.AddFoodPreferenceReqDto request) {
+        return ApiResponse.onSuccess(SuccessStatus.CREATED,
+                userService.addFoodPreference(userId, request));
     }
 }
