@@ -110,11 +110,12 @@ public class MissionService {
     public Page<ParticipateResDTO.MyMissionPreviewDTO>
     getMyMissions(
             Long memberId,
-            Integer page
+            Integer page,
+            Integer size
     ){
 
         PageRequest pageRequest =
-                PageRequest.of(page, 3);
+                PageRequest.of(page, size);
 
         Page<Participate> participatePage =
                 participateRepository
