@@ -1,0 +1,118 @@
+package com.example.umc10th.domain.mission.controller;
+
+import com.example.umc10th.domain.mission.dto.MissionReqDTO;
+import com.example.umc10th.domain.mission.dto.MissionResDTO;
+import com.example.umc10th.domain.mission.dto.ParticipateReqDTO;
+import com.example.umc10th.domain.mission.dto.ParticipateResDTO;
+import com.example.umc10th.domain.mission.enums.ParticipatedStatus;
+import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
+import com.example.umc10th.domain.mission.service.MissionService;
+import com.example.umc10th.global.apiPayload.ApiResponse;
+import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
+import com.example.umc10th.global.apiPayload.dto.PageResponseDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/mission")
+@RequiredArgsConstructor
+@Validated
+public class MissionController {
+
+    private final MissionService missionService;
+
+    @PostMapping("/store/{marketId}/missions")
+    public ApiResponse<Void> createMission(
+            @PathVariable Long marketId,
+            @RequestBody @Valid MissionReqDTO.CreateMission dto
+    ){
+        missionService.createMission(marketId, dto);
+
+        return ApiResponse.onSuccess(null);
+    }
+
+
+    @GetMapping
+    public ApiResponse<PageResponseDTO<MissionResDTO.MissionDTO>> getMissionList(
+            @RequestParam(name = "memberId", required = false)
+            Long memberId,
+
+            @RequestParam(name = "status")
+            ParticipatedStatus status,
+
+            @Min(value = 0, message = "page는 0 이상이어야 합니다.")
+            @RequestParam(name = "page")
+            Integer page,
+
+            @Min(value = 1, message = "size는 1 이상이어야 합니다.")
+            @RequestParam(name = "size")
+            Integer size
+    ) {
+
+        return ApiResponse.onSuccess(
+                missionService.getMissionList(
+                        memberId,
+                        status,
+                        page,
+                        size
+                )
+        );
+    }
+
+    @PostMapping("/completed")
+    public ApiResponse<MissionResDTO.CompleteDTO> completeMission(
+            @RequestBody MissionReqDTO.CompleteDTO request
+    ) {
+
+        MissionResDTO.CompleteDTO response = new MissionResDTO.CompleteDTO();
+        response.missionId = request.missionId;
+        response.message = "미션이 정상적으로 완료되었습니다.";
+
+        return ApiResponse.onSuccess(response);
+    }
+
+    @GetMapping("/home")
+    public ApiResponse<PageResponseDTO<MissionResDTO.MissionDTO>> getHomeMissionList(
+            @RequestParam String regionName,
+            @RequestParam Integer page,
+            @RequestParam Integer size
+    ) {
+
+        return ApiResponse.onSuccess(
+                missionService.getHomeMissionList(
+                        regionName,
+                        page,
+                        size
+                )
+        );
+    }
+
+    @PostMapping("/my")
+    public ApiResponse<Page<ParticipateResDTO.MyMissionPreviewDTO>>
+    getMyMissions(
+
+            @RequestBody ParticipateReqDTO.MyMissionRequest request,
+
+            @RequestParam(defaultValue = "0")
+            @Min(value = 0, message = "page는 0 이상이어야 합니다.")
+            Integer page,
+
+            @RequestParam(defaultValue ="5")
+            @Min(value = 1, message = "size는 1 이상이어야 합니다.")
+            Integer size
+    ){
+
+        return ApiResponse.onSuccess(
+                missionService.getMyMissions(
+                        request.memberId(),
+                        page,
+                        size
+                )
+        );
+    }
+
+}
