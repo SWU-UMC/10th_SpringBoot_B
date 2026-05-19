@@ -34,16 +34,26 @@ public class ReviewController {
     getMyReviews(
 
             @RequestParam Long memberId,
-            @RequestParam(required = false) Long cursor,
-            @RequestParam(defaultValue = "5") Integer size,
-            @RequestParam(defaultValue = "ID") ReviewSortType sort
+
+            @RequestParam(required = false)
+            Long cursorId,
+
+            @RequestParam(required = false)
+            Integer cursorStars,
+
+            @RequestParam(defaultValue = "5")
+            Integer size,
+
+            @RequestParam(defaultValue = "ID")
+            ReviewSortType sort
 
     ){
 
         return ApiResponse.onSuccess(
                 reviewService.getMyReviews(
                         memberId,
-                        cursor,
+                        cursorId,
+                        cursorStars,
                         size,
                         sort
                 )

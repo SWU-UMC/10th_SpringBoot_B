@@ -59,7 +59,8 @@ public class ReviewService {
     public Slice<ReviewResDTO.MyReviewPreviewDTO>
     getMyReviews(
             Long memberId,
-            Long cursor,
+            Long cursorId,
+            Integer cursorStars,
             Integer size,
             ReviewSortType sort
     ){
@@ -70,35 +71,59 @@ public class ReviewService {
 
         if(sort == ReviewSortType.STARS){
 
-            Integer starCursor =
-                    cursor == null
-                            ? Integer.MAX_VALUE
-                            : cursor.intValue();
+            // 첫 페이지
+            if(cursorStars == null || cursorId == null){
 
-            reviewSlice =
-                    reviewRepository
-                            .findByMemberIdAndStarsLessThanOrderByStarsDescIdDesc(
-                                    memberId,
-                                    starCursor,
-                                    pageable
-                            );
+                reviewSlice =
+                        reviewRepository
+                                .findByMemberIdOrderByStarsDescIdDesc(
+                                        memberId,
+                                        pageable
+                                );
+
+            }
+
+            // 다음 페이지
+            else {
+
+                reviewSlice =
+                        reviewRepository
+                                .findByStarsCursor(
+                                        memberId,
+                                        cursorStars,
+                                        cursorId,
+                                        pageable
+                                );
+            }
 
         }
 
         else {
 
-            Long idCursor =
-                    cursor == null
-                            ? Long.MAX_VALUE
-                            : cursor;
+            // 첫 페이지
+            if(cursorId == null){
 
-            reviewSlice =
-                    reviewRepository
-                            .findByMemberIdAndIdLessThanOrderByIdDesc(
-                                    memberId,
-                                    idCursor,
-                                    pageable
-                            );
+                reviewSlice =
+                        reviewRepository
+                                .findByMemberIdOrderByIdDesc(
+                                        memberId,
+                                        pageable
+                                );
+
+            }
+
+            // 다음 페이지
+            else {
+
+                reviewSlice =
+                        reviewRepository
+                                .findByMemberIdAndIdLessThanOrderByIdDesc(
+                                        memberId,
+                                        cursorId,
+                                        pageable
+                                );
+            }
+
         }
 
 
