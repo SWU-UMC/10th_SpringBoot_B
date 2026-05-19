@@ -11,13 +11,16 @@ import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.BaseSuccessCode;
 import com.example.umc10th.global.apiPayload.dto.PageResponseDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/mission")
 @RequiredArgsConstructor
+@Validated
 public class MissionController {
 
     private final MissionService missionService;
@@ -35,10 +38,19 @@ public class MissionController {
 
     @GetMapping
     public ApiResponse<PageResponseDTO<MissionResDTO.MissionDTO>> getMissionList(
-            @RequestParam(name = "memberId", required = false) Long memberId,
-            @RequestParam(name = "status") ParticipatedStatus status,
-            @RequestParam(name = "page") Integer page,
-            @RequestParam(name = "size") Integer size
+            @RequestParam(name = "memberId", required = false)
+            Long memberId,
+
+            @RequestParam(name = "status")
+            ParticipatedStatus status,
+
+            @Min(value = 0, message = "page는 0 이상이어야 합니다.")
+            @RequestParam(name = "page")
+            Integer page,
+
+            @Min(value = 1, message = "size는 1 이상이어야 합니다.")
+            @RequestParam(name = "size")
+            Integer size
     ) {
 
         return ApiResponse.onSuccess(
