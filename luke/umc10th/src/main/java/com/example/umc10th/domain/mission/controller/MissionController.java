@@ -17,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static jdk.internal.jrtfs.JrtFileAttributeView.AttrID.size;
-
 @RestController
 @RequestMapping("/mission")
 @RequiredArgsConstructor
@@ -100,9 +98,11 @@ public class MissionController {
             @RequestBody ParticipateReqDTO.MyMissionRequest request,
 
             @RequestParam(defaultValue = "0")
+            @Min(value = 0, message = "page는 0 이상이어야 합니다.")
             Integer page,
 
             @RequestParam(defaultValue ="5")
+            @Min(value = 1, message = "size는 1 이상이어야 합니다.")
             Integer size
     ){
 
