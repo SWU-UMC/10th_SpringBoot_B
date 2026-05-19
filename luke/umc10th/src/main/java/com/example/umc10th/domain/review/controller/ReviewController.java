@@ -2,6 +2,7 @@ package com.example.umc10th.domain.review.controller;
 
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
+import com.example.umc10th.domain.review.enums.ReviewSortType;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class ReviewController {
             @RequestParam Long memberId,
             @RequestParam(required = false) Long cursor,
             @RequestParam(defaultValue = "5") Integer size,
-            @RequestParam(defaultValue = "id") String sort
+            @RequestParam(defaultValue = "ID") ReviewSortType sort
 
     ){
 

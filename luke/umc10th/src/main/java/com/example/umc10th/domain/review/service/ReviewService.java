@@ -8,6 +8,7 @@ import com.example.umc10th.domain.review.converter.ReviewConverter;
 import com.example.umc10th.domain.review.dto.ReviewReqDTO;
 import com.example.umc10th.domain.review.dto.ReviewResDTO;
 import com.example.umc10th.domain.review.entity.Review;
+import com.example.umc10th.domain.review.enums.ReviewSortType;
 import com.example.umc10th.domain.review.exception.ReviewException;
 import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
@@ -60,14 +61,14 @@ public class ReviewService {
             Long memberId,
             Long cursor,
             Integer size,
-            String sort
+            ReviewSortType sort
     ){
 
         Pageable pageable = PageRequest.of(0, size);
 
         Slice<Review> reviewSlice;
 
-        if(sort.equals("stars")){
+        if(sort == ReviewSortType.STARS){
 
             Integer starCursor =
                     cursor == null
