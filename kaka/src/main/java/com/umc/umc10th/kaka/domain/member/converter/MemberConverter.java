@@ -3,7 +3,11 @@ package com.umc.umc10th.kaka.domain.member.converter;
 import com.umc.umc10th.kaka.domain.member.dto.MemberResDTO;
 import com.umc.umc10th.kaka.domain.member.dto.SignUpReqDTO;
 import com.umc.umc10th.kaka.domain.member.dto.SignUpResDTO;
+import com.umc.umc10th.kaka.domain.member.entity.Food;
 import com.umc.umc10th.kaka.domain.member.entity.Member;
+import com.umc.umc10th.kaka.domain.member.entity.Term;
+import com.umc.umc10th.kaka.domain.member.entity.mapping.MemberFood;
+import com.umc.umc10th.kaka.domain.member.entity.mapping.MemberTerm;
 import com.umc.umc10th.kaka.domain.member.enums.Gender;
 import com.umc.umc10th.kaka.domain.mission.enums.Address;
 
@@ -43,11 +47,21 @@ public class MemberConverter {
                 .name(dto.name())
                 .email(dto.email())
                 .password(dto.password())
-                .phoneNumber(dto.phoneNumber())
-                .agreedId(dto.agreedId())
+//                .phoneNumber(dto.phoneNumber()) // 워크북 회원가입 api는 없어서 임시 주석 처리함.
                 .gender(Gender.valueOf(dto.gender()))
                 .birth(LocalDate.parse(dto.birth()))
                 .address(Address.valueOf(dto.address()))
+                .detailAddress(dto.detailAddress())
                 .build();
     }
+
+    public static MemberTerm toMemberTerm(Member member, Term term) {
+        return new MemberTerm(null, member, term);
+    }
+
+    public static MemberFood toMemberFood(Member member, Food food) {
+        return new MemberFood(null, member, food);
+    }
+
+
 }
