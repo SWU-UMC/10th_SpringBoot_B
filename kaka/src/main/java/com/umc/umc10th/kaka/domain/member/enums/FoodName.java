@@ -5,6 +5,6 @@ public enum FoodName {
     KOREAN,
     JAPANESE,
     CHINESE,
-    Italian
+    ITALIAN
 
 }
