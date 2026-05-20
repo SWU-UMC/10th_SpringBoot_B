@@ -4,6 +4,8 @@ import com.umc.umc10th.kaka.domain.review.converter.ReviewConverter;
 import com.umc.umc10th.kaka.domain.review.dto.ReviewReqDTO;
 import com.umc.umc10th.kaka.domain.review.dto.ReviewResDTO;
 import com.umc.umc10th.kaka.domain.review.entity.Review;
+import com.umc.umc10th.kaka.domain.review.exception.ReviewException;
+import com.umc.umc10th.kaka.domain.review.exception.code.ReviewErrorCode;
 import com.umc.umc10th.kaka.domain.review.repository.ReviewRepository;
 import com.umc.umc10th.kaka.domain.store.entity.Store;
 import com.umc.umc10th.kaka.domain.store.exception.StoreException;
@@ -53,15 +55,21 @@ public class ReviewService {
                         : null;
             }
             case "stars" -> {
-                reviews = isFirst
-                        ? reviewRepository.findByMemberIdOrderByStars(req.memberId(), pageRequest)
-                        : reviewRepository.findByMemberIdAndStarsLessThan(
-                        req.memberId(), Float.parseFloat(req.cursor()), pageRequest);
+                if (isFirst) {
+                    reviews = reviewRepository.findByMemberIdOrderByStars(req.memberId(), pageRequest);
+                } else {
+                    String[] parts = req.cursor().split(":");
+                    float starsCursor = Float.parseFloat(parts[0]);
+                    long idCursor = Long.parseLong(parts[1]);
+                    reviews = reviewRepository.findByMemberIdAndStarsLessThanOrStarsAndIdLessThan(
+                            req.memberId(), starsCursor, starsCursor, idCursor, pageRequest);
+                }
                 nextCursor = reviews.hasNext()
-                        ? String.valueOf(reviews.getContent().getLast().getStars())
+                        ? reviews.getContent().getLast().getStars() + ":"
+                        + reviews.getContent().getLast().getId()
                         : null;
             }
-            default -> throw new RuntimeException("유효하지 않은 정렬 기준입니다.");
+            default -> throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
         }
 
         return ReviewConverter.toReviewPage(reviews, nextCursor, req.pageSize());

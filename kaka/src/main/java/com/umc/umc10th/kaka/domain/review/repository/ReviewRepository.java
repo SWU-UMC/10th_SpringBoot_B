@@ -54,4 +54,15 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             @Param("memberId") Long memberId,
             Pageable pageable
     );
+
+    @Query("SELECT r FROM Review r WHERE r.member.id = :memberId " +
+            "AND (r.stars < :stars OR (r.stars = :stars AND r.id < :id)) " +
+            "ORDER BY r.stars DESC, r.id DESC")
+    Slice<Review> findByMemberIdAndStarsLessThanOrStarsAndIdLessThan(
+            @Param("memberId") Long memberId,
+            @Param("stars") float stars,
+            @Param("stars") float starsEq,  // 같은 별점일 때 id로 비교
+            @Param("id") long id,
+            Pageable pageable
+    );
 }
