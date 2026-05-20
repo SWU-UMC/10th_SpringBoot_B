@@ -43,11 +43,12 @@ public class ReviewController {
                     @Parameter(name = "memberId", description = "사용자 ID", example = "1", required = true),
                     @Parameter(name = "sort", description = "정렬 기준 (id | stars)", example = "id", required = true),
                     @Parameter(name = "cursor", description = "마지막으로 본 커서값 (첫 요청 시 생략)"),
+                    @Parameter(name = "cursorGrade", description = "마지막으로 본 리뷰 별점 (stars 정렬 시 cursor와 함께 필요)"),
                     @Parameter(name = "size", description = "페이지 크기", example = "3")
             }
     )
     @GetMapping("/my")
-    public ApiResponse<CursorPageResDto<ReviewResDto.ReviewDto>> getMyReviews(
+    public ApiResponse<ReviewResDto.ReviewListResDto> getMyReviews(
             @RequestParam Long memberId,
             @RequestParam String sort,
             @RequestParam(required = false) Long cursor,        // ID순 커서

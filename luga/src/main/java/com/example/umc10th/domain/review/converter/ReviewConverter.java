@@ -25,11 +25,20 @@ public class ReviewConverter {
         );
     }
 
-    public static CursorPageResDto<ReviewResDto.ReviewDto> toReviewListResDto(Slice<Review> slice) {
+    public static ReviewResDto.ReviewListResDto toReviewListResDto(Slice<Review> slice) {
         List<ReviewResDto.ReviewDto> reviews = slice.getContent().stream()
                 .map(ReviewConverter::toReviewDto)
                 .toList();
 
-        return CursorPageResDto.of(reviews, slice.getNumber(), slice.hasNext());
+        Review lastReview = slice.hasNext()
+                ? slice.getContent().get(slice.getContent().size() - 1)
+                : null;
+
+        return new ReviewResDto.ReviewListResDto(
+                reviews,
+                lastReview != null ? lastReview.getId() : null,
+                lastReview != null ? lastReview.getGrade() : null,
+                slice.hasNext()
+        );
     }
 }

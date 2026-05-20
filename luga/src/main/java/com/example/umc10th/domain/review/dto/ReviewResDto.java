@@ -16,4 +16,11 @@ public class ReviewResDto {
             String content,
             String restaurantName
     ) {}
+
+    public record ReviewListResDto(
+            List<ReviewDto> content,
+            Long nextCursorID,
+            Integer nextCursorGrade,
+            boolean hasNext
+    ) {}
 }

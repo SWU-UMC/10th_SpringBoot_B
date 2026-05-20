@@ -24,9 +24,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     // 별점 내림차순 커서 페이지네이션
     @Query("SELECT r FROM Review r JOIN FETCH r.restaurant " +
             "WHERE r.user = :user " +
-            "AND (:cursor IS NULL OR r.grade < :cursor) " +
+            "AND (:cursor IS NULL OR r.grade < :cursorGrade) " +
+            "OR (r.grade = :cursorGrage AND r.id < :cursorId)" +
             "ORDER BY r.grade DESC, r.id DESC")
     Slice<Review> findByUserOrderByGrade(@Param("user") User user,
-                                         @Param("cursor") Integer cursor,
+                                         @Param("cursorGrade") Integer cursorGrade,
+                                         @Param("cursorId") Long cursorId,
                                          Pageable pageable);
 }

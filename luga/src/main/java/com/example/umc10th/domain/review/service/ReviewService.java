@@ -52,7 +52,7 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public CursorPageResDto<ReviewResDto.ReviewDto> getMyReviews(
+    public ReviewResDto.ReviewListResDto getMyReviews(
             Long userId, String sort, Long cursorId, Integer cursorGrade, int size) {
 
         User user = userRepository.findById(userId)
@@ -69,6 +69,7 @@ public class ReviewService {
             case "stars" -> slice = reviewRepository.findByUserOrderByGrade(
                     user,
                     cursorGrade,
+                    cursorId,
                     PageRequest.of(0, size)
             );
             default -> throw new GeneralException(ReviewErrorCode.INVALID_SORT_TYPE);
