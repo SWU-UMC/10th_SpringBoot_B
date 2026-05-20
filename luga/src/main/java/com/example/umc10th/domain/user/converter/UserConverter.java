@@ -8,10 +8,11 @@ import java.util.List;
 
 public class UserConverter {
 
-    public static User toUser(UserReqDto.SignupReqDto request) {
+    public static User toUser(UserReqDto.SignupReqDto request, String encodedPassword) {
         return User.builder()
                 .name(request.name())
                 .email(request.email())
+                .password(encodedPassword)
                 .phone(request.phone())
                 .address(request.address())
                 .addressDetail(request.addressDetail())

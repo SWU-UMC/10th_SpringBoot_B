@@ -1,6 +1,7 @@
 package com.example.umc10th.domain.user.entity;
 
 import com.example.umc10th.domain.user.enums.Gender;
+import com.example.umc10th.domain.user.enums.Role;
 import com.example.umc10th.domain.user.enums.SocialLogin;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,6 +31,11 @@ public class User {
     private String addressDetail;
     private String email;
     private String phone;
+    private String password; // BCrypt 암호화된 비밀번호
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private Role role = Role.USER;
 
     @Builder.Default
     private Integer phoneChecked = 0;

@@ -6,9 +6,9 @@ import com.example.umc10th.domain.user.dto.UserResDto;
 import com.example.umc10th.domain.user.entity.User;
 import com.example.umc10th.domain.user.exception.code.UserErrorCode;
 import com.example.umc10th.domain.user.repository.UserRepository;
-import com.example.umc10th.global.apiPayload.code.status.ErrorStatus;
 import com.example.umc10th.global.apiPayload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserResDto.SignupResDto signup(UserReqDto.SignupReqDto request) {
@@ -25,6 +26,7 @@ public class UserService {
             throw new GeneralException(UserErrorCode.MEMBER_ALREADY_EXISTS);
         }
 
+        String encodedPassword = passwordEncoder.encode(request.password());
         User user = UserConverter.toUser(request);
         User saved = userRepository.save(user);
 
