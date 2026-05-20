@@ -1,0 +1,8 @@
+package com.example.umc10th_wony.domain.member.enums;
+
+public enum SocialType {
+    LOCAL,
+    KAKAO,
+    GOOGLE,
+    NAVER
+}
