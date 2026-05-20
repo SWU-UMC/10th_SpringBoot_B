@@ -1,5 +1,6 @@
 package com.umc.umc10th.kaka.domain.member.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +23,7 @@ public class SignUpReqDTO {
 
             @NotBlank(message = "생년월일은 필수입니다.")
             @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "생년월일은 YYYY-MM-DD 형식이어야 합니다.")
+            @Schema(example = "2002-02-02", description = "생년월일 (YYYY-MM-DD)")
             String birth,
 
             @NotBlank(message = "지역은 필수입니다.")
@@ -34,6 +36,7 @@ public class SignUpReqDTO {
             String detailAddress,
 
             @NotNull(message = "선호 음식은 필수입니다.")
+            @Schema(example = "[\"KOREAN\", \"CHINESE\"]", description = "선호 음식 Enum 리스트")
             List<String> foodList,
 
             @NotBlank(message = "이메일은 필수입니다.")
@@ -50,11 +53,11 @@ public class SignUpReqDTO {
     }
 
         public record AgreeReq(
-                boolean age,
-                boolean service,
-                boolean privacy,
-                boolean location,
-                boolean marketing
+                @Schema(example = "true") boolean age,
+                @Schema(example = "true") boolean service,
+                @Schema(example = "true") boolean privacy,
+                @Schema(example = "true") boolean location,
+                @Schema(example = "true") boolean marketing
         ) {}
 
 
