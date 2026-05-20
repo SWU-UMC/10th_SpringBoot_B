@@ -29,12 +29,8 @@ public class MemberController {
     public ResponseEntity<ApiResponse<MemberSignupResponse>> signup(
             @Valid @RequestBody MemberSignupRequest request
     ) {
-        // TODO: memberService.signup(request)
-        MemberSignupResponse result = MemberSignupResponse.builder()
-                .memberId(1L)
-                .email(request.getEmail())
-                .nickname(request.getNickname())
-                .build();
+        MemberSignupResponse result = memberService.signup(request);
+
         return ResponseEntity.status(201)
                 .body(ApiResponse.onSuccess(MemberSuccessCode.SIGNUP_SUCCESS, result));
     }

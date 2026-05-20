@@ -1,5 +1,7 @@
 package com.example.umc10th_wony.domain.member.service;
 
+import com.example.umc10th_wony.domain.member.dto.MemberSignupRequest;
+import com.example.umc10th_wony.domain.member.dto.MemberSignupResponse;
 import com.example.umc10th_wony.domain.member.dto.MyPageResponse;
 import com.example.umc10th_wony.domain.member.entity.Member;
 import com.example.umc10th_wony.domain.member.exception.MemberException;
@@ -16,6 +18,24 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public MemberSignupResponse signup(MemberSignupRequest request) {
+
+        Member member = Member.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .nickname(request.getNickname())
+                .build();
+
+        memberRepository.save(member);
+
+        return MemberSignupResponse.builder()
+                .memberId(member.getId())
+                .email(member.getEmail())
+                .nickname(member.getNickname())
+                .build();
+    }
 
     @Transactional(readOnly = true)
     public MyPageResponse getMyPage(Long memberId) {

@@ -16,32 +16,37 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final String[] allowUris = {
-            // Swagger 허용
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
 
-            // 로그인
-            "/auth/**"
+            // 현재 회원가입 API만 Public 처리
+            "/api/members/signup"
     };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(allowUris).permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(form -> form
+                        .usernameParameter("email")
+                        .passwordParameter("password")
                         .defaultSuccessUrl("/swagger-ui/index.html", true)
                         .permitAll()
                 )
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 )
+
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(customAccessDenied())
                         .authenticationEntryPoint(customEntryPoint())
