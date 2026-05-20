@@ -6,6 +6,7 @@ import com.example.umc10th_wony.domain.member.exception.MemberException;
 import com.example.umc10th_wony.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th_wony.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public MyPageResponse getMyPage(Long memberId) {
