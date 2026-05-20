@@ -63,28 +63,26 @@ public class MissionService {
 
         long idCursor;
         Slice<Mission> missionList;
-        String nextCursor;
+        String nextCursor = "-1";
+
 
         if (!cursor.equals("-1")) {
             String[] cursorSplit = cursor.split(":");
-            switch (query.toLowerCase()) {
-                case "id":
-                    idCursor = Long.parseLong(cursorSplit[1]);
-                    missionList = missionRepository
-                            .findMissionsByStore_IdAndIdLessThanOrderByIdDesc(
-                                    storeId, idCursor, pageRequest
-                            );
-                    break;
-                default:
-                    throw new MissionException(MissionErrorCode.QUERY_NOT_VALID);
+            if (!query.equalsIgnoreCase("id")) {
+                throw new MissionException(MissionErrorCode.QUERY_NOT_VALID);
             }
+            idCursor = Long.parseLong(cursorSplit[1]);
+            missionList = missionRepository
+                    .findMissionsByStore_IdAndIdLessThanOrderByIdDesc(storeId, idCursor, pageRequest);
         } else {
             missionList = missionRepository
                     .findMissionsByStore_IdOrderByIdDesc(storeId, pageRequest);
         }
 
-        nextCursor = missionList.getContent().getLast().getId() + ":"
-                + missionList.getContent().getLast().getId();
+        if (!missionList.getContent().isEmpty()) {
+            nextCursor = missionList.getContent().getLast().getId() + ":"
+                    + missionList.getContent().getLast().getId();
+        }
 
         return MissionConverter.toPagination(
                 missionList.map(MissionConverter::toGetMission).toList(),
