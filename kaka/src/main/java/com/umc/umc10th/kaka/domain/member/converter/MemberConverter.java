@@ -42,11 +42,11 @@ public class MemberConverter {
         );
     }
 
-    public static Member toMember(SignUpReqDTO.SignUpReqBody dto) {
+    public static Member toMember(SignUpReqDTO.SignUpReqBody dto, String encodedPassword) {
         return Member.builder()
                 .name(dto.name())
                 .email(dto.email())
-                .password(dto.password())
+                .password(encodedPassword)
 //                .phoneNumber(dto.phoneNumber()) // 워크북 회원가입 api는 없어서 임시 주석 처리함.
                 .gender(Gender.valueOf(dto.gender()))
                 .birth(LocalDate.parse(dto.birth()))

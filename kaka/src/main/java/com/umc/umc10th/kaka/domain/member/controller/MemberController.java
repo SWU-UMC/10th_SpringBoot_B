@@ -18,7 +18,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/test")
+    /* @GetMapping("/test")
     public String test() {
         return "test";
     }
@@ -49,16 +49,8 @@ public class MemberController {
             @RequestHeader("test") String test
     ) {
         return memberService.singleParameter(test);
-    }
+    } */
 
-    //마이페이지
-    @GetMapping("/v1/users/me")
-    public ApiResponse<MemberResDTO.GetInfo> getIngo(
-            @RequestParam Long id
-    ) {
-        BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.getInfo(id));
-    }
 
     @PostMapping("/v1/signup")
     public ApiResponse<SignUpResDTO.SignUpResBody> getSignUp(

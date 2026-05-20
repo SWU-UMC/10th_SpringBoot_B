@@ -7,6 +7,7 @@ import com.umc.umc10th.kaka.domain.member.dto.SignUpResDTO;
 import com.umc.umc10th.kaka.domain.member.entity.Food;
 import com.umc.umc10th.kaka.domain.member.entity.Member;
 import com.umc.umc10th.kaka.domain.member.entity.Term;
+import com.umc.umc10th.kaka.domain.member.enums.FoodName;
 import com.umc.umc10th.kaka.domain.member.enums.TermName;
 import com.umc.umc10th.kaka.domain.member.exception.MemberException;
 import com.umc.umc10th.kaka.domain.member.exception.code.MemberErrorCode;
@@ -41,7 +42,9 @@ public class MemberService {
     public SignUpResDTO.SignUpResBody getSignUp(
             SignUpReqDTO.SignUpReqBody dto
     ) {
-        Member member = MemberConverter.toMember(dto);
+        String encodedPassword = passwordEncoder.encode(dto.password());
+
+        Member member = MemberConverter.toMember(dto, encodedPassword);
         memberRepository.save(member);
 
         SignUpReqDTO.AgreeReq agree = dto.agree();
@@ -60,12 +63,14 @@ public class MemberService {
             }
         });
 
-        dto.foodList().forEach(foodName -> {
-            Food food = foodRepository.findByName(foodName)
+        dto.foodList().forEach(foodStr -> {
+            FoodName enumFoodName = FoodName.valueOf(foodStr.toUpperCase());
+
+            Food food = foodRepository.findByName(enumFoodName)
                     .orElseThrow(() -> new MemberException(MemberErrorCode.FOOD_NOT_FOUND));
+
             memberFoodRepository.save(MemberConverter.toMemberFood(member, food));
         });
-
         return MemberConverter.toSignUp(member);
     }
 
