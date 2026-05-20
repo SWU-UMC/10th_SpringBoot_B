@@ -58,6 +58,11 @@ public class ReviewService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
+        // sort null 검즘
+        if(sort == null ){
+            throw new GeneralException(ReviewErrorCode.INVALID_SORT_TYPE);
+        }
+
         Slice<Review> slice;
 
         switch (sort.toLowerCase()) {

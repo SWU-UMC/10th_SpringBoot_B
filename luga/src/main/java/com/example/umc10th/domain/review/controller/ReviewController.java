@@ -5,15 +5,12 @@ import com.example.umc10th.domain.review.dto.ReviewResDto;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.status.SuccessStatus;
-import com.example.umc10th.global.dto.CursorPageResDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 @Tag(name = "Review", description = "리뷰 관련 API")
 @RestController
@@ -50,7 +47,7 @@ public class ReviewController {
     @GetMapping("/my")
     public ApiResponse<ReviewResDto.ReviewListResDto> getMyReviews(
             @RequestParam Long memberId,
-            @RequestParam String sort,
+            @RequestParam(defaultValue = "id") String sort, // 기본값 = id
             @RequestParam(required = false) Long cursor,        // ID순 커서
             @RequestParam(required = false) Integer cursorGrade, // 별점순 커서 (stars 정렬 시)
             @RequestParam(defaultValue = "10") int size) {
