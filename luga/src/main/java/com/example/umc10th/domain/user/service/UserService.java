@@ -27,7 +27,7 @@ public class UserService {
         }
 
         String encodedPassword = passwordEncoder.encode(request.password());
-        User user = UserConverter.toUser(request);
+        User user = UserConverter.toUser(request, encodedPassword);
         User saved = userRepository.save(user);
 
         return UserConverter.toSignupResDto(saved);
