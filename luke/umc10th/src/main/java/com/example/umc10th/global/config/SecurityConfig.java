@@ -1,5 +1,8 @@
 package com.example.umc10th.global.config;
 
+import com.example.umc10th.global.handler.CustomAccessDeniedHandler;
+import com.example.umc10th.global.handler.CustomAuthenticationEntryPoint;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,9 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+@RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     private final String[] allowUris = {
             // Swagger 허용
@@ -19,14 +26,16 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/v3/api-docs/**",
 
-            // 로그인
-            "/members/signup"
+            // 회원가입 & 로그인
+            "/members/signup",
+            "/members/login"
     };
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, CustomAccessDeniedHandler customAccessDeniedHandler) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(allowUris).permitAll()
                         .anyRequest().authenticated()
@@ -39,7 +48,12 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler)
                 );
+
 
         return http.build();
     }
