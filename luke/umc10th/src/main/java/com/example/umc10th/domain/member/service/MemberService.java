@@ -1,8 +1,12 @@
 package com.example.umc10th.domain.member.service;
 
+import ch.qos.logback.core.status.ErrorStatus;
 import com.example.umc10th.domain.member.converter.MemberConverter;
+import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.exception.MemberException;
+import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.mission.repository.MarketRepository;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
@@ -26,6 +30,27 @@ public class MemberService {
     private final ParticipateRepository participateRepository;
     private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public MemberResDTO.SignupDTO signup(
+            MemberReqDTO.SignupDTO request
+    ) {
+
+        if(memberRepository.existsByEmail(request.getEmail())) {
+            throw new MemberException(
+                    MemberErrorCode.MEMBER_ALREADY_EXISTS
+            );
+        }
+
+        Member member = MemberConverter.toMember(
+                request,
+                passwordEncoder.encode(request.getPassword())
+        );
+
+        Member savedMember = memberRepository.save(member);
+
+        return MemberConverter.toSignupDTO(savedMember);
+    }
 
     public MemberResDTO.MyPageDTO getMyPage(Long memberId) {
 

@@ -20,7 +20,7 @@ public class SecurityConfig {
             "/v3/api-docs/**",
 
             // 로그인
-            "/auth/**"
+            "/members/signup"
     };
 
     @Bean

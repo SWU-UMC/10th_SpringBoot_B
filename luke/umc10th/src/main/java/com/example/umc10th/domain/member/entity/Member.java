@@ -9,9 +9,7 @@ import com.example.umc10th.domain.review.entity.Review;
 import com.example.umc10th.global.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,8 +17,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @Setter
+@NoArgsConstructor
 public class Member extends BaseEntity {
 
     @Id
@@ -43,7 +41,11 @@ public class Member extends BaseEntity {
     @Column(name = "address_line_2")
     private String addressLine2;
 
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -66,4 +68,31 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<UserTermAgreement> userTermAgreementList = new ArrayList<>();
 
+
+    @Builder
+    private Member(
+            UserType userType,
+            String name,
+            Gender gender,
+            LocalDate birth,
+            String addressLine1,
+            String addressLine2,
+            String email,
+            String password,
+            String phoneNumber,
+            Boolean phoneNumberStatus,
+            Integer userPoint
+    ) {
+        this.userType = userType;
+        this.name = name;
+        this.gender = gender;
+        this.birth = birth;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.phoneNumberStatus = phoneNumberStatus;
+        this.userPoint = userPoint;
+    }
 }

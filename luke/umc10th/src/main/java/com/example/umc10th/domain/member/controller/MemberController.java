@@ -20,9 +20,8 @@ public class MemberController {
             @RequestBody MemberReqDTO.SignupDTO request
     ) {
 
-        MemberResDTO.SignupDTO response = new MemberResDTO.SignupDTO();
-        response.userId = 1L;
-        response.message = "회원가입이 완료되었습니다.";
+        MemberResDTO.SignupDTO response =
+                memberService.signup(request);
 
         return ApiResponse.onSuccess(response);
     }

@@ -5,14 +5,17 @@ import com.example.umc10th.domain.member.enums.UserType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 public class MemberReqDTO {
 
+    @Getter @Setter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class SignupDTO {
         @Schema(description = "이름", example = "홍길동")
         @NotBlank
@@ -38,6 +41,10 @@ public class MemberReqDTO {
         @NotBlank
         public String email;
 
+        @Schema(description = "비밀번호", example = "1234abcd!")
+        @NotBlank
+        public String password;
+
         @Schema(description = "전화번호", example = "01012345678")
         @NotBlank
         public String phoneNumber;
@@ -46,16 +53,5 @@ public class MemberReqDTO {
         @NotNull
         public UserType type;
 
-    }
-
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class MyPageDTO {
-
-        private String name;
-        private String email;
-        private Integer point;
     }
 }

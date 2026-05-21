@@ -1,14 +1,14 @@
 package com.example.umc10th.domain.member.exception;
 
-import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
+import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import lombok.Getter;
 
 @Getter
 public class MemberException extends RuntimeException {
 
-    private final ReviewErrorCode errorCode;
+    private final MemberErrorCode errorCode;
 
-    public MemberException(ReviewErrorCode errorCode) {
+    public MemberException(MemberErrorCode errorCode) {
         this.errorCode = errorCode;
     }
 
