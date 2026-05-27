@@ -104,11 +104,12 @@ public class MemberService {
                 .build();
     }
 
-    public MemberResDTO.MyPageDTO getMyPage(Long memberId) {
+    @Transactional(readOnly = true)
+    public MemberResDTO.MyPageDTO getMyPage(
+            AuthMember authMember
+    ) {
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() ->
-                        new ReviewException(ReviewErrorCode.MEMBER_NOT_FOUND));
+        Member member = authMember.getMember();
 
         return MemberConverter.toMyPageDTO(member);
 

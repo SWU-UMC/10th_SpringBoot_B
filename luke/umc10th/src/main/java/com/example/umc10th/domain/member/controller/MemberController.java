@@ -2,9 +2,11 @@ package com.example.umc10th.domain.member.controller;
 
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.security.AuthMember;
 import com.example.umc10th.domain.member.service.MemberService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -38,11 +40,11 @@ public class MemberController {
 
     @GetMapping("/home/my")
     public ApiResponse<MemberResDTO.MyPageDTO> getMyPage(
-            @RequestParam Long memberId
+            @AuthenticationPrincipal AuthMember authMember
     ) {
 
         MemberResDTO.MyPageDTO response =
-                memberService.getMyPage(memberId);
+                memberService.getMyPage(authMember);
 
         return ApiResponse.onSuccess(response);
     }
