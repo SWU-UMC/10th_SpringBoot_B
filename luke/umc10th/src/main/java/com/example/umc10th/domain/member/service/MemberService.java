@@ -4,10 +4,14 @@ import ch.qos.logback.core.status.ErrorStatus;
 import com.example.umc10th.domain.member.converter.MemberConverter;
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.entity.FoodCategory;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.mapping.Preference;
 import com.example.umc10th.domain.member.exception.MemberException;
 import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
+import com.example.umc10th.domain.member.repository.FoodCategoryRepository;
 import com.example.umc10th.domain.member.repository.MemberRepository;
+import com.example.umc10th.domain.member.repository.PreferenceRepository;
 import com.example.umc10th.domain.mission.repository.MarketRepository;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
 import com.example.umc10th.domain.mission.repository.ParticipateRepository;
@@ -25,10 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final MarketRepository marketRepository;
-    private final MissionRepository missionRepository;
-    private final ParticipateRepository participateRepository;
-    private final ReviewRepository reviewRepository;
+    private final PreferenceRepository preferenceRepository;
+    private final FoodCategoryRepository foodCategoryRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -48,6 +50,21 @@ public class MemberService {
         );
 
         Member savedMember = memberRepository.save(member);
+
+        request.getFoodCategoryIds().forEach(foodCategoryId -> {
+
+            FoodCategory foodCategory =
+                    foodCategoryRepository.findById(foodCategoryId)
+                            .orElseThrow();
+
+            Preference preference =
+                    MemberConverter.toPreference(
+                            savedMember,
+                            foodCategory
+                    );
+
+            preferenceRepository.save(preference);
+        });
 
         return MemberConverter.toSignupDTO(savedMember);
     }

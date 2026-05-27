@@ -19,6 +19,8 @@ public class FoodCategory extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     @OneToMany(mappedBy = "foodCategory")
     private List<Preference> preferenceList = new ArrayList<>();
 

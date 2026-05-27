@@ -9,6 +9,7 @@ import lombok.*;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class MemberReqDTO {
 
@@ -52,6 +53,10 @@ public class MemberReqDTO {
         @Schema(description = "유저 타입")
         @NotNull
         public UserType type;
+
+        @Schema(description = "선호 음식 카테고리 ID 리스트")
+        @NotEmpty
+        private List<Long> foodCategoryIds;
 
     }
 }

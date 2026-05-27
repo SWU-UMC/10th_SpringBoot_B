@@ -2,7 +2,9 @@ package com.example.umc10th.domain.member.converter;
 
 import com.example.umc10th.domain.member.dto.MemberReqDTO;
 import com.example.umc10th.domain.member.dto.MemberResDTO;
+import com.example.umc10th.domain.member.entity.FoodCategory;
 import com.example.umc10th.domain.member.entity.Member;
+import com.example.umc10th.domain.member.entity.mapping.Preference;
 
 public class MemberConverter {
 
@@ -44,6 +46,17 @@ public class MemberConverter {
         return MemberResDTO.SignupDTO.builder()
                 .memberId(member.getId())
                 .createdAt(member.getCreatedAt())
+                .build();
+    }
+
+    public static Preference toPreference(
+            Member member,
+            FoodCategory foodCategory
+    ) {
+
+        return Preference.builder()
+                .member(member)
+                .foodCategory(foodCategory)
                 .build();
     }
 
