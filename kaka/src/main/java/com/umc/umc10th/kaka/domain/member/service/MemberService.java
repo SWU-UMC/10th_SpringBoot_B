@@ -33,10 +33,10 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public MemberResDTO.GetInfo getInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-        return MemberConverter.toGetInfo(member);
+    public MemberResDTO.GetInfo getInfo(
+            AuthMember member
+    ) {
+        return MemberConverter.toGetInfo(member.getMember());
     }
 
     public LoginResDTO.LoginResBody login(LoginReqDTO.LoginReqBody dto) {
