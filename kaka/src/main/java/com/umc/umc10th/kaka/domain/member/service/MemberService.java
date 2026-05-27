@@ -1,9 +1,7 @@
 package com.umc.umc10th.kaka.domain.member.service;
 
 import com.umc.umc10th.kaka.domain.member.converter.MemberConverter;
-import com.umc.umc10th.kaka.domain.member.dto.MemberResDTO;
-import com.umc.umc10th.kaka.domain.member.dto.SignUpReqDTO;
-import com.umc.umc10th.kaka.domain.member.dto.SignUpResDTO;
+import com.umc.umc10th.kaka.domain.member.dto.*;
 import com.umc.umc10th.kaka.domain.member.entity.Food;
 import com.umc.umc10th.kaka.domain.member.entity.Member;
 import com.umc.umc10th.kaka.domain.member.entity.Term;
@@ -12,6 +10,8 @@ import com.umc.umc10th.kaka.domain.member.enums.TermName;
 import com.umc.umc10th.kaka.domain.member.exception.MemberException;
 import com.umc.umc10th.kaka.domain.member.exception.code.MemberErrorCode;
 import com.umc.umc10th.kaka.domain.member.repository.*;
+import com.umc.umc10th.kaka.global.security.entity.AuthMember;
+import com.umc.umc10th.kaka.global.security.util.JwtUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,12 +19,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-
-
 
     private final MemberRepository memberRepository;
     private final MemberTermRepository memberTermRepository;
@@ -32,11 +31,26 @@ public class MemberService {
     private final TermRepository termRepository;
     private final FoodRepository foodRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public MemberResDTO.GetInfo getInfo(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         return MemberConverter.toGetInfo(member);
+    }
+
+    public LoginResDTO.LoginResBody login(LoginReqDTO.LoginReqBody dto) {
+        Member member = memberRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(dto.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+        }
+
+        AuthMember authMember = new AuthMember(member);
+        String token = jwtUtil.createAccessToken(authMember);
+
+        return new LoginResDTO.LoginResBody(token);
     }
 
     @Transactional

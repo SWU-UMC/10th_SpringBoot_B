@@ -1,8 +1,6 @@
 package com.umc.umc10th.kaka.domain.member.controller;
 
-import com.umc.umc10th.kaka.domain.member.dto.MemberResDTO;
-import com.umc.umc10th.kaka.domain.member.dto.SignUpReqDTO;
-import com.umc.umc10th.kaka.domain.member.dto.SignUpResDTO;
+import com.umc.umc10th.kaka.domain.member.dto.*;
 import com.umc.umc10th.kaka.domain.member.exception.code.MemberSuccessCode;
 import com.umc.umc10th.kaka.domain.member.service.MemberService;
 import com.umc.umc10th.kaka.global.apiPayLoad.ApiResponse;
@@ -58,6 +56,13 @@ public class MemberController {
     ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getSignUp(dto));
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<LoginResDTO.LoginResBody> login(
+            @RequestBody LoginReqDTO.LoginReqBody dto
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.OK, memberService.login(dto));
     }
 
 }
