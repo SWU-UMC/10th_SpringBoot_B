@@ -4,9 +4,11 @@ import com.example.umc10th.domain.user.enums.Gender;
 import com.example.umc10th.domain.user.enums.SocialLogin;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class UserReqDto {
 
@@ -19,7 +21,25 @@ public class UserReqDto {
             String addressDetail,
             Gender gender,
             LocalDate birth,
-            SocialLogin socialLogin
+            SocialLogin socialLogin,
+
+            // 약관 동의 추가
+            @NotNull AgreementReqDto agreement,
+
+            // 선호 음식 리스트 추가
+            List<Long> foodTypes
+
+    ) {}
+
+    public record AgreementReqDto(
+            @NotNull Integer agreeAge14,
+            @NotNull Integer agreeService,
+            @NotNull Integer agreePrivate,
+            Integer agreeLocation,
+            Integer agreeMarketing,
+            Integer agreeEventAlarm,
+            Integer agreeReviewAlarm,
+            Integer agreeQaAlarm
     ) {}
 
     // 선호 음식 등록
