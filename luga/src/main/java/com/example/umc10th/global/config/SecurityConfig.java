@@ -1,8 +1,12 @@
 package com.example.umc10th.global.config;
 
+import com.example.umc10th.global.security.CustomUserDetailService;
 import com.example.umc10th.global.security.JwtAccessDeniedHandler;
 import com.example.umc10th.global.security.JwtAuthenticationEntryPoint;
+import com.example.umc10th.global.security.filter.JwtAuthFilter;
+import com.example.umc10th.global.security.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,13 +17,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailService customUserDetailService;
 
     private static final String[] PUBLIC_URLS = {
             "/api/user/signup",
+            "/api/user/login",
             "/api/user/*/food-preferences",
             "/swagger-ui/**",
             "/v3/api-docs/**"
@@ -30,6 +40,10 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public JwtAuthFilter jwtAuthFiler() {
+        return new JwtAuthFilter(jwtUtil, customUserDetailService);
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationEntryPoint authenticationEntryPoint, JwtAccessDeniedHandler accessDeniedHandler) throws Exception {
@@ -47,7 +61,8 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(authenticationEntryPoint) // 4001
                         .accessDeniedHandler(accessDeniedHandler) // 4003
-                );
+                )
+                .addFilterBefore(jwtAuthFiler(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

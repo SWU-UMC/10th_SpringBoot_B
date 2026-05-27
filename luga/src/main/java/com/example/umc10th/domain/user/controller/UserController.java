@@ -5,10 +5,12 @@ import com.example.umc10th.domain.user.dto.UserResDto;
 import com.example.umc10th.domain.user.service.UserService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import com.example.umc10th.global.apiPayload.code.status.SuccessStatus;
+import com.example.umc10th.global.security.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -35,5 +37,19 @@ public class UserController {
             @RequestBody UserReqDto.AddFoodPreferenceReqDto request) {
         return ApiResponse.onSuccess(SuccessStatus.CREATED,
                 userService.addFoodPreference(userId, request));
+    }
+
+    @Operation(summary = "로그인", description = "이메일, 비밀번호로 로그인 -> JWT 토큰 반환")
+    @PostMapping("/login")
+    public ApiResponse<UserResDto.LoginResDto> login(
+            @RequestBody @Valid UserReqDto.LoginReqDto request) {
+        return ApiResponse.onSuccess(SuccessStatus.OK, userService.login(request));
+    }
+
+    @Operation(summary = "마이페이지", description = "JWT 토큰으로 내 정보 조회")
+    @GetMapping("/my-page")
+    public ApiResponse<UserResDto.MyPageResDto> getMyPage(
+            @AuthenticationPrincipal AuthMember authMember) {
+        return ApiResponse.onSuccess(SuccessStatus.OK, userService.getMyPage(authMember));
     }
 }

@@ -5,6 +5,11 @@ import java.util.List;
 
 public class UserResDto {
 
+    public record LoginResDto(
+            Long userId,
+            String accessToken
+    ) {}
+
     public record SignupResDto (
             Long userId,
             LocalDateTime createdAt

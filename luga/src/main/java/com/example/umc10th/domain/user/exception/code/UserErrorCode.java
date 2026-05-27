@@ -11,7 +11,8 @@ public enum UserErrorCode implements BaseErrorCode {
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER4001", "사용자를 찾을 수 없음"),
     MEMBER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "MEMBER4002", "이미 존재하는 회원임"),
-    FOOD_TYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "FOOD4001", "음식 종류를 찾을 수 없음");
+    FOOD_TYPE_NOT_FOUND(HttpStatus.NOT_FOUND, "FOOD4001", "음식 종류를 찾을 수 없음"),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "MEMBER4003", "비밀번호가 일치하지 않음");
 
     private final HttpStatus status;
     private final String code;

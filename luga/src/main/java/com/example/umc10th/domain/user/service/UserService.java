@@ -13,6 +13,8 @@ import com.example.umc10th.domain.user.repository.FoodPreferenceRepository;
 import com.example.umc10th.domain.user.repository.FoodTypeRepository;
 import com.example.umc10th.domain.user.repository.UserRepository;
 import com.example.umc10th.global.apiPayload.exception.GeneralException;
+import com.example.umc10th.global.security.AuthMember;
+import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ public class UserService {
     private final FoodTypeRepository foodTypeRepository;
     private final FoodPreferenceRepository foodPreferenceRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public UserResDto.SignupResDto signup(UserReqDto.SignupReqDto request) {
@@ -83,5 +86,32 @@ public class UserService {
         foodPreferenceRepository.saveAll(preferences);
 
         return UserConverter.toAddFoodPreferenceResDto(userId, request.foodTypes());
+    }
+
+    @Transactional(readOnly = true)
+    public UserResDto.LoginResDto login(UserReqDto.LoginReqDto request) {
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(request.password(), user.getPassword())) {
+            throw new GeneralException(UserErrorCode.INVALID_PASSWORD);
+        }
+
+        AuthMember authMember = new AuthMember(user);
+        String accessToken = jwtUtil.createAccessToken(authMember);
+
+        return new UserResDto.LoginResDto(user.getId(), accessToken);
+    }
+
+    public UserResDto.MyPageResDto getMyPage(AuthMember authMember){
+        User user = authMember.getUser();
+        return new UserResDto.MyPageResDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getAddress(),
+                user.getUserPoint() != null ? Integer.parseInt(user.getUserPoint()) : 0
+        );
     }
 }

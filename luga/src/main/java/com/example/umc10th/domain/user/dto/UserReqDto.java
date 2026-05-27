@@ -12,6 +12,11 @@ import java.util.List;
 
 public class UserReqDto {
 
+    public record LoginReqDto(
+            @NotBlank @Email String email,
+            @NotBlank String password
+    ) {}
+
     public record SignupReqDto (
             @NotBlank String name,
             @NotBlank @Email String email,
