@@ -4,9 +4,13 @@ import com.example.umc10th.domain.user.converter.UserConverter;
 import com.example.umc10th.domain.user.dto.UserReqDto;
 import com.example.umc10th.domain.user.dto.UserResDto;
 import com.example.umc10th.domain.user.entity.Agreement;
+import com.example.umc10th.domain.user.entity.FoodType;
 import com.example.umc10th.domain.user.entity.User;
+import com.example.umc10th.domain.user.entity.mapping.FoodPreference;
 import com.example.umc10th.domain.user.exception.code.UserErrorCode;
 import com.example.umc10th.domain.user.repository.AgreementRepository;
+import com.example.umc10th.domain.user.repository.FoodPreferenceRepository;
+import com.example.umc10th.domain.user.repository.FoodTypeRepository;
 import com.example.umc10th.domain.user.repository.UserRepository;
 import com.example.umc10th.global.apiPayload.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +18,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final AgreementRepository agreementRepository;
+    private final FoodTypeRepository foodTypeRepository;
+    private final FoodPreferenceRepository foodPreferenceRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -33,10 +41,25 @@ public class UserService {
         Agreement agreement = UserConverter.toAgreement(request.agreement());
         agreementRepository.save(agreement);
 
-        // 유저 생성
+        // 유저 저장
         String encodedPassword = passwordEncoder.encode(request.password());
         User user = UserConverter.toUser(request, encodedPassword, agreement);
         User saved = userRepository.save(user);
+
+        // 음식 선호 저장
+        if(request.foodTypes() != null && !request.foodTypes().isEmpty()) {
+            List<FoodPreference> preferences = request.foodTypes().stream()
+                    .map(foodTypeId -> {
+                        FoodType foodType = foodTypeRepository.findById(foodTypeId)
+                                .orElseThrow(() -> new GeneralException(UserErrorCode.FOOD_TYPE_NOT_FOUND));
+                        return FoodPreference.builder()
+                                .user(saved)
+                                .foodType(foodType)
+                                .build();
+                    })
+                    .toList();
+            foodPreferenceRepository.saveAll(preferences);
+        }
 
         return UserConverter.toSignupResDto(saved);
     }
@@ -48,7 +71,17 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new GeneralException(UserErrorCode.MEMBER_NOT_FOUND));
 
-        // 선호 음식 저장 로직 (FoodPreference 엔티티/레포지토리 연동 필요)
+        List<FoodPreference> preferences = request.foodTypes().stream()
+                .map(foodTypeId -> {
+                    FoodType foodType = foodTypeRepository.findById(foodTypeId)
+                            .orElseThrow(() -> new GeneralException(UserErrorCode.FOOD_TYPE_NOT_FOUND));
+                    return FoodPreference.builder()
+                            .user(user)
+                            .foodType(foodType)
+                            .build();
+                })
+                .toList();
+        foodPreferenceRepository.saveAll(preferences);
 
         return UserConverter.toAddFoodPreferenceResDto(userId, request.foodTypes());
     }
