@@ -3,6 +3,7 @@ package com.example.umc10th.domain.member.entity;
 import com.example.umc10th.domain.member.entity.mapping.Preference;
 import com.example.umc10th.domain.member.entity.mapping.UserTermAgreement;
 import com.example.umc10th.domain.member.enums.Gender;
+import com.example.umc10th.domain.member.enums.Role;
 import com.example.umc10th.domain.member.enums.UserType;
 import com.example.umc10th.domain.mission.entity.mapping.Participate;
 import com.example.umc10th.domain.review.entity.Review;
@@ -55,6 +56,9 @@ public class Member extends BaseEntity {
 
     @Column(name = "user_point")
     private Integer userPoint;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "member")
     private List<Review> reviewList = new ArrayList<>();
