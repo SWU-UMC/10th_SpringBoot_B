@@ -13,7 +13,7 @@ public class UserReqDto {
     public record SignupReqDto (
             @NotBlank String name,
             @NotBlank @Email String email,
-            @NotBlank @Size(min = 0, message = "비밀번호는 8자 이상이어야 합니다.") String password,
+            @NotBlank @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다.") String password,
             String phone,
             String address,
             String addressDetail,
