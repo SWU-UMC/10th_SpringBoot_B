@@ -42,13 +42,13 @@ public class MemberConverter {
     }
 
     public static MemberResDTO.SignupDTO toSignupDTO(
-            Member member
+            Member member, String accessToken
     ) {
 
         return MemberResDTO.SignupDTO.builder()
                 .memberId(member.getId())
                 .createdAt(member.getCreatedAt())
-                .role(Role.USER)
+                .accessToken(accessToken)
                 .build();
     }
 

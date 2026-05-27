@@ -54,6 +54,11 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
 
+        String accessToken =
+                jwtUtil.createAccessToken(
+                        new AuthMember(savedMember)
+                );
+
         request.getFoodCategoryIds().forEach(foodCategoryId -> {
 
             FoodCategory foodCategory =
@@ -69,7 +74,10 @@ public class MemberService {
             preferenceRepository.save(preference);
         });
 
-        return MemberConverter.toSignupDTO(savedMember);
+        return MemberConverter.toSignupDTO(
+                savedMember,
+                accessToken
+        );
     }
 
     @Transactional(readOnly = true)

@@ -14,6 +14,7 @@ public class MemberResDTO {
 
         private Long memberId;
         private LocalDateTime createdAt;
+        private String accessToken;
     }
 
     @Builder
