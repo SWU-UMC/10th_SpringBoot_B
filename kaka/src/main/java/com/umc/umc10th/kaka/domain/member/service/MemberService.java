@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +53,13 @@ public class MemberService {
         memberRepository.save(member);
 
         SignUpReqDTO.AgreeReq agree = dto.agree();
+
+        Set<TermName> requiredTerms = Set.of(
+                TermName.AGE,
+                TermName.SERVICE,
+                TermName.PRIVACY
+        );
+
         Map<TermName, Boolean> termMap = Map.of(
                 TermName.AGE,       agree.age(),
                 TermName.SERVICE,   agree.service(),
@@ -59,6 +67,14 @@ public class MemberService {
                 TermName.LOCATION,  agree.location(),
                 TermName.MARKETING, agree.marketing()
         );
+
+        boolean allRequiredAgreed = requiredTerms.stream()
+                .allMatch(term -> Boolean.TRUE.equals(termMap.get(term)));
+
+        if (!allRequiredAgreed) {
+            throw new MemberException(MemberErrorCode.REQUIRED_TERM_NOT_AGREED);
+        }
+
         termMap.forEach((termName, isAgreed) -> {
             if (isAgreed) {
                 Term term = termRepository.findByName(termName)
