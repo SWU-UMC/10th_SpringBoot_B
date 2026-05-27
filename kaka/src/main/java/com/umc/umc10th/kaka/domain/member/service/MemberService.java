@@ -84,7 +84,13 @@ public class MemberService {
         });
 
         dto.foodList().forEach(foodStr -> {
-            FoodName enumFoodName = FoodName.valueOf(foodStr.toUpperCase());
+
+            FoodName enumFoodName;
+            try {
+                enumFoodName = FoodName.valueOf(foodStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new MemberException(MemberErrorCode.INVALID_FOOD_NAME);
+            }
 
             Food food = foodRepository.findByName(enumFoodName)
                     .orElseThrow(() -> new MemberException(MemberErrorCode.FOOD_NOT_FOUND));
