@@ -12,6 +12,7 @@ import com.umc.umc10th.kaka.domain.member.enums.Gender;
 import com.umc.umc10th.kaka.domain.mission.enums.Address;
 
 import java.time.LocalDate;
+import com.umc.umc10th.kaka.global.security.dto.OAuthDTO;
 
 public class MemberConverter {
 
@@ -63,5 +64,16 @@ public class MemberConverter {
         return new MemberFood(null, member, food);
     }
 
+    public static MemberResDTO.Login toLogin(String accessToken) {
+        return new MemberResDTO.Login(accessToken);
+    }
 
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .name(dto.getName())
+                .email(dto.getSocialEmail())
+                .socialUid(dto.getSocialUid())
+                .socialType(dto.getSocialType())
+                .build();
+    }
 }

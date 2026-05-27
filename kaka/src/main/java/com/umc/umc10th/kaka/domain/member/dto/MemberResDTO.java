@@ -17,4 +17,8 @@ public class MemberResDTO {
             Integer point
     ) {
     }
+
+    public record Login(
+            String accessToken
+    ) {}
 }
