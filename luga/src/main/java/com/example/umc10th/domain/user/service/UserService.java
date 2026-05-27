@@ -47,16 +47,15 @@ public class UserService {
         User saved = userRepository.save(user);
 
         // 음식 선호 저장
-        if(request.foodTypes() != null && !request.foodTypes().isEmpty()) {
-            List<FoodPreference> preferences = request.foodTypes().stream()
-                    .map(foodTypeId -> {
-                        FoodType foodType = foodTypeRepository.findById(foodTypeId)
-                                .orElseThrow(() -> new GeneralException(UserErrorCode.FOOD_TYPE_NOT_FOUND));
-                        return FoodPreference.builder()
-                                .user(saved)
-                                .foodType(foodType)
-                                .build();
-                    })
+        List<Long> foodTypes = request.foodTypes();
+        if (foodTypes != null && !foodTypes.isEmpty()) {
+            List<FoodPreference> preferences = foodTypes.stream()
+                    .flatMap(foodTypeId -> foodTypeRepository.findById(foodTypeId)
+                            .map(foodType -> FoodPreference.builder()
+                                    .user(saved)
+                                    .foodType(foodType)
+                                    .build())
+                            .stream())
                     .toList();
             foodPreferenceRepository.saveAll(preferences);
         }

@@ -1,0 +1,12 @@
+INSERT IGNORE INTO food_type (id, name) VALUES (1, '한식');
+INSERT IGNORE INTO food_type (id, name) VALUES (2, '일식');
+INSERT IGNORE INTO food_type (id, name) VALUES (3, '중식');
+INSERT IGNORE INTO food_type (id, name) VALUES (4, '양식');
+INSERT IGNORE INTO food_type (id, name) VALUES (5, '치킨');
+INSERT IGNORE INTO food_type (id, name) VALUES (6, '분식');
+INSERT IGNORE INTO food_type (id, name) VALUES (7, '고기/구이');
+INSERT IGNORE INTO food_type (id, name) VALUES (8, '도시락');
+INSERT IGNORE INTO food_type (id, name) VALUES (9, '야식');
+INSERT IGNORE INTO food_type (id, name) VALUES (10, '패스트푸드');
+INSERT IGNORE INTO food_type (id, name) VALUES (11, '디저트');
+INSERT IGNORE INTO food_type (id, name) VALUES (12, '아시안푸드');
