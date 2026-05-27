@@ -38,10 +38,14 @@ public class MemberService {
         return MemberConverter.toGetInfo(member);
     }
 
-    @Transactional // 나중에 DB 연결
+    @Transactional
     public SignUpResDTO.SignUpResBody getSignUp(
             SignUpReqDTO.SignUpReqBody dto
     ) {
+        if (memberRepository.existsByEmail(dto.email())) {
+            throw new MemberException(MemberErrorCode.DUPLICATE_EMAIL);
+        }
+
         String encodedPassword = passwordEncoder.encode(dto.password());
 
         Member member = MemberConverter.toMember(dto, encodedPassword);
