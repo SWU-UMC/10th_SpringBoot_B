@@ -41,7 +41,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 return;
             }
 
-            token = token.replace("Bearer", "");
+            token = token.substring(7).trim(); // "Bearer" 7글자 제거 후 공백 제거
 
             if(jwtUtil.isValid(token)) {
                 String email = jwtUtil.getEmail(token);

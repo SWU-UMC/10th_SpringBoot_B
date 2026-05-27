@@ -49,6 +49,7 @@ public class JwtUtil {
             getClaims(token);
             return true;
         } catch (JwtException e) {
+            System.out.println("JWT 예외: " + e.getMessage());
             return false;
         }
     }
