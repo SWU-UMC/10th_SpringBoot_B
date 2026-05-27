@@ -3,6 +3,8 @@ package com.umc.umc10th.kaka.global.config;
 import com.umc.umc10th.kaka.global.security.filter.JwtAuthFilter;
 import com.umc.umc10th.kaka.global.security.handler.CustomAccessDenied;
 import com.umc.umc10th.kaka.global.security.handler.CustomEntryPoint;
+import com.umc.umc10th.kaka.global.security.handler.OAuthSuccessHandler;
+import com.umc.umc10th.kaka.global.security.service.CustomOAuthService;
 import com.umc.umc10th.kaka.global.security.service.CustomUserDetailsService;
 import com.umc.umc10th.kaka.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomOAuthService customOAuthService;
 
 
     @Bean
@@ -41,6 +44,18 @@ public class SecurityConfig {
                         .requestMatchers(allowUris).permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth -> oauth
+                        .authorizationEndpoint(auth -> auth
+                                .baseUri("/oauth/authorize")
+                        )
+                        .redirectionEndpoint(redirect -> redirect
+                                .baseUri("/oauth/callback/**")
+                        )
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuthService)
+                        )
+                        .successHandler(oAuthSuccessHandler())
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(AbstractHttpConfigurer::disable)
@@ -75,5 +90,10 @@ public class SecurityConfig {
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter(jwtUtil, customUserDetailsService);
+    }
+
+    @Bean
+    public OAuthSuccessHandler oAuthSuccessHandler() {
+        return new OAuthSuccessHandler(jwtUtil);
     }
 }

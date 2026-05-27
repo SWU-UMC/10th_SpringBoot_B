@@ -1,5 +1,6 @@
 package com.umc.umc10th.kaka.global.security.util;
 
+import com.umc.umc10th.kaka.domain.member.enums.SocialType;
 import com.umc.umc10th.kaka.global.security.entity.AuthMember;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -35,6 +36,16 @@ public class JwtUtil {
     public String createAccessToken(AuthMember member) {
         return createToken(member, accessExpiration);
     }
+
+
+    public SocialType getSocialType(String token){
+        try {
+            return SocialType.valueOf(getClaims(token).getPayload().get("social_type").toString().toUpperCase());
+            } catch (JwtException e) {
+            return null;
+        }
+    }
+
 
     /** 토큰에서 이메일 가져오기
      *
