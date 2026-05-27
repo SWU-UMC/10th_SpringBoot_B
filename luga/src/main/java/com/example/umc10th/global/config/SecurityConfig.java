@@ -29,15 +29,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public JwtAuthenticationEntryPoint authenticationEntryPoint(ObjectMapper objectMapper, AuthenticationEntryPoint authenticationEntryPoint, AccessDeniedHandler accessDeniedHandler) {
-        return new JwtAuthenticationEntryPoint(objectMapper);
-    }
-
-    @Bean
-    public JwtAccessDeniedHandler accessDeniedHandler(ObjectMapper objectMapper) {
-        return new JwtAccessDeniedHandler(objectMapper);
-    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationEntryPoint authenticationEntryPoint, JwtAccessDeniedHandler accessDeniedHandler) throws Exception {
