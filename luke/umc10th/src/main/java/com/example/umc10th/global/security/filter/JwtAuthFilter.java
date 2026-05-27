@@ -37,8 +37,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             // 토큰 가져오기
             String token = request.getHeader("Authorization");
 
+            System.out.println("URI = " + request.getRequestURI());
+            System.out.println("TOKEN = " + token);
+
             // token이 없거나 Bearer가 아니면 넘기기
             if (token == null || !token.startsWith("Bearer ")) {
+
+                System.out.println("NO TOKEN");
+
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -64,6 +70,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
+
+            e.printStackTrace();
+
             ObjectMapper mapper = new ObjectMapper();
             BaseErrorCode code = GeneralErrorCode.UNAUTHORIZED;
 

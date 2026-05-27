@@ -12,12 +12,14 @@ import com.example.umc10th.domain.member.exception.code.MemberErrorCode;
 import com.example.umc10th.domain.member.repository.FoodCategoryRepository;
 import com.example.umc10th.domain.member.repository.MemberRepository;
 import com.example.umc10th.domain.member.repository.PreferenceRepository;
+import com.example.umc10th.domain.member.security.AuthMember;
 import com.example.umc10th.domain.mission.repository.MarketRepository;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
 import com.example.umc10th.domain.mission.repository.ParticipateRepository;
 import com.example.umc10th.domain.review.exception.ReviewException;
 import com.example.umc10th.domain.review.exception.code.ReviewErrorCode;
 import com.example.umc10th.domain.review.repository.ReviewRepository;
+import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ public class MemberService {
     private final PreferenceRepository preferenceRepository;
     private final FoodCategoryRepository foodCategoryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public MemberResDTO.SignupDTO signup(
@@ -67,6 +70,30 @@ public class MemberService {
         });
 
         return MemberConverter.toSignupDTO(savedMember);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberResDTO.MemberLoginResponse login(MemberReqDTO.MemberLoginRequest request) {
+
+        Member member = memberRepository.findByEmail(request.getEmail())
+                .orElseThrow(() ->
+                        new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(
+                request.getPassword(),
+                member.getPassword()
+        )) {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+
+        // JWT 생성
+        String accessToken =
+                jwtUtil.createAccessToken(new AuthMember(member));
+
+        return MemberResDTO.MemberLoginResponse.builder()
+                .accessToken(accessToken)
+                .build();
     }
 
     public MemberResDTO.MyPageDTO getMyPage(Long memberId) {

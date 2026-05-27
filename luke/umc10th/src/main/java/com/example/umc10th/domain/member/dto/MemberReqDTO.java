@@ -59,4 +59,13 @@ public class MemberReqDTO {
         private List<Long> foodCategoryIds;
 
     }
+
+    @Getter
+    @NoArgsConstructor
+    public static class MemberLoginRequest {
+
+        private String email;
+
+        private String password;
+    }
 }

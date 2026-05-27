@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.member.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -22,6 +23,13 @@ public class MemberResDTO {
         public String phoneNumber;
         public Boolean phoneNumberStatus;
         public Integer userPoint;
+    }
+
+    @Getter @Builder
+    @AllArgsConstructor
+    public static class MemberLoginResponse {
+
+        private String accessToken;
     }
 
 }

@@ -85,7 +85,8 @@ public class Member extends BaseEntity {
             String password,
             String phoneNumber,
             Boolean phoneNumberStatus,
-            Integer userPoint
+            Integer userPoint,
+            Role role
     ) {
         this.userType = userType;
         this.name = name;
@@ -98,5 +99,6 @@ public class Member extends BaseEntity {
         this.phoneNumber = phoneNumber;
         this.phoneNumberStatus = phoneNumberStatus;
         this.userPoint = userPoint;
+        this.role = role;
     }
 }

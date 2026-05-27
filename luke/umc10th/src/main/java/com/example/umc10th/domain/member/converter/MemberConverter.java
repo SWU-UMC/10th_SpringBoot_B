@@ -5,6 +5,7 @@ import com.example.umc10th.domain.member.dto.MemberResDTO;
 import com.example.umc10th.domain.member.entity.FoodCategory;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.mapping.Preference;
+import com.example.umc10th.domain.member.enums.Role;
 
 public class MemberConverter {
 
@@ -25,6 +26,7 @@ public class MemberConverter {
                 .userType(request.getType())
                 .phoneNumberStatus(false)
                 .userPoint(0)
+                .role(Role.USER)
                 .build();
     }
 
@@ -46,6 +48,7 @@ public class MemberConverter {
         return MemberResDTO.SignupDTO.builder()
                 .memberId(member.getId())
                 .createdAt(member.getCreatedAt())
+                .role(Role.USER)
                 .build();
     }
 

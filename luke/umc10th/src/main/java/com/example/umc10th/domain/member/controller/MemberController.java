@@ -26,6 +26,16 @@ public class MemberController {
         return ApiResponse.onSuccess(response);
     }
 
+    @PostMapping("/login")
+    public ApiResponse<MemberResDTO.MemberLoginResponse> login(
+            @RequestBody MemberReqDTO.MemberLoginRequest request
+    ) {
+
+        return ApiResponse.onSuccess(
+                memberService.login(request)
+        );
+    }
+
     @GetMapping("/home/my")
     public ApiResponse<MemberResDTO.MyPageDTO> getMyPage(
             @RequestParam Long memberId

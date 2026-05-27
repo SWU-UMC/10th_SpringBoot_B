@@ -8,6 +8,7 @@ import com.example.umc10th.global.security.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -15,7 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -27,15 +28,15 @@ public class SecurityConfig {
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final CustomAccessDeniedHandler accessDeniedHandler;
 
-    private final String[] allowUris = {
+    private final String[] ALLOW_URIS = {
             // Swagger 허용
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
 
             // 회원가입 & 로그인
-            "/members/signup",
-            "/members/login"
+            "/api/v1/members/signup",
+            "/api/v1/members/login"
     };
 
     @Bean
@@ -54,19 +55,29 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(allowUris).permitAll()
+                        .requestMatchers(HttpMethod.POST,
+                                "/members/signup",
+                                "/members/login"
+                        ).permitAll()
+
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
                         .anyRequest().authenticated()
                 )
 
                 .addFilterBefore(
                         jwtAuthFilter(),
-                        UsernamePasswordAuthenticationFilter.class
-                )
-
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler)
+                        BasicAuthenticationFilter.class
                 );
+
+//                .exceptionHandling(exception -> exception
+//                        .authenticationEntryPoint(authenticationEntryPoint)
+//                        .accessDeniedHandler(accessDeniedHandler)
+//                );
 
 
         return http.build();
