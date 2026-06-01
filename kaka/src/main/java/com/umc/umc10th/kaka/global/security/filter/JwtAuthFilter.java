@@ -14,11 +14,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -47,12 +48,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (jwtUtil.isValid(token)) {
                 // 토큰에서 이메일 추출
                 String email = jwtUtil.getEmail(token);
-                // 인증 객체 생성: 이메일로 찾아온 뒤, 인증 객체 생성
-                UserDetails user = customUserDetailsService.loadUserByUsername(email);
+                String role = jwtUtil.getRole(token);
+
                 Authentication auth = new UsernamePasswordAuthenticationToken(
-                        user,
+                        email,
                         null,
-                        user.getAuthorities()
+                        List.of(new SimpleGrantedAuthority(role))
                 );
                 // 인증 완료 후 SecurityContextHolder에 넣기
                 SecurityContextHolder.getContext().setAuthentication(auth);

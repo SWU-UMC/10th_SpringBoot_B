@@ -101,4 +101,12 @@ public class JwtUtil {
                 .build()
                 .parseSignedClaims(token);
     }
+
+    public String getRole(String token) {
+        try {
+            return getClaims(token).getPayload().get("role", String.class);
+        } catch (JwtException e) {
+            return null;
+        }
+    }
 }
