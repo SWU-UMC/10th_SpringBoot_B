@@ -41,12 +41,17 @@ public class JwtUtil {
      * @param token 유저 정보를 추출할 토큰
      * @return 유저 이메일을 토큰에서 추출합니다
      */
+//    public String getEmail(String token) {
+//        try {
+//            return getClaims(token).getPayload().getSubject(); // Parsing해서 Subject 가져오기
+//        } catch (JwtException e) {
+//            return null;
+//        }
+//    }
     public String getEmail(String token) {
-        try {
-            return getClaims(token).getPayload().getSubject(); // Parsing해서 Subject 가져오기
-        } catch (JwtException e) {
-            return null;
-        }
+        return getClaims(token)
+                .getPayload()
+                .getSubject();
     }
 
     /** 토큰 유효성 확인
