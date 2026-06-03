@@ -49,8 +49,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 return;
             }
 
-            // Bearer이면 추출
-            token = token.replace("Bearer ", "");
+            // Bearer 제거
+            token = token.substring(7);
 
             // AccessToken 검증하기: 올바른 토큰이면
             if (jwtUtil.isValid(token)) {
