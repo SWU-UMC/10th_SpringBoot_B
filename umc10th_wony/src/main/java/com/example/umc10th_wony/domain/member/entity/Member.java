@@ -49,6 +49,9 @@ public class Member {
     @Column(nullable = true)
     private SocialType socialType;
 
+    @Column(nullable = true, unique = true, length = 100)
+    private String socialUid;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

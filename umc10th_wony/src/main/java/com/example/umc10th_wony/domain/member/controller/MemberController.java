@@ -10,12 +10,14 @@ import com.example.umc10th_wony.global.apiPayload.ApiResponse;
 import com.example.umc10th_wony.domain.member.exception.code.MemberSuccessCode;
 import com.example.umc10th_wony.global.security.LoginMember;
 
+import com.example.umc10th_wony.global.security.entity.AuthMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Member API", description = "회원 관련 API")
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/members")
 public class MemberController {
-    // 1. 회원가입
+    // 회원가입
     @Operation(summary = "회원가입", description = "이메일 + 비밀번호로 회원을 등록합니다.")
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<MemberSignupResponse>> signup(
@@ -54,10 +56,13 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    // 마이페이지
     @GetMapping("/mypage")
     public ApiResponse<MyPageResponse> getMyPage(
-            @Parameter(hidden = true) @LoginMember Long memberId
+            @Parameter(hidden = true) @AuthenticationPrincipal AuthMember authMember
     ) {
+        Long memberId = authMember.getId();
+
         return ApiResponse.onSuccess(
                 MemberSuccessCode.MEMBER_FOUND,
                 memberService.getMyPage(memberId)
